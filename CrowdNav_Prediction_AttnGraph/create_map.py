@@ -9,8 +9,8 @@ import shutil
 def generate_clustered_bitmap_bfs(size=64, proportion=1/6):
     # generate 2 obstacles in map
     bitmap = np.zeros((size, size), dtype=int)
-    num_ones = int(size * size * np.random.uniform(0.03, 0.07))
-    for _ in range(1):
+    num_ones = int(size * size * np.random.uniform(0.02, 0.05))
+    for _ in range(3):
         # Initialize a bitmap with zeros
         
         

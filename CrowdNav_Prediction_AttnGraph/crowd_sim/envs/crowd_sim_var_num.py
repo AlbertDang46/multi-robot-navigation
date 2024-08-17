@@ -847,7 +847,7 @@ class CrowdSimVarNum(CrowdSim):
             if self.robots[robot_index].deactivated:
                 return 0, False, Collision()
             else:
-                reward = -10
+                reward = -40
                 done = True
                 self.robots[robot_index].deactivated = True
                 episode_info = Collision()
@@ -891,7 +891,7 @@ class CrowdSimVarNum(CrowdSim):
                 if self.obst_directions[robot_index][0] == 0 and self.obst_directions[robot_index][1] == 0:
                     pot_factor = 0.5
                 else:
-                    pot_factor = 0.2
+                    pot_factor = 0.15
 
             potential_cur = np.linalg.norm(
                 np.array([self.robots[robot_index].px, self.robots[robot_index].py]) - np.array(self.robots[robot_index].get_goal_position()))
@@ -900,7 +900,7 @@ class CrowdSimVarNum(CrowdSim):
             done = False
             episode_info = Nothing()
             if not cross:
-                reward += 0.05* np.clip( np.cross(action, self.obst_directions[robot_index]),-0.1,1)
+                reward += 0.1* np.clip( np.cross(action, self.obst_directions[robot_index]),-0.1,1)
 
             # calculate the angular difference between the robot's heading direction and the velocity direction
             if self.robots[robot_index].kinematics == 'holonomic':
@@ -914,7 +914,7 @@ class CrowdSimVarNum(CrowdSim):
 
                 if omega + new_v > self.robots[robot_index].v_pref:
                     #print(reward)
-                    reward -= 0.06*(omega + new_v - self.robots[robot_index].v_pref)
+                    reward -= 0.08*(omega + new_v - self.robots[robot_index].v_pref)
                 # if new_v < 0.9:
                 #     reward += 0.2
                     #print('new_v:',new_v)
