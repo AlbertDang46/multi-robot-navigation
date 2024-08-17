@@ -109,7 +109,7 @@ class Agent(object):
         return [self.px, self.py, self.vx, self.vy, self.radius, self.gx, self.gy, self.v_pref, self.theta]
 
     def get_full_state_list_noV(self):
-        return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta]
+        return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta, self.vx, self.vy]
         # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref]
 
     def get_position(self):

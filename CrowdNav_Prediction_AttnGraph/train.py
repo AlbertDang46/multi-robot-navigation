@@ -333,6 +333,7 @@ def main():
 			# log the training progress
 			if wandb_log:
 				wandb.log({"median_reward":np.median(episode_rewards),
+						"mean_reward":np.mean(episode_rewards),
 						"min_reward":np.min(episode_rewards),
 						"max_reward":np.max(episode_rewards),
 						"dist_entropy":dist_entropy,

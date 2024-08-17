@@ -17,7 +17,7 @@ class Config(object):
     
     # general configs for OpenAI gym env
     env = BaseConfig()
-    env.time_limit = 80
+    env.time_limit = 50
     env.time_step = 0.25
     env.val_size = 100
     env.test_size = 500
@@ -42,7 +42,7 @@ class Config(object):
     sim.num_ray = 90
     sim.circle_radius = 6 * np.sqrt(2)
     sim.arena_size = 6
-    sim.human_num = 2
+    sim.human_num = 4
     sim.robot_num = 3
     # actual human num in each timestep, in [human_num-human_num_range, human_num+human_num_range]
     sim.human_num_range = 0

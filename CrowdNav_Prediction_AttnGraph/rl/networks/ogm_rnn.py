@@ -18,7 +18,7 @@ class MainRNN(nn.Module):
         super(MainRNN, self).__init__()
         self.args = args
 
-        self.gru = nn.GRU(args.ogm_embedding_size + args.robot_info_embedding_size, args.rnn_hidden_size)
+        self.gru = nn.GRU(args.ogm_embedding_size + args.robot_info_embedding_size + args.detected_robots_info_embedding_size, args.rnn_hidden_size)
         self.output_linear = nn.Linear(args.rnn_hidden_size, args.actor_critic_output_size)
 
         for name, param in self.gru.named_parameters():
@@ -100,8 +100,8 @@ class MainRNN(nn.Module):
 
         return x, hxs
     
-    def forward(self, robot_info, ogm, hidden_state, masks):
-        x = torch.cat((robot_info, ogm), dim=-1)
+    def forward(self, robot_info, ogm, detected_robots,hidden_state, masks):
+        x = torch.cat((robot_info, ogm, detected_robots), dim=-1)
 
         output, new_hidden_state = self._forward_gru(x, hidden_state, masks)
         output = self.output_linear(output)
@@ -128,26 +128,42 @@ class Ogm_RNN(nn.Module):
         self.seq_length = args.seq_length
         self.nminibatch = args.num_mini_batch
         
-        robot_info_size = 7
-
-        self.ogm_embedding_size = args.ogm_embedding_size
+        robot_info_size = 9
+        
         self.robot_info_embedding_size = args.robot_info_embedding_size
+        self.ogm_embedding_size = args.ogm_embedding_size
+        self.detected_embedding_size = args.detected_robots_info_embedding_size
         self.output_size = args.actor_critic_output_size
         self.nenv = args.num_processes
+        self.max_detected_robots_nums = 2
         
         # Initialize the model
         init_ = lambda m: init(m, nn.init.orthogonal_, lambda x: nn.init.constant_(x, 0), np.sqrt(2))
         
-        self.robot_linear_encoder = nn.Sequential(init_(nn.Linear(robot_info_size, self.robot_info_embedding_size)), nn.ReLU())
+        self.robot_linear_encoder = nn.Sequential(
+            init_(nn.Linear(robot_info_size, 256)), 
+            nn.ReLU(),
+            init_(nn.Linear(256, self.robot_info_embedding_size)),
+            nn.ReLU()
+            )
         
         self.ogm_encoder = nn.Sequential(
             nn.Conv2d(3, 3, 1, 1),
             nn.Flatten(),
             init_(nn.Linear(3072, 1024)),
             nn.ReLU(),
-            init_(nn.Linear(1024, self.ogm_embedding_size)),
-            nn.ReLU()
+            init_(nn.Linear(1024, 512)),
+            nn.ReLU(),
+            init_(nn.Linear(512, self.ogm_embedding_size)),
         )
+
+        self.detected_robots_encoder = nn.Sequential(
+            init_(nn.Linear(self.max_detected_robots_nums * 4, self.max_detected_robots_nums * 16)),
+            nn.Tanh(),
+            init_(nn.Linear(self.max_detected_robots_nums * 16, self.detected_embedding_size)),
+            nn.Tanh()
+        )
+
 
         self.main_rnn = MainRNN(args)
 
@@ -239,22 +255,34 @@ class Ogm_RNN(nn.Module):
             seq_length = self.seq_length
             nenv = self.nenv // self.nminibatch
 
+        # Extract the required inputs
         robot_info = reshapeT(inputs['robot_info'], seq_length, nenv)
-        occupancy_map = reshapeT(inputs['occupancy_map'], seq_length, nenv)        
+        occupancy_map = reshapeT(inputs['occupancy_map'], seq_length, nenv)
+        detected_robots_info = reshapeT(inputs['detected_robots_info'], seq_length, nenv)
         hidden_states_RNNs = reshapeT(rnn_hxs['human_node_rnn'], 1, nenv)
         masks = reshapeT(masks, seq_length, nenv)
 
+        # Get the batch size, number of environments, number of channels, height and width of the occupancy map
         batch_size, num_envs, num_channels, height, width = occupancy_map.shape
         
+        # encode the robot info
         robot_states = self.robot_linear_encoder(robot_info)
         
+        # encode the occupancy map
         three_channel_ogm = self.convert_to_3_channel_bitmap(occupancy_map.view(batch_size*num_envs, num_channels, height, width)).cuda()
         encoded_ogm = self.ogm_encoder(three_channel_ogm)
         encoded_ogm = encoded_ogm.view(batch_size, num_envs, 1, -1)
 
+        # encode the detected robots info
+        while detected_robots_info.shape[2] < self.max_detected_robots_nums:
+            detected_robots_info = torch.cat([detected_robots_info, detected_robots_info[:,:,-1,:]], dim=2)
+        detected_robots_info = detected_robots_info[:,:,:self.max_detected_robots_nums,:].view(batch_size*num_envs, -1)
+        encoded_detected_robots_info = self.detected_robots_encoder(detected_robots_info)
+        encoded_detected_robots_info = encoded_detected_robots_info.view(batch_size, num_envs, 1, -1)
+
 
         # Do a forward pass through customised GRU
-        outputs, new_hidden_states = self.main_rnn(robot_states, encoded_ogm, hidden_states_RNNs, masks)
+        outputs, new_hidden_states = self.main_rnn(robot_states, encoded_ogm, encoded_detected_robots_info, hidden_states_RNNs, masks)
 
         # use the output to get the actor and critic values
         hidden_critic = self.critic(outputs[:, :, 0, :])

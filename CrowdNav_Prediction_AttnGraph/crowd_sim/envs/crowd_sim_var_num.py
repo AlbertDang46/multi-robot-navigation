@@ -50,7 +50,16 @@ class CrowdSimVarNum(CrowdSim):
         # clip the action and observation as you need
         d={}
         # robot node: px, py, r, gx, gy, v_pref, theta
-        d['robot_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1,7,), dtype = np.float32)
+        d['robot_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1,9,), dtype = np.float32)
+
+        # occupancy grid map: (2,map_size,map_size), 0: occupancy map, 1: semantic label map
+        d['occupancy_map'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(2,self.map_size, self.map_size), dtype=np.float32)
+        
+        # detected robots info: relative px, relative py, disp_x, disp_y, sorted by distance
+        d['detected_robots_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(self.robot_num, 4), dtype=np.float32)
+
+
+
         # only consider all temporal edges (human_num+1) and spatial edges pointing to robot (human_num)
         d['temporal_edges'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, 2,), dtype=np.float32)
         d['spatial_edges'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(self.max_human_num, 2), dtype=np.float32)
@@ -61,7 +70,7 @@ class CrowdSimVarNum(CrowdSim):
                                             shape=(self.max_human_num,),
                                             dtype=bool)
         # occupancy grid map
-        d['occupancy_map'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(2,self.map_size, self.map_size), dtype=np.float32)
+        
         #self.observation_space.append(gym.spaces.Dict(d))
         self.observation_space=gym.spaces.Dict(d)
 
@@ -303,9 +312,9 @@ class CrowdSimVarNum(CrowdSim):
         ob['occupancy_map'] = self.lidar.convert_to_bitmap(self.lidar.get_raw_data(robot_pos_x,robot_pos_y), self.map_size)
 
         
-        ob['detected_robots_info'] = np.zeros((self.robot_num, 4))
+        ob['detected_robots_info'] = np.array([[1e5, 1e5, 0, 0] for _ in range(self.robot_num)], dtype=np.float32)
         
-        
+         
         # spatial edges
         ob['temporal_edges'] = np.array([self.robots[robot_index].vx, self.robots[robot_index].vy]) 
 
@@ -475,11 +484,14 @@ class CrowdSimVarNum(CrowdSim):
                 if i == j or not self.robots_connection_graph[i, j]:
                     continue
                 broadcasted_obs[i]['occupancy_map'] = merge_ogm(broadcasted_obs[i]['occupancy_map'], obs[j]['occupancy_map'],[self.robots[j].px-self.robots[i].px, self.robots[j].py-self.robots[i].py], self.cell_length)
-                broadcasted_obs[i]['detected_robots_info'][j] = obs[j]['robot_info'][:4]
-
+                broadcasted_obs[i]['detected_robots_info'][j] = np.array([self.robots[j].px - self.robots[i].px, 
+                                                                          self.robots[j].py - self.robots[i].py, 
+                                                                          self.robots[j].vx - self.robots[i].vx, 
+                                                                          self.robots[j].vy - self.robots[i].vy])
+            # sort the detected robots by distance, the first one is the nearest robot
+            broadcasted_obs[i]['detected_robots_info'] = np.array(sorted(broadcasted_obs[i]['detected_robots_info'], key=lambda x: x[0]**2 + x[1]**2))
         return broadcasted_obs
         
-  
 
     def reset(self, phase='train', test_case=None):
         #self.static_map_size = int(10 * self.map_size / self.robots[0].sensor_range)
@@ -879,7 +891,7 @@ class CrowdSimVarNum(CrowdSim):
                 if self.obst_directions[robot_index][0] == 0 and self.obst_directions[robot_index][1] == 0:
                     pot_factor = 0.5
                 else:
-                    pot_factor = 0.15
+                    pot_factor = 0.2
 
             potential_cur = np.linalg.norm(
                 np.array([self.robots[robot_index].px, self.robots[robot_index].py]) - np.array(self.robots[robot_index].get_goal_position()))
@@ -888,7 +900,7 @@ class CrowdSimVarNum(CrowdSim):
             done = False
             episode_info = Nothing()
             if not cross:
-                reward += 0.1* np.clip( np.cross(action, self.obst_directions[robot_index]),-0.1,1)
+                reward += 0.05* np.clip( np.cross(action, self.obst_directions[robot_index]),-0.1,1)
 
             # calculate the angular difference between the robot's heading direction and the velocity direction
             if self.robots[robot_index].kinematics == 'holonomic':
