@@ -4,6 +4,7 @@ import torch
 import numpy as np
 
 from rl.networks.network_utils import init
+from rl.networks.vector_visualize import tensor_to_map
 
 def reshapeT(T, seq_length, nenv):
     shape = T.size()[1:]
@@ -279,11 +280,14 @@ class Ogm_RNN(nn.Module):
         detected_robots_info = detected_robots_info[:,:,:self.max_detected_robots_nums,:].view(batch_size*num_envs, -1)
         encoded_detected_robots_info = self.detected_robots_encoder(detected_robots_info)
         encoded_detected_robots_info = encoded_detected_robots_info.view(batch_size, num_envs, 1, -1)
+        
+        # three_channel_ogm[:,:1,:,:] = 0
+        # tensor_to_map(self.ogm_encoder(three_channel_ogm).view(-1), (8,16), 'encoded_detected_robots_info.png')
+
 
 
         # Do a forward pass through customised GRU
         outputs, new_hidden_states = self.main_rnn(robot_states, encoded_ogm, encoded_detected_robots_info, hidden_states_RNNs, masks)
-
         # use the output to get the actor and critic values
         hidden_critic = self.critic(outputs[:, :, 0, :])
         output_actor = self.actor(outputs[:, :, 0, :])

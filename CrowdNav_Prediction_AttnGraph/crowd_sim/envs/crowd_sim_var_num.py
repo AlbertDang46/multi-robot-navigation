@@ -638,7 +638,6 @@ class CrowdSimVarNum(CrowdSim):
         all_rewards = 0
         rewards_list=[]
         info_list=[]
-        #all_rewards, all_done, episode_info = self.calc_reward(0,actions[0], danger_zone='future')
 
         for i in range(self.robot_num):
             reward, done, episode_info= self.calc_reward(i,actions[i], danger_zone='future')
@@ -883,10 +882,12 @@ class CrowdSimVarNum(CrowdSim):
                 # Check if any of the coordinates cross an obstacle
                 if np.any(self.original_map[rr, cc] >= 0.9):                    
                     cross=False  # Line of sight is blocked
+            
             if self.robots[robot_index].kinematics == 'holonomic':
                 pot_factor = 2
             else:
                 pot_factor = 3
+            
             if not cross:
                 if self.obst_directions[robot_index][0] == 0 and self.obst_directions[robot_index][1] == 0:
                     pot_factor = 0.5
@@ -913,11 +914,9 @@ class CrowdSimVarNum(CrowdSim):
                     omega = np.arccos(np.clip(np.dot(former_angle, action) / (former_v * new_v), -1, 1))
 
                 if omega + new_v > self.robots[robot_index].v_pref:
-                    #print(reward)
                     reward -= 0.08*(omega + new_v - self.robots[robot_index].v_pref)
-                # if new_v < 0.9:
-                #     reward += 0.2
-                    #print('new_v:',new_v)
+            
+            
                     
 
         # if the robot is near collision/arrival, it should be able to turn a large angle
