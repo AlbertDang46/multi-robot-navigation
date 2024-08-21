@@ -90,7 +90,7 @@ def main():
 		 
 	wandb_log = not config.sim.render
 	if wandb_log:
-		wandb.init(project="crowd_nav_multiproc_omg_obst_compare",config={"human_num":config.sim.human_num,"robot_num":2})
+		wandb.init(project="smooth_action_space ",config={"human_num":config.sim.human_num,"robot_num":2})
 	# Create a wrapped, monitored VecEnv
 	envs = make_vec_envs(env_name, algo_args.seed, algo_args.num_processes,
 						 algo_args.gamma, None, device, False, config=env_config, ax=ax, pretext_wrapper=config.env.use_wrapper)
@@ -331,7 +331,7 @@ def main():
 							mean_action_loss))
 			
 			# log the training progress
-			if wandb_log:
+			if  wandb_log:
 				wandb.log({"median_reward":np.median(episode_rewards),
 						"mean_reward":np.mean(episode_rewards),
 						"min_reward":np.min(episode_rewards),

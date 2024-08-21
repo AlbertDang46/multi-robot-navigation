@@ -74,7 +74,7 @@ class CrowdSimVarNum(CrowdSim):
         #self.observation_space.append(gym.spaces.Dict(d))
         self.observation_space=gym.spaces.Dict(d)
 
-        high = np.inf * np.ones([2, ])
+        high =  np.ones([1, ])
         #self.action_space.append(gym.spaces.Box(-high, high, dtype=np.float32)
         self.action_space=gym.spaces.Box(-high, high, dtype=np.float32)
 
@@ -116,13 +116,26 @@ class CrowdSimVarNum(CrowdSim):
             else:
                 # for sim2real
                 if robot.kinematics == 'unicycle':
-                    # generate robot
-                    angle = np.random.uniform(0, np.pi * 2)
-                    px = self.arena_size * np.cos(angle)
-                    py = self.arena_size * np.sin(angle)
-                    while True:
-                        gx, gy = np.random.uniform(-self.arena_size, self.arena_size, 2)
-                        if np.linalg.norm([px - gx, py - gy]) >= 4:  # 1 was 6
+                    while True: 
+                        px, py, gx, gy = np.random.uniform(-self.arena_size-2, self.arena_size+2, 4)
+                        grid_px = int(self.static_map_size / 2 + px / self.cell_length)
+                        grid_py = int(self.static_map_size / 2 + py / self.cell_length)
+                        # check if the robot is in the obstacle
+                        while np.sum(self.original_map[grid_px-2:grid_px+3,grid_py-2:grid_py+3]) > 0:
+                            px, py = np.random.uniform(-self.arena_size-2, self.arena_size+2, 2)
+                            grid_px = int(self.static_map_size / 2 + px / self.cell_length)
+                            grid_py = int(self.static_map_size / 2 + py / self.cell_length)
+                        
+                        grid_gx = int(self.static_map_size / 2 + np.floor(gx / self.cell_length))
+                        grid_gy = int(self.static_map_size / 2 + np.floor(gy / self.cell_length))
+                        # check if the goal is in the obstacle
+                        while np.sum(self.original_map[grid_gx-2:grid_gx+3,grid_gy-2:grid_gy+3]) > 0:
+                            gx, gy = np.random.uniform(-self.arena_size-2, self.arena_size+2, 2)
+                            grid_gx = int(self.static_map_size / 2 + gx / self.cell_length)
+                            grid_gy = int(self.static_map_size / 2 + gy / self.cell_length)
+                        
+                        # check if the robot and goal are too close
+                        if np.linalg.norm([px - gx, py - gy]) >= 8: # 6
                             break
                     robot.set(px, py, gx, gy, 0, 0, np.random.uniform(0, 2 * np.pi))  # randomize init orientation
                     # 1 to 4 humans
@@ -309,7 +322,7 @@ class CrowdSimVarNum(CrowdSim):
         # 2*map_size*map_size, 0: occupancy map, 1: semantic label map
         robot_pos_x = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].px / self.cell_length))
         robot_pos_y = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].py / self.cell_length))
-        ob['occupancy_map'] = self.lidar.convert_to_bitmap(self.lidar.get_raw_data(robot_pos_x,robot_pos_y), self.map_size)
+        ob['occupancy_map'] = self.lidar.convert_to_bitmap(self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta), self.map_size)
 
         
         ob['detected_robots_info'] = np.array([[1e5, 1e5, 0, 0] for _ in range(self.robot_num)], dtype=np.float32)
@@ -358,83 +371,17 @@ class CrowdSimVarNum(CrowdSim):
 
         # update self.observed_human_ids
         self.observed_human_ids.append(np.where(self.human_visibility)[0])
-        
-        # # occupancy grid map
-        # ob['occupancy_map'] = np.zeros((3,self.map_size, self.map_size))
-        
-        # # ob['occupancy_map'][0][max(0,self.map_size - robot_pos_x -1):min(self.map_size,self.static_map_size-robot_pos_x+1),:]
+        obst_positions = np.argwhere(ob['occupancy_map'][1][9: 23,9:23] > 0)
 
-        # for spatial_edge in ob['spatial_edges']:
-        #     if np.abs(spatial_edge[0]) >= self.robots[robot_index].sensor_range or np.abs(spatial_edge[1]) >= self.robots[robot_index].sensor_range:
-        #         continue
-        #     else:
-        #         # get the cell index of the human
-        #         cell_x = int(self.map_size / 2 + np.floor(spatial_edge[0] / self.cell_length))
-        #         cell_y = int(self.map_size / 2 + np.floor(spatial_edge[1] / self.cell_length))
-        #         rlx = self.map_size / 2 + spatial_edge[0] / self.cell_length - 0.5
-        #         rly = self.map_size / 2 + spatial_edge[1] / self.cell_length - 0.5
-        #         sigx = int(np.sign(spatial_edge[0]))
-        #         sigy = int(np.sign(spatial_edge[1]))
-        #         for i in range(cell_x-2, cell_x+3):
-        #             for j in range(cell_y-2, cell_y+3):
-        #                 if 0 <= i < self.map_size and 0 <= j < self.map_size:
-        #                     ob['occupancy_map'][0][i, j] = np.clip (0.6/np.linalg.norm([rlx - i, rly - j]),0,1)
-        #                     # if np.sign(spatial_edge[0]) == np.sign(i-cell_x):
-        #                     #     ob['occupancy_map'][0][i, j] /= 1+abs(spatial_edge[0])
-        #                     # if np.sign(spatial_edge[1]) == np.sign(j-cell_y):
-        #                     #     ob['occupancy_map'][0][i, j] /= 1+abs(spatial_edge[1])
-        #                     # if i == cell_x + sigx and j == cell_y + sigy:
-        #                     #     ob['occupancy_map'][0][int(i), int(j)] /= (2+spatial_edge[0]+spatial_edge[1])
-        #                     # elif i == cell_x and j == cell_y + sigy:
-        #                     #     ob['occupancy_map'][0][int(i), int(j)] /= (2+spatial_edge[1])
-        #                     # elif i == cell_x + sigx and j == cell_y:
-        #                     #     ob['occupancy_map'][0][int(i), int(j)] /= (2+spatial_edge[0])
-        #                     # else:
-        #                     #     ob['occupancy_map'][0][int(i), int(j)] /= 2
-        #                     #  min (1,0.6/np.linalg.norm([rlx - i, rly - j]))
-        #                     # #add noise
-        #                     # #base
-        #                     # noise = np.random.normal(0, 0.05)
-        #                     # ob['occupancy_map'][0][int(i), int(j)] = min(1, 0.6/np.linalg.norm([rlx - i, rly - j]) + noise)
-        #         
-                    #ob['occupancy_map'][0][0:self.map_size / 2 ,0:self.map_size / 2 ] = np.clip(convolve2d( ob['occupancy_map'][0][0:self.map_size / 2 ,0:self.map_size / 2 ], self.sobel_kernel, mode='same',fillvalue=1),0,1)
-
-        
-        # for(i, j) in [(i, j) for i in range(self.map_size) for j in range(self.map_size)]:
-        #     if 0 <= robot_pos_x - int(self.map_size / 2) + i < self.static_map_size and 0 <= robot_pos_y - int(self.map_size / 2) + j < self.static_map_size:
-        #         if self.static_map[robot_pos_x - int(self.map_size / 2) + i, robot_pos_y - int(self.map_size / 2) + j] == 0:
-        #             continue
-        #         ob['occupancy_map'][1][i, j] = self.static_map[robot_pos_x - int(self.map_size / 2) + i, robot_pos_y - int(self.map_size / 2) + j]
-        
-        #ob['occupancy_map'][1] = np.clip(self.lidar.convert_to_bitmap(self.lidar.get_raw_data(robot_pos_x,robot_pos_y), self.map_size),0,1)
-        #plt.imshow(ob['occupancy_map'][1], cmap='gray_r')
-        # plt.polar(self.lidar.get_raw_data(robot_pos_x,robot_pos_y), np.arange(0, 2*np.pi, 2*np.pi/self.lidar.num_ray))
-        # plt.show()
-        #plt.pause(10000)
-        #print(robot_pos_x,robot_pos_y)
-        #print(self.lidar.get_raw_data(robot_pos_x,robot_pos_y))
-        #exit()
-        # for r in range(self.robot_num):
-        #     if r == robot_index:
-        #         continue
-        #     cell_x = int(self.map_size / 2 + (self.robots[r].px - self.robots[robot_index].px) / self.cell_length)
-        #     cell_y = int(self.map_size / 2 + (self.robots[r].py - self.robots[robot_index].py) / self.cell_length)
-        #     for i in range(cell_x-2, cell_x+3):
-        #         for j in range(cell_y-2, cell_y+3):
-        #             if 0 <= i < self.map_size and 0 <= j < self.map_size:
-        #                 ob['occupancy_map'][2][int(i), int(j)] = 1
-        
-        obst_positions = np.argwhere(ob['occupancy_map'][1][9: 23,9:23] == 1 )
-        if len(obst_positions) <= 5:
+        if len(obst_positions) <= 8:
             self.obst_directions[robot_index] = np.array([0.0, 0.0])
         else:
-            average_pos = np.mean(obst_positions, axis=0) - np.array([6.5, 6.5])
+            average_pos = np.mean(obst_positions, axis=0) - np.array([6.5, 6.5]) 
             if np.linalg.norm(average_pos) > 0:
-                average_pos = average_pos / np.linalg.norm(average_pos)
-                self.obst_directions[robot_index] = average_pos
+                self.obst_directions[robot_index] = average_pos / np.linalg.norm(average_pos)
             else:
                 self.obst_directions[robot_index] = np.array([0.0, 0.0])
-       
+
         return ob
 
 
@@ -483,11 +430,16 @@ class CrowdSimVarNum(CrowdSim):
             for j in range(self.robot_num):
                 if i == j or not self.robots_connection_graph[i, j]:
                     continue
-                broadcasted_obs[i]['occupancy_map'] = merge_ogm(broadcasted_obs[i]['occupancy_map'], obs[j]['occupancy_map'],[self.robots[j].px-self.robots[i].px, self.robots[j].py-self.robots[i].py], self.cell_length)
-                broadcasted_obs[i]['detected_robots_info'][j] = np.array([self.robots[j].px - self.robots[i].px, 
-                                                                          self.robots[j].py - self.robots[i].py, 
-                                                                          self.robots[j].vx - self.robots[i].vx, 
-                                                                          self.robots[j].vy - self.robots[i].vy])
+                broadcasted_obs[i]['occupancy_map'] = merge_ogm(
+                            broadcasted_obs[i]['occupancy_map'], obs[j]['occupancy_map'],
+                            [self.robots[j].px-self.robots[i].px, self.robots[j].py-self.robots[i].py], 
+                            self.robots[i].theta, self.robots[j].theta,
+                            self.cell_length)
+                broadcasted_obs[i]['detected_robots_info'][j] = np.array([(self.robots[j].px - self.robots[i].px)*np.cos(self.robots[i].theta) + (self.robots[j].py - self.robots[i].py)*np.sin(self.robots[i].theta),
+                                                                          (self.robots[j].py - self.robots[i].py)*np.cos(self.robots[i].theta) - (self.robots[j].px - self.robots[i].px)*np.sin(self.robots[i].theta),
+                                                                          (self.robots[j].vx - self.robots[i].vx)*np.cos(self.robots[i].theta) + (self.robots[j].vy - self.robots[i].vy)*np.sin(self.robots[i].theta), 
+                                                                          (self.robots[j].vy - self.robots[i].vy)*np.cos(self.robots[i].theta) - (self.robots[j].vx - self.robots[i].vx)*np.sin(self.robots[i].theta)
+                                                                          ])
             # sort the detected robots by distance, the first one is the nearest robot
             broadcasted_obs[i]['detected_robots_info'] = np.array(sorted(broadcasted_obs[i]['detected_robots_info'], key=lambda x: x[0]**2 + x[1]**2))
         return broadcasted_obs
@@ -621,6 +573,8 @@ class CrowdSimVarNum(CrowdSim):
                 else:
                     omega = np.arccos(np.clip(np.dot(former_angle, actions[i]) / (former_v * new_v), -1, 1)) / np.pi
                     assert 1>= omega >= 0
+            else:
+                omega = 0
             
             actions[i] = self.robots[i].policy.clip_action(actions[i], self.robots[i].v_pref * (1-omega))
             
@@ -663,7 +617,10 @@ class CrowdSimVarNum(CrowdSim):
             if self.robots[i].deactivated:
                 continue
             
-            self.robots[i].step(ActionXY(actions[i][0],actions[i][1]))
+            if self.robots[i].kinematics == 'holonomic':
+                self.robots[i].step(ActionXY(actions[i][0], actions[i][1]))
+            else:
+                self.robots[i].step(ActionRot(actions[i][0]))
 
         for i, human_action in enumerate(human_actions):
             self.humans[i].step(human_action)
@@ -750,11 +707,13 @@ class CrowdSimVarNum(CrowdSim):
     def calc_reward(self, robot_index, action, danger_zone='circle'):
         # collision detection
         dmin = float('inf')
-
         danger_dists = []
         collision = False
         obstacle_collision = False
         robot_collision = False
+        robot_pos_x = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].px / self.cell_length))
+        robot_pos_y = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].py / self.cell_length))
+
         # collision check with humans
         for i, human in enumerate(self.humans):
             dx = human.px - self.robots[robot_index].px
@@ -768,10 +727,7 @@ class CrowdSimVarNum(CrowdSim):
                 break
             elif closest_dist < dmin:
                 dmin = closest_dist
-        
-
-        robot_pos_x = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].px / self.cell_length))
-        robot_pos_y = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].py / self.cell_length))
+              
         if (0<=robot_pos_x<self.static_map_size) and (0<=robot_pos_y<self.static_map_size) and  self.original_map[robot_pos_x, robot_pos_y] > 0:
             obstacle_collision = True
 
@@ -785,18 +741,17 @@ class CrowdSimVarNum(CrowdSim):
                 robot_collision = True
                 break
 
-
         # check if reaching the goal
         if self.robots[robot_index].kinematics == 'unicycle':
             goal_radius = 0.6
         else:
             goal_radius = self.robots[robot_index].radius
+
         reaching_goal = norm(
             np.array(self.robots[robot_index].get_position()) - np.array(self.robots[robot_index].get_goal_position())) < goal_radius
 
         # use danger_zone to determine the condition for Danger
         if danger_zone == 'circle' or self.phase == 'train':
-            
             danger_cond = dmin < self.discomfort_dist
             min_danger_dist = 0
         else:
@@ -862,75 +817,92 @@ class CrowdSimVarNum(CrowdSim):
         else:
             if self.robots[robot_index].deactivated:
                 return 0, False, Collision()
-            # potential reward
-            # # add if cross obstacle
-            cross=True
-            x1, y1 = self.robots[robot_index].px, self.robots[robot_index].py
-            x2, y2 = self.robots[robot_index].gx, self.robots[robot_index].gy
             
+            done = False
+            episode_info = Nothing()
+
+            # use pot_factor calculate the potential reward
+            pot_factor = 2 if self.robots[robot_index].kinematics == 'holonomic' else 3
+
+            # potential reward
+            # check if cross obstacle
+            cross=True
+            x1, y1, x2, y2= self.robots[robot_index].px, self.robots[robot_index].py, self.robots[robot_index].gx, self.robots[robot_index].gy
             x1=int(self.static_map_size / 2 + x1 / self.cell_length)
             x2=int(self.static_map_size / 2 + x2 / self.cell_length)
             y1=int(self.static_map_size / 2 + y1 / self.cell_length)
             y2=int(self.static_map_size / 2 + y2 / self.cell_length)
 
-            if x1 < 0 or x1 >= self.static_map_size or y1 < 0 or y1 >= self.static_map_size or x2 < 0 or x2 >= self.static_map_size or y2 < 0 or y2 >= self.static_map_size:
-                cross=True
-            else:
+            if not (x1 < 0 or x1 >= self.static_map_size or y1 < 0 or y1 >= self.static_map_size or x2 < 0 or x2 >= self.static_map_size or y2 < 0 or y2 >= self.static_map_size ):
                 #Get the line between state1 and state2 in grid space
                 rr, cc = line(x1, y1, x2, y2)
-       
                 # Check if any of the coordinates cross an obstacle
                 if np.any(self.original_map[rr, cc] >= 0.9):                    
-                    cross=False  # Line of sight is blocked
-            
-            if self.robots[robot_index].kinematics == 'holonomic':
-                pot_factor = 2
-            else:
-                pot_factor = 3
-            
-            if not cross:
-                if self.obst_directions[robot_index][0] == 0 and self.obst_directions[robot_index][1] == 0:
-                    pot_factor = 0.5
-                else:
-                    pot_factor = 0.15
+                    cross=False             
+                    if self.obst_directions[robot_index][0] == 0 and self.obst_directions[robot_index][1] == 0:
+                        pot_factor = pot_factor / 3
+                    else:
+                        pot_factor = pot_factor / 10
 
             potential_cur = np.linalg.norm(
                 np.array([self.robots[robot_index].px, self.robots[robot_index].py]) - np.array(self.robots[robot_index].get_goal_position()))
             reward = pot_factor * (-abs(potential_cur) - self.potential[robot_index])
             self.potential[robot_index] = -abs(potential_cur)
-            done = False
-            episode_info = Nothing()
-            if not cross:
-                reward += 0.1* np.clip( np.cross(action, self.obst_directions[robot_index]),-0.1,1)
 
             # calculate the angular difference between the robot's heading direction and the velocity direction
             if self.robots[robot_index].kinematics == 'holonomic':
                 former_angle = np.array([self.robots[robot_index].vx, self.robots[robot_index].vy], dtype=np.float32)
                 former_v = np.linalg.norm(former_angle)
                 new_v = np.linalg.norm(action)
-                if former_v == 0 or new_v == 0:
-                    omega = 0
-                else:
-                    omega = np.arccos(np.clip(np.dot(former_angle, action) / (former_v * new_v), -1, 1))
+                omega = 0 if (former_v == 0 or new_v == 0) else np.arccos(np.clip(np.dot(former_angle, action) / (former_v * new_v), -1, 1))
 
+                # add a rotational penalty
                 if omega + new_v > self.robots[robot_index].v_pref:
-                    reward -= 0.08*(omega + new_v - self.robots[robot_index].v_pref)
+                    reward -= 0.08 * (omega + new_v - self.robots[robot_index].v_pref)
+
+                if not cross:
+                    reward += 0.15 * np.clip(np.cross(action, self.obst_directions[robot_index]),-0.1,1)
             
-            
-                    
+            else: 
+                omega = (np.arctan2(self.robots[robot_index].gy - self.robots[robot_index].py, self.robots[robot_index].gx - self.robots[robot_index].px)
+                          - self.robots[robot_index].theta + np.pi) % (2 * np.pi) - np.pi
+                pot_reward = 0
+                pot_reward += pot_factor * omega * action[0]
+                
+
+                if self.obst_directions[robot_index][0] <= 0.1 :
+                    x_dif = -np.abs(action[0])/10 + 0.01
+                else: 
+                    d_theta = action[0] * 2
+                    x_dif = - np.abs(self.obst_directions[robot_index][0] * np.cos(d_theta) + self.obst_directions[robot_index][1] * np.sin(d_theta)) / 20
+                #if (self.obst_directions[robot_index][0] != 0 or self.obst_directions[robot_index][1] != 0) :
+                    #rd = (np.arctan2(self.obst_directions[robot_index][1], self.obst_directions[robot_index][0]) + np.pi / 2)% (2 * np.pi) - np.pi
+                    #pot_reward += 0.3* (np.clip(np.dot(np.array([-0.3,0.85]), self.obst_directions[robot_index]),-0.1,1) - 0.5)
+                
+                # if robot_index == 0:
+                #     print('x_dif:',x_dif)
+                if dmin < 3 :
+                    human_panalty = 0.1 / (dmin + 0.1)
+                    reward -= human_panalty
+                else:
+                    reward -= pot_factor * 0.1 * abs(omega)
+                reward += pot_reward
+                reward += x_dif
+                
+                # print(self.robots[robot_index].gx - self.robots[robot_index].px, self.robots[robot_index].gy - self.robots[robot_index].py,np.arctan2(self.robots[robot_index].gx - self.robots[robot_index].px, self.robots[robot_index].gy - self.robots[robot_index].py)% (2 * np.pi))
 
         # if the robot is near collision/arrival, it should be able to turn a large angle
-        if self.robots[robot_index].kinematics == 'unicycle':
-            # add a rotational penalty
-            r_spin = -4.5 * action.r ** 2
+        # if self.robots[robot_index].kinematics == 'unicycle':
+        #     # add a rotational penalty
+        #     r_spin = -4.5 * action[1] ** 2
             
-            # add a penalty for going backwards
-            if action.v < 0:
-                r_back = -2 * abs(action.v)
-            else:
-                r_back = 0.
+        #     # add a penalty for going backwards
+        #     if action[0] < 0:
+        #         r_back = -2 * abs(action[0])
+        #     else:
+        #         r_back = 0.
 
-            reward = reward + r_spin + r_back
+        #     reward = reward + r_spin + r_back
 
         return reward, done, episode_info
 
@@ -1026,14 +998,19 @@ class CrowdSimVarNum(CrowdSim):
 
             # add an arc of robot's sensor range
             #sensor_range = plt.Circle(robot.get_position(), robot.sensor_range + robot.radius+self.config.humans.radius, fill=False, linestyle='--')
-            sensor_range = plt.Rectangle((robot.px - robot.sensor_range, robot.py - robot.sensor_range), 2 * robot.sensor_range, 2 * robot.sensor_range, fill=False, linestyle='--',color = (0,0,0,0.2))
+            sensor_range = plt.Rectangle(
+                (robot.px - robot.sensor_range * (np.cos(robot.theta)-np.sin(robot.theta)) , 
+                 robot.py - robot.sensor_range* (np.cos(robot.theta)+np.sin(robot.theta))), 
+                2 * robot.sensor_range, 2 * robot.sensor_range, 
+                fill=False, linestyle='--',color = (0,0,0,0.1), angle=np.degrees(robot.theta))
+            
             ax.add_artist(sensor_range)
             artists.append(sensor_range)
 
             # compute orientation in each step and add arrow to show the direction
             radius = robot.radius         
             robot_theta = robot.theta if robot.kinematics == 'unicycle' else np.arctan2(robot.vy, robot.vx)
-            arrowStartEnd.append(((robot.px, robot.py), (robot.px + radius * np.cos(robot_theta), robot.py + radius * np.sin(robot_theta))))
+            arrowStartEnd.append(((robot.px, robot.py), (robot.px +  3 * robot.vx, robot.py +  3 * robot.vy)))
 
             # draw FOV for the robot
             # add robot FOV
@@ -1065,26 +1042,36 @@ class CrowdSimVarNum(CrowdSim):
         
         # draw obst_direction
         for r in range(self.robot_num):
-            if self.obst_directions[r] is not None:
+            if self.obst_directions[r] is not None and (self.obst_directions[r][0] != 0 or self.obst_directions[r][1] != 0):
                 # draw a arrow to show the direction of the obstacle
-                arrowStartEnd.append(((self.robots[r].px, self.robots[r].py), (self.robots[r].px + self.obst_directions[r][0], self.robots[r].py + self.obst_directions[r][1])))
+                #arrowStartEnd.append(((self.robots[r].px, self.robots[r].py), (self.robots[r].px + self.obst_directions[r][0]*np.cos(self.robots[r].theta) - self.obst_directions[r][1]*np.sin(self.robots[r].theta), self.robots[r].py + self.obst_directions[r][0]*np.sin(self.robots[r].theta) + self.obst_directions[r][1]*np.cos(self.robots[r].theta))))
+                
+                d_t = 0.5 * 3
+                x_dif = self.obst_directions[r][0] - (self.obst_directions[r][0] * np.cos(d_t) + self.obst_directions[r][1] * np.sin(d_t))
 
+                # texts.append(plt.text(self.robots[r].px + 0.5, self.robots[r].py + 1,
+                #             str(x_dif), # str( np.clip(np.arctan2(self.obst_directions[r][1], self.obst_directions[r][0])/np.pi,-0.5,0.5)% 2 - 0.5),#0.3* (np.clip(np.dot(np.array([-0.3,0.85]), self.obst_directions[r]),-0.1,1) - 0.6)),
+                #             color='black', fontsize=12))
+            
         
         self.ob['occupancy_map'] = self.convert_to_3_channel_bitmap(self.ob['occupancy_map'])
         for i in range(self.map_size):
             for j in range(self.map_size):
+                global_x =  self.robots[0].px + (i - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta) - (j - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta)
+                global_y =  self.robots[0].py + (i - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta) + (j - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta)
+                    
                 if self.ob['occupancy_map'][0][i, j]> 0:
-                    ogm = plt.Rectangle(((i - self.map_size / 2)*self.cell_length + self.robots[0].px , (j - self.map_size / 2)*self.cell_length + self.robots[0].py ), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=self.ob['occupancy_map'][0][i, j], linewidth=0, edgecolor='none',)
+                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=self.ob['occupancy_map'][0][i, j], linewidth=0, edgecolor='none',)
                     ax.add_artist(ogm)
                     artists.append(ogm)
 
                 if self.ob['occupancy_map'][1][i, j] > 0:
-                    ogm = plt.Rectangle(((i - self.map_size / 2)*self.cell_length + self.robots[0].px , (j - self.map_size / 2)*self.cell_length + self.robots[0].py ), self.cell_length, self.cell_length, fill=True, facecolor='blue', alpha=self.ob['occupancy_map'][1][i, j]*0.8, linewidth=0, edgecolor='none',)
+                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='blue', alpha=self.ob['occupancy_map'][1][i, j]*0.8, linewidth=0, edgecolor='none',)
                     ax.add_artist(ogm)
                     artists.append(ogm)
 
                 if self.ob['occupancy_map'][2][i, j] > 0:
-                    ogm = plt.Rectangle(((i - self.map_size / 2)*self.cell_length + self.robots[0].px , (j - self.map_size / 2)*self.cell_length + self.robots[0].py ), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
+                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
                     ax.add_artist(ogm)
                     artists.append(ogm)
 
@@ -1132,7 +1119,12 @@ class CrowdSimVarNum(CrowdSim):
 
             texts.append(plt.text(self.humans[i].px - 0.1, self.humans[i].py - 0.1, str(self.humans[i].id), color='black', fontsize=12))
 
-        sensor_range = plt.Rectangle((self.robots[0].px - self.robots[0].sensor_range, self.robots[0].py - self.robots[0].sensor_range), 2 * self.robots[0].sensor_range, 2 * self.robots[0].sensor_range, fill=False, linestyle='--',color = (0,0,0,0.8))
+        sensor_range = plt.Rectangle(
+            (self.robots[0].px - self.robots[0].sensor_range * (np.cos(self.robots[0].theta)-np.sin(self.robots[0].theta)) , 
+                self.robots[0].py - self.robots[0].sensor_range* (np.cos(self.robots[0].theta)+np.sin(self.robots[0].theta))), 
+            2 * self.robots[0].sensor_range, 2 * self.robots[0].sensor_range, 
+            fill=False, linestyle='--',color = (0,0,0,0.8), angle=np.degrees(self.robots[0].theta))
+        
         ax.add_artist(sensor_range)
         artists.append(sensor_range)
 

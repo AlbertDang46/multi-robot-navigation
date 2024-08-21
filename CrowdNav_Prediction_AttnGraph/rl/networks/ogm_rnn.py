@@ -5,6 +5,7 @@ import numpy as np
 
 from rl.networks.network_utils import init
 from rl.networks.vector_visualize import tensor_to_map
+from crowd_sim.envs.utils.action import ActionRot, ActionXY
 
 def reshapeT(T, seq_length, nenv):
     shape = T.size()[1:]
@@ -149,21 +150,33 @@ class Ogm_RNN(nn.Module):
             )
         
         self.ogm_encoder = nn.Sequential(
-            nn.Conv2d(3, 3, 1, 1),
+            nn.MaxPool2d(2, 2),
             nn.Flatten(),
-            init_(nn.Linear(3072, 1024)),
+            init_(nn.Linear(256, 1024)),
             nn.ReLU(),
-            init_(nn.Linear(1024, 512)),
-            nn.ReLU(),
-            init_(nn.Linear(512, self.ogm_embedding_size)),
+            init_(nn.Linear(1024, self.ogm_embedding_size // 2)),
+            nn.ReLU()
         )
 
-        self.detected_robots_encoder = nn.Sequential(
-            init_(nn.Linear(self.max_detected_robots_nums * 4, self.max_detected_robots_nums * 16)),
-            nn.Tanh(),
-            init_(nn.Linear(self.max_detected_robots_nums * 16, self.detected_embedding_size)),
-            nn.Tanh()
+        self.dynamic_obst_encoder = nn.Sequential(
+            nn.Flatten(),
+            init_(nn.Linear(1024, 512)),
+            nn.ReLU(),
+            init_(nn.Linear(512, 512)),
+            nn.ReLU(),
+            init_(nn.Linear(512, self.ogm_embedding_size // 2)),
+            nn.ReLU()
         )
+
+        
+        self.detected_robots_encoder = nn.RNN(4, self.detected_embedding_size, 2, batch_first=True)
+        
+        # self.detected_robots_encoder = nn.Sequential(
+        #     init_(nn.Linear(self.max_detected_robots_nums * 4, self.max_detected_robots_nums * 16)),
+        #     nn.Tanh(),
+        #     init_(nn.Linear(self.max_detected_robots_nums * 16, self.detected_embedding_size)),
+        #     nn.Tanh()
+        # )
 
 
         self.main_rnn = MainRNN(args)
@@ -229,22 +242,23 @@ class Ogm_RNN(nn.Module):
 
         # self.temporal_edges = [0]
 
+    
     # convert the 2 channel occupancy map to 3 channel bitmap
-    def convert_to_3_channel_bitmap(self, input_tensor):
+    def convert_to_channel_bitmap(self, input_tensor):
         # Input tensor shape: (batch_size, 2, 32, 32)
         batch_size, _, height, width = input_tensor.shape
 
         # Initialize the output tensor with zeros, shape: (batch_size, 3, 32, 32)
-        output_tensor = torch.zeros(batch_size, 3, height, width, dtype=input_tensor.dtype)
+        static_obst = torch.zeros(batch_size, 1, height, width, dtype=input_tensor.dtype)
+        dynamic_obst = torch.zeros(batch_size, 1, height, width, dtype=input_tensor.dtype)
 
         # Extract the two channels from the input tensor
         channel_0 = input_tensor[:, 0]  # Shape: (batch_size, 32, 32)
         channel_1 = input_tensor[:, 1]  # Shape: (batch_size, 32, 32)
 
-        output_tensor[:, 0] = channel_0 * (channel_1 == 2)
-        output_tensor[:, 1] = channel_0 * (channel_1 == 1)
-        output_tensor[:, 2] = channel_0 * (channel_1 == 3)
-        return output_tensor
+        static_obst = channel_0 * (channel_1 == 1)
+        dynamic_obst = channel_0 * (channel_1 >= 2)
+        return static_obst, dynamic_obst
 
     def forward(self, inputs, rnn_hxs, masks, infer=False):
         if infer:
@@ -270,16 +284,17 @@ class Ogm_RNN(nn.Module):
         robot_states = self.robot_linear_encoder(robot_info)
         
         # encode the occupancy map
-        three_channel_ogm = self.convert_to_3_channel_bitmap(occupancy_map.view(batch_size*num_envs, num_channels, height, width)).cuda()
-        encoded_ogm = self.ogm_encoder(three_channel_ogm)
+        static_ogm , dynamic_ogm = self.convert_to_channel_bitmap(occupancy_map.view(batch_size*num_envs, num_channels, height, width))
+        encoded_ogm = torch.cat([self.ogm_encoder(static_ogm), self.dynamic_obst_encoder(dynamic_ogm)], dim=-1)
         encoded_ogm = encoded_ogm.view(batch_size, num_envs, 1, -1)
 
         # encode the detected robots info
-        while detected_robots_info.shape[2] < self.max_detected_robots_nums:
-            detected_robots_info = torch.cat([detected_robots_info, detected_robots_info[:,:,-1,:]], dim=2)
-        detected_robots_info = detected_robots_info[:,:,:self.max_detected_robots_nums,:].view(batch_size*num_envs, -1)
-        encoded_detected_robots_info = self.detected_robots_encoder(detected_robots_info)
-        encoded_detected_robots_info = encoded_detected_robots_info.view(batch_size, num_envs, 1, -1)
+        # while detected_robots_info.shape[2] < self.max_detected_robots_nums:
+        #     detected_robots_info = torch.cat([detected_robots_info, detected_robots_info[:,:,-1,:]], dim=2)
+        detected_robots_info = detected_robots_info[:,:,:self.max_detected_robots_nums,:].view(batch_size*num_envs, self.max_detected_robots_nums,4)
+        encoded_detected_robots_info , _ = self.detected_robots_encoder(detected_robots_info)
+        
+        encoded_detected_robots_info = encoded_detected_robots_info[:,-1,:].view(batch_size, num_envs, 1, -1)
         
         # three_channel_ogm[:,:1,:,:] = 0
         # tensor_to_map(self.ogm_encoder(three_channel_ogm).view(-1), (8,16), 'encoded_detected_robots_info.png')

@@ -33,8 +33,8 @@ class Config(object):
     reward.success_reward = 20
     reward.collision_penalty = -40 #-20
     # discomfort distance
-    reward.discomfort_dist = 0.20
-    reward.discomfort_penalty_factor = 15
+    reward.discomfort_dist = 0.35
+    reward.discomfort_penalty_factor = 20
     reward.gamma = 0.99
 
     # config for simulation
@@ -42,8 +42,8 @@ class Config(object):
     sim.num_ray = 90
     sim.circle_radius = 6 * np.sqrt(2)
     sim.arena_size = 6
-    sim.human_num = 4
-    sim.robot_num = 4
+    sim.human_num = 3
+    sim.robot_num = 3
     # actual human num in each timestep, in [human_num-human_num_range, human_num+human_num_range]
     sim.human_num_range = 0
     sim.predict_steps = 5
@@ -53,7 +53,7 @@ class Config(object):
     # 'none': no prediction
     sim.predict_method = 'none'
     # render the simulation during training or not
-    sim.render = False
+    sim.render = True
     
 
     # for save_traj only
@@ -105,7 +105,7 @@ class Config(object):
     # For baseline: srnn; our method: selfAttn_merge_srnn
     robot.policy = 'selfAttn_merge_srnn'
     robot.radius = 0.3
-    robot.v_pref = 1
+    robot.v_pref = 0.6
     robot.sensor = "coordinates"
     # FOV = this values * PI
     robot.FOV = 2
@@ -117,7 +117,7 @@ class Config(object):
     # action space of the robot
     action_space = BaseConfig()
     # holonomic or unicycle
-    action_space.kinematics = "holonomic"
+    action_space.kinematics = "unicycle"
 
     # config for ORCA
     orca = BaseConfig()

@@ -109,7 +109,12 @@ class Agent(object):
         return [self.px, self.py, self.vx, self.vy, self.radius, self.gx, self.gy, self.v_pref, self.theta]
 
     def get_full_state_list_noV(self):
-        return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta, self.vx, self.vy]
+
+        omega = (np.arctan2(self.gy - self.py, self.gx - self.px)
+                          - self.theta + np.pi) % (2 * np.pi) - np.pi
+        return [self.px, self.py, self.radius, 
+            np.linalg.norm([self.gy - self.py, self.gx - self.px]), omega, self.v_pref, self.theta, self.vx, self.vy]
+        # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta, self.vx, self.vy]
         # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref]
 
     def get_position(self):
@@ -160,15 +165,21 @@ class Agent(object):
 
             # differential drive
             epsilon = 0.0001
-            if abs(action.r) < epsilon:
-                R = 0
+            if abs(action.v) < epsilon:
+                d_theta = 0
+                d_l = self.v_pref * delta_t
             else:
-                w = action.r/delta_t # action.r is delta theta
-                R = action.v/w
+                d_theta = action.v / 2 / self.radius * delta_t
+                self.theta = (self.theta + d_theta) % (2 * np.pi)
+                d_l = (1 - np.abs(action.v)) * delta_t *self.v_pref
 
-            px = self.px - R * np.sin(self.theta) + R * np.sin(self.theta + action.r)
-            py = self.py + R * np.cos(self.theta) - R * np.cos(self.theta + action.r)
+                #print('action.v, d_theta, d_l:', action.v, d_theta, d_l)
 
+            self.vx = d_l * np.cos(self.theta) / delta_t
+            self.vy = d_l * np.sin(self.theta) / delta_t
+
+            px = self.px + d_l * np.cos(self.theta)
+            py = self.py + d_l * np.sin(self.theta)
 
         return px, py
 
@@ -182,10 +193,7 @@ class Agent(object):
         if self.kinematics == 'holonomic':
             self.vx = action.vx
             self.vy = action.vy
-        else:
-            self.theta = (self.theta + action.r) % (2 * np.pi)
-            self.vx = action.v * np.cos(self.theta)
-            self.vy = action.v * np.sin(self.theta)
+        
 
     def one_step_lookahead(self, pos, action):
         px, py = pos

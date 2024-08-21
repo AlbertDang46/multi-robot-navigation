@@ -8,14 +8,14 @@ def get_args():
 
     # the saving directory for train.py
     parser.add_argument(
-        '--output_dir', type=str, default='trained_models/my_model/extract_model',)
+        '--output_dir', type=str, default='trained_models/my_model/holonomic',)
 
     # resume training from an existing checkpoint or not
     parser.add_argument(
         '--resume', default=True, action='store_true')
     # if resume = True, load from the following checkpoint
     parser.add_argument(
-        '--load-path', default='trained_models/my_model/extract_model/checkpoints/08000.pt',
+        '--load-path', default='trained_models/my_model/holonomic/checkpoints/02600.pt',
         help='path of weights for resume training')
     parser.add_argument(
         '--overwrite',
@@ -91,7 +91,7 @@ def get_args():
         default=0.0,
         help='entropy term coefficient (default: 0.01)')
     parser.add_argument(
-        '--lr', type=float, default=1e-6, help='learning rate (default: 7e-4)')
+        '--lr', type=float, default=4e-6, help='learning rate (default: 7e-4)')
     parser.add_argument(
         '--eps',
         type=float,
@@ -159,23 +159,23 @@ def get_args():
         help='compute returns taking into account time limits')
 
     # max num of robot can be aware of by the network
-    parser.add_argument('--max_awared_robot', type=int, default=2,
+    parser.add_argument('--max_awared_robot', type=int, default=5,
                         help='Max number of robots could be aware of by the network')
     # network size
-    parser.add_argument('--robot_info_embedding_size', type=int, default=64,
+    parser.add_argument('--robot_info_embedding_size', type=int, default=256,
                         help='Size of the robot info embedding')
     
-    parser.add_argument('--ogm_embedding_size', type=int, default=128,
+    parser.add_argument('--ogm_embedding_size', type=int, default=512,
                         help='Size of the OGM embedding')
     
-    parser.add_argument('--rnn_hidden_size', type=int, default=256,
+    parser.add_argument('--rnn_hidden_size', type=int, default=512,
                         help='Size of the RNN hidden state')
     
     
     parser.add_argument('--actor_critic_output_size', type=int, default=256,
                         help='Size of the actor critic output')
     
-    parser.add_argument('--detected_robots_info_embedding_size', type=int, default=64,
+    parser.add_argument('--detected_robots_info_embedding_size', type=int, default=128,
                         help='Size of the robot info embedding')
     
     

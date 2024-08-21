@@ -485,8 +485,9 @@ class CrowdSim(gym.Env):
                 gy = self.circle_radius * np.sin(angle) + gy_noise
                 collide = False
 
-                for agent in [self.robot] + humans_copy:
-                    min_dist = human.radius + agent.radius + self.discomfort_dist
+                for agent in self.robots + humans_copy:
+                    min_dist = human.radius 
+                    min_dist += agent.radius + self.discomfort_dist
                     if norm((gx - agent.px, gy - agent.py)) < min_dist or \
                             norm((gx - agent.gx, gy - agent.gy)) < min_dist:
                         collide = True

@@ -9,14 +9,14 @@ import shutil
 def generate_clustered_bitmap_bfs(size=64, proportion=1/6):
     # generate 2 obstacles in map
     bitmap = np.zeros((size, size), dtype=int)
-    num_ones = int(size * size * np.random.uniform(0.02, 0.05))
-    for _ in range(3):
+    num_ones = int(size * size * np.random.uniform(0.04, 0.08))
+    for _ in range(1):
         # Initialize a bitmap with zeros
         
         
         # Choose a random starting point
-        start_row = random.randint(int(size/4), size - int(size/4))
-        start_col = random.randint(int(size/4), size - int(size/4))
+        start_row = random.randint(int(size/5), size - int(size/5))
+        start_col = random.randint(int(size/5), size - int(size/5))
         queue = deque([(start_row, start_col)])
         visited = set(queue)
         ones_added = 0

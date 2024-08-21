@@ -7,6 +7,7 @@ import numpy as np
 from baselines.common.vec_env.vec_env import VecEnv, CloudpickleWrapper, clear_mpi_env_vars
 import ctypes
 from baselines import logger
+from crowd_nav.configs.config import Config
 
 from baselines.common.vec_env.util import dict_to_obs, obs_space_info, obs_to_dict
 
@@ -41,7 +42,7 @@ class ShmemVecEnv(VecEnv):
         VecEnv.__init__(self, len(env_fns), observation_space, action_space)
         self.obs_keys, self.obs_shapes, self.obs_dtypes = obs_space_info(observation_space)
         for k in  self.obs_shapes.keys():
-            self.obs_shapes[k] = (3,)+self.obs_shapes[k]
+            self.obs_shapes[k] = (Config.sim.robot_num,)+self.obs_shapes[k]
             # if need change the num of robot, change the shape here
         self.obs_bufs = [
             {k: ctx.Array(_NP_TO_CT[self.obs_dtypes[k].type], int(np.prod(self.obs_shapes[k]))) for k in self.obs_keys}
