@@ -53,7 +53,7 @@ class Config(object):
     # 'none': no prediction
     sim.predict_method = 'none'
     # render the simulation during training or not
-    sim.render = False
+    sim.render = True
     
 
     # for save_traj only

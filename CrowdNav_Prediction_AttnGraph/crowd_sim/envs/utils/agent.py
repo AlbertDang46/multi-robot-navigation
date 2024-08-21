@@ -169,7 +169,7 @@ class Agent(object):
                 d_theta = 0
                 d_l = self.v_pref * delta_t
             else:
-                d_theta = action.v / 2 / self.radius * delta_t
+                d_theta = action.v / 1.5 / self.radius * delta_t
                 self.theta = (self.theta + d_theta) % (2 * np.pi)
                 d_l = (1 - np.abs(action.v)) * delta_t *self.v_pref
 

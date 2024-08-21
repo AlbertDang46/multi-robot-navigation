@@ -15,7 +15,7 @@ def get_args():
         '--resume', default=True, action='store_true')
     # if resume = True, load from the following checkpoint
     parser.add_argument(
-        '--load-path', default='trained_models/my_model/holonomic/checkpoints/02600.pt',
+        '--load-path', default='trained_models/my_model/holonomic/checkpoints/35600.pt',
         help='path of weights for resume training')
     parser.add_argument(
         '--overwrite',
@@ -91,7 +91,7 @@ def get_args():
         default=0.0,
         help='entropy term coefficient (default: 0.01)')
     parser.add_argument(
-        '--lr', type=float, default=4e-6, help='learning rate (default: 7e-4)')
+        '--lr', type=float, default=4e-7, help='learning rate (default: 7e-4)')
     parser.add_argument(
         '--eps',
         type=float,

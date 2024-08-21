@@ -40,6 +40,7 @@ def main():
 	# if output_dir exists and overwrite = False
 	elif not algo_args.overwrite:
 		raise ValueError('output_dir already exists!')
+	
 
 	save_config_dir = os.path.join(algo_args.output_dir, 'configs')
 	if not os.path.exists(save_config_dir):
