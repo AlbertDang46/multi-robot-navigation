@@ -40,15 +40,35 @@
 
 ### 3. Occupancy grid map
 
-#### a. cooperative OGM construction
+### a. cooperative OGM construction
 
 ​	Y. F. Chen、M. Liu、M. Everett and J. P.How，“Decentralized non-communication multiagent collision avoidance with deep reinforcement learning”
 
 
 
-#### b. Ogm prediction
+### b. OGM Prediction
 
-​	Xie, Zhanteng, and Philip Dames. "Stochastic Occupancy Grid Map Prediction in Dynamic Scenes."
+
+##### Video Prediction Methods
+- **Take OGM Prediction as Video Prediction, thus use Video Prediction method**
+- **(Common baseline)1. ConvLSTM**
+- **(Common baseline)2. PredNet Deep Predictive Coding Networks for Video Prediction and Unsupervised Learning**
+- **3. Disentangling Physical Dynamics from Unknown Factors for Unsupervised Video Prediction**
+##### Bayesian Filtering and Dempster-Shafer Theory Methods
+- **Only find python2 or c codebase**
+- **1. 2015: Conditional Monte Carlo Dense Occupancy Tracker**
+- **2. 2017: Dynamic Occupancy Grid Prediction for Urban Autonomous Driving: A Deep Learning Approach with Fully Automatic Labeling**
+- **3. 2018: A Random Finite Set Approach for Dynamic Occupancy Grid Maps with Real-Time Application**
+##### Learning Based Methods
+- **Use RNN-based network to predict**
+- **(Common baseline)1. 2016: Deep Tracking: Seeing Beyond Seeing Using Recurrent Neural Networks**
+- **(Currently use)2. 2023: SOGMP++/SOGMP: Stochastic Occupancy Grid Map Prediction in Dynamic Scenes**
+- **3. 2019: Multi-Step Prediction of Occupancy Grid Maps with Recurrent Neural Networks**
+- **4. 2021: Double-Prong ConvLSTM for Spatiotemporal Occupancy Prediction in Dynamic Environments**
+- **5. 2019: 2D Lidar Map Prediction via Estimating Motion Flow with GRU**
+- **6. 2022: Learning Spatiotemporal Occupancy Grid Maps for Lifelong Navigation in Dynamic Scenes (3D)**
+- **(Computer Vision for Dynamics/Static Segmentation) 7. 2017: Fully Convolutional Neural Networks for Dynamic Object Detection in Grid Maps**
+- **(Computer Vision for Dynamics/Static Segmentation) 8. 2018: Dynamic Occupancy Grid Prediction for Urban Autonomous Driving: A Deep Learning Approach with Fully Automatic Labeling**
 
 
 
