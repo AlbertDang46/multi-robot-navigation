@@ -4,62 +4,68 @@
 
 ## Related Works
 
-### 1.  *Social Robot Navigation*
+About 0.75 page...
 
-#### a. Model based methods
+### 1.  *Social Robot Navigation1*
+
+#### a. Non RL methods
+
+​	P. Fiorini and Z. Shiller, "Motion planning in dynamic environments using velocity obstacles", *Int. J. Robot. Res.*, vol. 17, no. 7, pp. 760-772, 1998.
+
+​	 S. H. Arul and D. Manocha, "V-RVO: Decentralized multi-agent collision avoidance using voronoi diagrams and reciprocal velocity obstacles", *Proc. IEEE/RSJ Int. Conf. Intell. Robots Syst.*, pp. 8097-8104, 2021.
+
+
 
 #### b.  RL and trajectories prediction method
 
-**Pros**: Using DRL for dynamic planing, using advanced neural networks like Attntion or GCN for humans trajectories prediction, achieving excellent social navigation sucessful rate. 
+**Pros**: Using DRL for dynamic planing, using advanced neural networks like Attention or GCN for humans trajectories prediction, achieving excellent social navigation sucessful rate. 
 
 **Cons**: assuming the robot has perfect observation and It is difficult to abstract all obstacles into circles in reality
 
-​	**C. Chen, S. Hu, P. Nikdel, G. Mori and M. Savva, "Relational graph learning for crowd navigation",**
+​	C. Chen, S. Hu, P. Nikdel, G. Mori and M. Savva, "Relational graph learning for crowd navigation",
 
-​	 **S. Liu, P. Chang, Z. Huang, N. Chakraborty, K. Hong, W. Liang, et al., "Intention aware robot crowd navigation with attention-based interaction graph"**
+​	 S. Liu, P. Chang, Z. Huang, N. Chakraborty, K. Hong, W. Liang, et al., "Intention aware robot crowd navigation with attention-based interaction graph"
 
-​	**Li,  et al. "Multi-Agent Dynamic Relational Reasoning for Social Robot Navigation." **
+​	Li,  et al. "Multi-Agent Dynamic Relational Reasoning for Social Robot Navigation." 
 
-​	**SoNIC: Safe Social Navigation with Adaptive Conformal Inference and Constrained Reinforcement Learning**
+​	SoNIC: Safe Social Navigation with Adaptive Conformal Inference and Constrained Reinforcement Learning
 
 ​	
 
+#### c. Ogm based RL method
 
+​	Z. Xie and P. Dames, "DRL-VO: Learning to Navigate Through Crowded Dynamic Scenes Using Velocity Obstacles," 
 
-### 2. Multi-Agent Reinforcement Learning
+![image-20240822130549893](C:\Users\15436\AppData\Roaming\Typora\typora-user-images\image-20240822130549893.png)
 
+​	D. Dugas, J. Nieto, R. Siegwart and J. J. Chung, "NavRep: Unsupervised representations for reinforcement learning of robot navigation in dynamic human environments"
 
+### 2. Cooperative perception
 
-​	**W. Wang, L. Mao, R. Wang and B. -C. Min, "Multi-Robot Cooperative Socially-Aware Navigation Using Multi-Agent Reinforcement Learning,"** 
-
-​	**R. Han, S. Chen and Q. Hao, "Cooperative Multi-Robot Navigation in Dynamic Environment with Deep Reinforcement Learning,"** 
-
-​	**Decentralized Multi-Robot Navigation for Autonomous Surface Vehicles  with Distributional Reinforcement Learning**
-
-
-
-### 3. Occupancy grid map
-
-### a. cooperative OGM construction
-
-​	Y. F. Chen、M. Liu、M. Everett and J. P.How，“Decentralized non-communication multiagent collision avoidance with deep reinforcement learning”
+​	cobevt
 
 
 
-### b. OGM Prediction
+### 3. Ogm prediction
 
+​	SXie, Zhanteng, and Philip Dames. "Stochastic Occupancy Grid Map Prediction in Dynamic Scenes."
 
-##### Video Prediction Methods
+#### Video Prediction Methods
+
 - **Take OGM Prediction as Video Prediction, thus use Video Prediction method**
 - **(Common baseline)1. ConvLSTM**
 - **(Common baseline)2. PredNet Deep Predictive Coding Networks for Video Prediction and Unsupervised Learning**
 - **3. Disentangling Physical Dynamics from Unknown Factors for Unsupervised Video Prediction**
-##### Bayesian Filtering and Dempster-Shafer Theory Methods
+
+#### Bayesian Filtering and Dempster-Shafer Theory Methods
+
 - **Only find python2 or c codebase**
 - **1. 2015: Conditional Monte Carlo Dense Occupancy Tracker**
 - **2. 2017: Dynamic Occupancy Grid Prediction for Urban Autonomous Driving: A Deep Learning Approach with Fully Automatic Labeling**
 - **3. 2018: A Random Finite Set Approach for Dynamic Occupancy Grid Maps with Real-Time Application**
-##### Learning Based Methods
+
+#### Learning Based Methods
+
 - **Use RNN-based network to predict**
 - **(Common baseline)1. 2016: Deep Tracking: Seeing Beyond Seeing Using Recurrent Neural Networks**
 - **(Currently use)2. 2023: SOGMP++/SOGMP: Stochastic Occupancy Grid Map Prediction in Dynamic Scenes**
@@ -72,9 +78,29 @@
 
 
 
-## Problem Setup
+### 4. Multi-Agent Reinforcement Learning
 
-static obstacle
+​	not important. MAPPO is SOTA, so we use MAppo...
+
+​	W. Wang, L. Mao, R. Wang and B. -C. Min, "Multi-Robot Cooperative Socially-Aware Navigation Using Multi-Agent Reinforcement Learning," 
+
+​	R. Han, S. Chen and Q. Hao, "Cooperative Multi-Robot Navigation in Dynamic Environment with Deep Reinforcement Learning," 
+
+​	Y. F. Chen、M. Liu、M. Everett and J. P.How，“Decentralized non-communication multiagent collision avoidance with deep reinforcement learning”
+
+
+
+
+
+​	
+
+
+
+
+
+## PRELIMINARIES
+
+static obstacle:
 
 ogm
 
@@ -82,7 +108,9 @@ multi agent
 
 human policy：
 
-## APPROACH
+
+
+## METHOD
 
 ### 1.  MARL
 
@@ -151,9 +179,9 @@ Training: 2d-simulator, randomly generated map
 
 Test:
 
-specifically designed map with corner/wall/crossroad……
+ randomly generated map
 
-
+save some interesting episodes
 
 
 
@@ -165,15 +193,23 @@ baseline ogm plan method + CP	VS	baseline ogm plan method
 
 our simple network + CP	?VS 	baseline ogm plan method
 
-
+​																																																																
 
 ### 2.cooperative perception can improve OGM prediction performance
+
+#### a. Different fusion comparation
+
+#### b. Train Predictor or End2End
+
+#### c. prediction with CP 	VS	prediction without CP
 
 
 
 ### 3. Real world experiments
 
-turtle bot
+2 turtle bot + 2 human + one obstacle
+
+
 
 ## conclusion
 
