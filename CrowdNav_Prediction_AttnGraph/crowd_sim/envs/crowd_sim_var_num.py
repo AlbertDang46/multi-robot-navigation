@@ -1135,6 +1135,15 @@ class CrowdSimVarNum(CrowdSim):
         #     frame_path = os.path.join('frames', f"frame_{self.frame_count:04d}.png")
         #     plt.savefig(frame_path)
         #     self.frame_count += 1
+
+        # if the mode is 'record', save the frame
+        frame_dir = 'frames'
+        if mode == 'record':
+            frame_files = os.listdir(frame_dir)
+            frame_count = len(frame_files)
+            save_path = os.path.join(frame_dir, f"frame_{frame_count + 1:04d}.png")
+            plt.savefig(save_path)
+
         
         plt.pause(0.01)
         for item in artists:

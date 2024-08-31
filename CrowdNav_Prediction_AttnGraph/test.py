@@ -20,21 +20,21 @@ def test(is_train_test=False):
 	# the following parameters will be determined for each test run
 	parser = argparse.ArgumentParser('Parse configuration file')
 	# the model directory that we are testing
-	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/MA_actionspace')
+	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/holonomic')
 	# render the environment or not
-	parser.add_argument('--visualize', default=False, action='store_true')
+	parser.add_argument('--visualize', default=True, action='store_true')
 	#parser.add_argument('--robot_num', type=int, default=3)
 	# if -1, it will run 500 different cases; if >=0, it will run the specified test case repeatedly
 	parser.add_argument('--test_case', type=int, default=-1)
 	# model weight file you want to test
-	parser.add_argument('--test_model', type=str, default='41000.pt')
+	parser.add_argument('--test_model', type=str, default='35600.pt')
 	# whether to save trajectories of episodes
 	parser.add_argument('--render_traj', default=False, action='store_true')
 	# whether to save slide show of episodes
 	parser.add_argument('--save_slides', default=False, action='store_true')
 	test_args = parser.parse_args()
 	if test_args.save_slides:
-		test_args.visualize = False
+		test_args.visualize = T
 
 	from importlib import import_module
 	model_dir_temp = test_args.model_dir
