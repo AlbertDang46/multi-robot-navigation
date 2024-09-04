@@ -15,6 +15,8 @@ import matplotlib.lines as mlines
 from matplotlib import patches
 from skimage.draw import line
 from crowd_sim.envs.utils.lidar2d import Lidar2d,merge_ogm
+import networkx as nx
+import pickle as pkl
 
 class CrowdSimVarNum(CrowdSim):
     """
@@ -37,10 +39,13 @@ class CrowdSimVarNum(CrowdSim):
         self.map_size = 32
         self.static_map_size = None
         self.original_map = None
+        self.human_generated_positions = None
+        self.map_topology_graph = None
         self.map_artists = []
         self.obst_directions = []
         self.lidar = None
         self.robots_connection_graph = None
+
         
 
 
@@ -183,7 +188,7 @@ class CrowdSimVarNum(CrowdSim):
         for i in range(self.human_num):
             self.humans[i].id = i
 
-
+    
     # generate a human that starts on a circle, and its goal is on the opposite side of the circle
     def generate_circle_crossing_human(self):
         human = Human(self.config, 'humans')
@@ -191,22 +196,30 @@ class CrowdSimVarNum(CrowdSim):
             #enter here
             human.sample_random_attributes()
         
+        
         while True:
-            angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
             noise_range = 2
-            px_noise = np.random.uniform(0, 1) * noise_range
-            py_noise = np.random.uniform(0, 1) * noise_range
-            px = self.circle_radius * np.cos(angle) + px_noise
-            py = self.circle_radius * np.sin(angle) + py_noise
+
+            # px = self.circle_radius * np.cos(angle) + px_noise
+            # py = self.circle_radius * np.sin(angle) + py_noise
+            # collide = False
+
+            # # check if the human's goal is in the obstacle
+            # x1 = int(self.static_map_size / 2 - px / self.cell_length)
+            # y1 = int(self.static_map_size / 2 - py / self.cell_length)
+            # if 0 <= x1 < self.static_map_size and 0 <= y1 < self.static_map_size and self.original_map[x1, y1] > 0:
+            #     continue
+
+
+            positions= self.human_generated_positions[np.random.choice(range(len(self.human_generated_positions)),2,replace=False)]
+            x1,y1 = positions[0]
+            x2,y2 = positions[1]
+            px = (x1 - self.static_map_size / 2 - 0.5) * self.cell_length + np.random.uniform(0, 1) * noise_range
+            py = (y1 - self.static_map_size / 2 - 0.5) * self.cell_length + np.random.uniform(0, 1) * noise_range
+
+
             collide = False
-
-            # check if the human's goal is in the obstacle
-            x1 = int(self.static_map_size / 2 - px / self.cell_length)
-            y1 = int(self.static_map_size / 2 - py / self.cell_length)
-            if 0 <= x1 < self.static_map_size and 0 <= y1 < self.static_map_size and self.original_map[x1, y1] > 0:
-                continue
-
             for i, agent in enumerate(self.robots + self.humans): #check further!
                 # keep human at least 3 meters away from robot
                 if i < self.robot_num:
@@ -219,11 +232,58 @@ class CrowdSimVarNum(CrowdSim):
                     collide = True
                     break
             if not collide:
-                break
-                
-        human.set(px, py, -px, -py, 0, 0, 0)
+                path = nx.shortest_path(self.map_topology_graph, source=(x1, y1), target=(x2, y2))
+                if (path is not None) and len(path) > 1:
+                    break
+
+        # add points in path to human's goal list
+        for point in path[1:]:
+            human.goal_list.append(point)
+        
+        gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
+        gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
+
+        human.set(px, py, gx, gy, 0, 0, 0)
         return human
 
+    def update_human_goal(self, human):
+        # remove the nearest goal from his goal list
+        current_x, current_y = human.goal_list.pop(0)
+        # if there still goals in the list, set the first goal as the new goal
+        if len(human.goal_list) > 0:
+            human.gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
+            human.gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
+            return
+        # if there is no goal in the list, generate a new goal
+        if np.random.random() <= self.end_goal_change_chance:
+            humans_copy = []
+            for h in self.humans:
+                if h != human:
+                    humans_copy.append(h)
+
+
+            while True:
+                collide = False
+                goal = self.human_generated_positions[np.random.choice(range(len(self.human_generated_positions)))]
+                gx = (goal[0] - self.static_map_size / 2 - 0.5) * self.cell_length
+                gy = (goal[1] - self.static_map_size / 2 - 0.5) * self.cell_length
+                for agent in self.robots + humans_copy:
+                    min_dist = human.radius 
+                    min_dist += agent.radius + self.discomfort_dist
+                    if norm((gx - agent.px, gy - agent.py)) < min_dist or \
+                            norm((gx - agent.gx, gy - agent.gy)) < min_dist:
+                        collide = True
+                        break
+                if not collide:
+                    path = nx.shortest_path(self.map_topology_graph, source=(current_x, current_y), target=tuple(goal))
+                    if (path is not None) and len(path) > 1:
+                        break
+            for point in path[1:]:
+                human.goal_list.append(point)
+            # Give human new goal
+            human.gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
+            human.gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
+        return
 
     # calculate the ground truth future trajectory of humans
     # if robot is visible: assume linear motion for robot
@@ -414,7 +474,8 @@ class CrowdSimVarNum(CrowdSim):
         self.static_map_size = int(10 * self.map_size / self.robots[0].sensor_range)
         bitmap_file = os.path.join("bitmaps", f"bitmap_{map_index}", "bitmap.npy")
         self.original_map = np.load(bitmap_file)
-
+        self.map_topology_graph = pkl.load(open(os.path.join("bitmaps", f"bitmap_{map_index}", "topology_graph.pkl"), "rb"))
+        self.human_generated_positions = np.load(os.path.join("bitmaps", f"bitmap_{map_index}", "rand_points.npy"))
         self.map_drawed = False
     
     
@@ -681,9 +742,9 @@ class CrowdSimVarNum(CrowdSim):
             self.ob = obs[0]
         
         # Update all humans' goals randomly midway through episode
-        if self.random_goal_changing:
-            if self.global_time % 5 == 0:
-                self.update_human_goals_randomly()
+        # if self.random_goal_changing:
+        #     if self.global_time % 5 == 0:
+        #         self.update_human_goals_randomly()
 
         # Update a specific human's goal once its reached its original goal
         if self.end_goal_changing:
