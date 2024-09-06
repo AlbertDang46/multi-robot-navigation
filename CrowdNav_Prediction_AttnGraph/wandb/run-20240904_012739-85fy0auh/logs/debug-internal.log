@@ -1,0 +1,1123 @@
+2024-09-04 01:27:39,667 INFO    StreamThr :121035 [internal.py:wandb_internal():85] W&B internal server running at pid: 121035, started at: 2024-09-04 01:27:39.666791
+2024-09-04 01:27:39,668 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status
+2024-09-04 01:27:39,670 INFO    WriterThread:121035 [datastore.py:open_for_write():87] open: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/run-85fy0auh.wandb
+2024-09-04 01:27:39,672 DEBUG   SenderThread:121035 [sender.py:send():391] send: header
+2024-09-04 01:27:39,672 DEBUG   SenderThread:121035 [sender.py:send():391] send: run
+2024-09-04 01:27:40,319 INFO    SenderThread:121035 [dir_watcher.py:__init__():211] watching files in: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files
+2024-09-04 01:27:40,319 INFO    SenderThread:121035 [sender.py:_start_run_threads():1200] run started: 85fy0auh with start time 1725384459.666184
+2024-09-04 01:27:40,323 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: check_version
+2024-09-04 01:27:40,323 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: check_version
+2024-09-04 01:27:42,168 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: run_start
+2024-09-04 01:27:42,177 DEBUG   HandlerThread:121035 [system_info.py:__init__():26] System info init
+2024-09-04 01:27:42,177 DEBUG   HandlerThread:121035 [system_info.py:__init__():41] System info init done
+2024-09-04 01:27:42,177 INFO    HandlerThread:121035 [system_monitor.py:start():194] Starting system monitor
+2024-09-04 01:27:42,178 INFO    SystemMonitor:121035 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-09-04 01:27:42,178 INFO    HandlerThread:121035 [system_monitor.py:probe():214] Collecting system info
+2024-09-04 01:27:42,179 INFO    SystemMonitor:121035 [interfaces.py:start():188] Started cpu monitoring
+2024-09-04 01:27:42,179 INFO    SystemMonitor:121035 [interfaces.py:start():188] Started disk monitoring
+2024-09-04 01:27:42,180 INFO    SystemMonitor:121035 [interfaces.py:start():188] Started gpu monitoring
+2024-09-04 01:27:42,181 INFO    SystemMonitor:121035 [interfaces.py:start():188] Started memory monitoring
+2024-09-04 01:27:42,181 INFO    SystemMonitor:121035 [interfaces.py:start():188] Started network monitoring
+2024-09-04 01:27:42,197 DEBUG   HandlerThread:121035 [system_info.py:probe():152] Probing system
+2024-09-04 01:27:42,199 DEBUG   HandlerThread:121035 [system_info.py:_probe_git():137] Probing git
+2024-09-04 01:27:42,201 DEBUG   HandlerThread:121035 [system_info.py:_probe_git():145] Probing git done
+2024-09-04 01:27:42,201 DEBUG   HandlerThread:121035 [system_info.py:probe():200] Probing system done
+2024-09-04 01:27:42,201 DEBUG   HandlerThread:121035 [system_monitor.py:probe():223] {'os': 'Linux-6.8.0-40-generic-x86_64-with-glibc2.35', 'python': '3.10.14', 'heartbeatAt': '2024-09-03T17:27:42.197715', 'startedAt': '2024-09-03T17:27:39.663771', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/train.py', 'codePathLocal': 'train.py', 'codePath': 'train.py', 'git': {'remote': None, 'commit': None}, 'email': 'liyiping179@gmail.com', 'root': '/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph', 'host': 'liyiping-desktop', 'username': 'liyiping', 'executable': '/home/liyiping/anaconda3/envs/CrowdNav2/bin/python', 'cpu_count': 14, 'cpu_count_logical': 20, 'cpu_freq': {'current': 1499.1287, 'min': 400.0, 'max': 4400.0}, 'cpu_freq_per_core': [{'current': 3800.0, 'min': 400.0, 'max': 4800.0}, {'current': 3800.038, 'min': 400.0, 'max': 4800.0}, {'current': 535.843, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 2111.31, 'min': 400.0, 'max': 5000.0}, {'current': 400.0, 'min': 400.0, 'max': 5000.0}, {'current': 400.0, 'min': 400.0, 'max': 5000.0}, {'current': 400.0, 'min': 400.0, 'max': 5000.0}, {'current': 400.87, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 2711.071, 'min': 400.0, 'max': 3700.0}, {'current': 2700.021, 'min': 400.0, 'max': 3700.0}, {'current': 2699.94, 'min': 400.0, 'max': 3700.0}, {'current': 2591.333, 'min': 400.0, 'max': 3700.0}, {'current': 402.227, 'min': 400.0, 'max': 3700.0}, {'current': 2358.43, 'min': 400.0, 'max': 3700.0}, {'current': 400.0, 'min': 400.0, 'max': 3700.0}, {'current': 400.0, 'min': 400.0, 'max': 3700.0}], 'disk': {'/': {'total': 227.47819137573242, 'used': 168.7874298095703}}, 'gpu': 'NVIDIA GeForce RTX 4060 Laptop GPU', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 4060 Laptop GPU', 'memory_total': 8585740288}], 'memory': {'total': 15.246749877929688}}
+2024-09-04 01:27:42,201 INFO    HandlerThread:121035 [system_monitor.py:probe():224] Finished collecting system info
+2024-09-04 01:27:42,201 INFO    HandlerThread:121035 [system_monitor.py:probe():227] Publishing system info
+2024-09-04 01:27:42,201 DEBUG   HandlerThread:121035 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-09-04 01:27:42,321 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/conda-environment.yaml
+2024-09-04 01:27:44,124 DEBUG   HandlerThread:121035 [system_info.py:_save_conda():224] Saving conda packages done
+2024-09-04 01:27:44,124 INFO    HandlerThread:121035 [system_monitor.py:probe():229] Finished publishing system info
+2024-09-04 01:27:44,128 DEBUG   SenderThread:121035 [sender.py:send():391] send: files
+2024-09-04 01:27:44,128 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-metadata.json with policy now
+2024-09-04 01:27:44,190 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: python_packages
+2024-09-04 01:27:44,191 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: python_packages
+2024-09-04 01:27:44,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:27:44,191 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:27:44,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:44,320 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/conda-environment.yaml
+2024-09-04 01:27:44,321 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-metadata.json
+2024-09-04 01:27:44,321 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/requirements.txt
+2024-09-04 01:27:45,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:46,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:46,919 DEBUG   SenderThread:121035 [sender.py:send():391] send: telemetry
+2024-09-04 01:27:46,919 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:27:47,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:47,322 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:27:47,790 INFO    wandb-upload_0:121035 [upload_job.py:push():130] Uploaded file /tmp/tmpd0uml_xxwandb/lwe7agmw-wandb-metadata.json
+2024-09-04 01:27:48,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:49,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:49,322 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:27:50,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:51,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:52,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:27:52,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:53,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:54,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:55,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:56,194 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:57,194 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:58,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:27:58,194 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:27:59,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:27:59,191 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:27:59,231 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:00,194 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:01,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:02,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:03,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:03,568 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:04,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:05,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:06,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:07,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:08,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:08,601 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:09,128 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:09,128 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:09,128 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:09,129 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:09,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:09,325 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:09,326 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:09,326 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:09,327 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:09,330 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:09,756 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:09,757 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:09,758 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:09,758 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:10,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:10,274 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:10,276 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:10,276 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:10,276 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:10,330 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:10,386 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:10,387 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:10,387 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:10,388 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:10,857 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:10,858 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:10,858 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:10,858 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:11,008 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:11,009 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:11,009 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:11,009 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:11,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:11,331 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:11,331 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:28:11,513 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:11,514 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:11,515 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:11,516 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:11,625 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:11,626 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:11,626 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:11,626 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:12,090 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:12,090 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:12,091 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:12,091 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:12,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:12,331 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:13,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:13,331 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:28:14,093 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:14,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:28:14,231 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:14,424 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:28:15,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:15,332 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/config.yaml
+2024-09-04 01:28:16,196 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:17,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:18,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:19,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:20,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:20,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:21,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:22,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:23,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:24,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:25,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:25,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:26,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:27,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:28,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:29,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:28:29,191 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:28:29,231 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:30,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:30,444 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:31,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:32,198 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:33,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:34,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:35,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:36,031 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:36,071 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:36,073 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:36,073 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:36,074 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:36,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:36,338 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:36,546 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:36,548 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:36,548 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:36,548 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:36,839 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:36,840 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:36,840 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:36,840 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:37,138 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:37,139 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:37,139 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:37,141 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:37,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:37,338 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:37,339 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:28:37,663 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:37,665 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:37,665 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:37,665 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:37,783 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:37,784 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:37,784 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:37,785 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:38,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:38,295 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:38,296 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:38,297 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:38,298 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:38,338 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:38,443 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:38,444 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:38,444 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:38,444 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:38,885 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:38,886 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:38,886 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:38,886 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:39,199 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:39,339 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:39,339 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:28:39,396 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:28:39,397 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:28:39,398 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:28:39,398 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:28:40,200 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:40,339 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:28:41,200 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:41,339 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:28:41,398 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:42,182 DEBUG   SystemMonitor:121035 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-09-04 01:28:42,183 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:28:42,200 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:43,200 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:44,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:28:44,192 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:28:44,232 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:45,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:46,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:46,627 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:47,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:48,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:49,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:50,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:51,202 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:52,194 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:52,201 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:53,202 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:54,202 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:55,202 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:56,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:57,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:28:57,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:58,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:28:59,191 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:28:59,192 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:28:59,232 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:00,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:01,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:01,310 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:01,311 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:01,311 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:01,312 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:01,345 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:01,430 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:01,431 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:01,431 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:01,432 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:01,899 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:01,900 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:01,900 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:01,900 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:02,190 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:02,190 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:02,191 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:02,192 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:02,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:02,345 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:02,521 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:02,562 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:02,562 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:02,563 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:02,563 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:03,117 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:03,118 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:03,118 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:03,118 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:03,203 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:03,345 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:03,346 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:03,752 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:03,753 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:03,754 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:03,754 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:04,137 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:04,138 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:04,139 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:04,139 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:04,204 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:04,346 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:04,659 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:04,661 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:04,661 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:04,661 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:04,773 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:04,773 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:04,774 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:04,774 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:05,204 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:05,346 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:05,346 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:06,204 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:07,204 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:07,347 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:07,775 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:08,204 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:09,205 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:10,205 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:11,205 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:12,184 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:29:12,205 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:13,185 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:13,205 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:14,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:29:14,192 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:29:14,232 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:15,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:16,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:17,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:18,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:18,457 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:19,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:20,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:21,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:22,206 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:23,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:24,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:24,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:25,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:26,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:26,761 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:26,763 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:26,763 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:26,763 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:27,140 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:27,142 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:27,142 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:27,142 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:27,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:27,353 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:27,652 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:27,654 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:27,654 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:27,654 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:27,767 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:27,769 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:27,769 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:27,769 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:28,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:28,279 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:28,280 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:28,280 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:28,281 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:28,353 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:28,392 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:28,395 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:28,395 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:28,395 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:28,866 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:28,867 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:28,867 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:28,867 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:29,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:29:29,192 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:29:29,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:29,354 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:29,354 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:29,379 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:29,493 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:29,495 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:29,495 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:29,495 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:29,496 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:29,496 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:29,496 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:29,498 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:30,008 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:30,009 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:30,009 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:30,010 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:30,207 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:30,354 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:31,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:31,355 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:32,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:33,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:34,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:35,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:35,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:36,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:37,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:38,208 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:39,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:40,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:41,195 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:41,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:42,185 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:29:42,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:43,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:44,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:29:44,193 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:29:44,232 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:45,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:46,210 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:46,545 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:47,209 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:48,210 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:49,210 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:50,210 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:51,210 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:52,175 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:52,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:52,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:52,217 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:52,217 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:52,218 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:52,360 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:52,547 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:52,549 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:52,549 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:52,549 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:52,975 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:52,976 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:52,976 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:52,976 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:53,128 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:53,129 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:53,129 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:53,129 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:53,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:53,360 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:53,360 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:53,636 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:53,637 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:53,638 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:53,638 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:53,760 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:53,761 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:53,762 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:53,762 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:54,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:54,265 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:54,266 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:54,266 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:54,267 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:54,361 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:54,696 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:54,697 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:54,697 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:54,697 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:54,850 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:54,851 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:54,851 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:54,851 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:55,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:55,361 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:55,361 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:55,362 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:29:55,363 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:29:55,364 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:29:55,364 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:29:56,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:56,361 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:29:57,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:57,361 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:29:57,365 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:29:58,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:29:59,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:29:59,192 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:29:59,232 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:00,211 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:01,212 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:02,212 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:02,591 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:03,212 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:04,212 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:05,212 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:06,213 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:07,213 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:08,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:08,213 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:09,213 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:10,214 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:11,214 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:12,186 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:30:12,214 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:13,214 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:14,187 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:14,192 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:30:14,193 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:30:14,233 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:15,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:16,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:17,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:17,366 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:17,367 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:17,367 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:17,368 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:17,369 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:17,515 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:17,515 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:17,515 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:17,516 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:17,987 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:17,988 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:17,988 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:17,988 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:18,141 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:18,142 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:18,142 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:18,142 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:18,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:18,369 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:18,652 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:18,653 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:18,653 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:18,654 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:19,081 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:19,082 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:19,083 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:19,083 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:19,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:19,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:19,277 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:19,278 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:19,278 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:19,279 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:19,369 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:19,370 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:19,705 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:19,706 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:19,706 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:19,706 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:20,072 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:20,073 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:20,073 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:20,073 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:20,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:20,369 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:20,370 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:20,371 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:20,371 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:20,371 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:21,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:21,371 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:21,371 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:22,215 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:23,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:24,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:24,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:25,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:26,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:27,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:28,216 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:29,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:30:29,193 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:30:29,233 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:29,507 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:30,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:31,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:32,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:33,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:34,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:35,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:35,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:36,217 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:37,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:38,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:39,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:40,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:40,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:41,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:42,011 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:42,012 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:42,012 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:42,013 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:42,131 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:42,132 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:42,132 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:42,132 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:42,186 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:30:42,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:42,378 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:42,642 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:42,643 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:42,643 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:42,644 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:42,872 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:42,872 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:42,873 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:42,873 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:43,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:43,265 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:43,266 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:43,266 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:43,267 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:43,378 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:43,379 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:43,698 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:43,699 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:43,699 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:43,699 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:43,854 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:43,855 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:43,855 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:43,855 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:44,193 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-04 01:30:44,193 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: stop_status
+2024-09-04 01:30:44,218 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:44,366 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:44,379 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:44,480 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:44,549 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:44,549 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:44,550 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:44,550 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:44,550 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:44,551 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:44,948 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: partial_history
+2024-09-04 01:30:44,948 DEBUG   SenderThread:121035 [sender.py:send():391] send: history
+2024-09-04 01:30:44,948 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: summary_record
+2024-09-04 01:30:44,949 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:45,219 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:45,379 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:45,379 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:45,949 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:46,219 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:47,219 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:47,379 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:48,219 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:49,219 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:50,220 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:51,197 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:51,220 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:52,220 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-04 01:30:52,310 DEBUG   SenderThread:121035 [sender.py:send():391] send: exit
+2024-09-04 01:30:52,310 INFO    SenderThread:121035 [sender.py:send_exit():598] handling exit code: 255
+2024-09-04 01:30:52,310 INFO    SenderThread:121035 [sender.py:send_exit():600] handling runtime: 190
+2024-09-04 01:30:52,311 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:52,311 INFO    SenderThread:121035 [sender.py:send_exit():606] send defer
+2024-09-04 01:30:52,311 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,311 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 0
+2024-09-04 01:30:52,312 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,312 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 0
+2024-09-04 01:30:52,312 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 1
+2024-09-04 01:30:52,312 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,312 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 1
+2024-09-04 01:30:52,312 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,312 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 1
+2024-09-04 01:30:52,312 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 2
+2024-09-04 01:30:52,312 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,312 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 2
+2024-09-04 01:30:52,312 INFO    HandlerThread:121035 [system_monitor.py:finish():203] Stopping system monitor
+2024-09-04 01:30:52,312 DEBUG   SystemMonitor:121035 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-09-04 01:30:52,312 INFO    HandlerThread:121035 [interfaces.py:finish():200] Joined cpu monitor
+2024-09-04 01:30:52,312 DEBUG   SystemMonitor:121035 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-09-04 01:30:52,312 INFO    HandlerThread:121035 [interfaces.py:finish():200] Joined disk monitor
+2024-09-04 01:30:52,344 INFO    HandlerThread:121035 [interfaces.py:finish():200] Joined gpu monitor
+2024-09-04 01:30:52,344 INFO    HandlerThread:121035 [interfaces.py:finish():200] Joined memory monitor
+2024-09-04 01:30:52,344 INFO    HandlerThread:121035 [interfaces.py:finish():200] Joined network monitor
+2024-09-04 01:30:52,344 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,344 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 2
+2024-09-04 01:30:52,344 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 3
+2024-09-04 01:30:52,345 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,345 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 3
+2024-09-04 01:30:52,346 DEBUG   SenderThread:121035 [sender.py:send():391] send: stats
+2024-09-04 01:30:52,346 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,346 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 3
+2024-09-04 01:30:52,346 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 4
+2024-09-04 01:30:52,346 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,346 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 4
+2024-09-04 01:30:52,346 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,346 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 4
+2024-09-04 01:30:52,346 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 5
+2024-09-04 01:30:52,346 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,346 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 5
+2024-09-04 01:30:52,347 DEBUG   SenderThread:121035 [sender.py:send():391] send: summary
+2024-09-04 01:30:52,347 INFO    SenderThread:121035 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-04 01:30:52,347 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,347 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 5
+2024-09-04 01:30:52,347 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 6
+2024-09-04 01:30:52,347 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,347 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 6
+2024-09-04 01:30:52,347 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,347 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 6
+2024-09-04 01:30:52,347 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 7
+2024-09-04 01:30:52,347 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:30:52,347 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:52,348 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 7
+2024-09-04 01:30:52,348 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:52,348 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 7
+2024-09-04 01:30:52,381 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:53,310 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:53,381 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:55,117 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 8
+2024-09-04 01:30:55,117 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:30:55,117 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:55,117 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 8
+2024-09-04 01:30:55,117 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:55,117 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 8
+2024-09-04 01:30:55,117 INFO    SenderThread:121035 [job_builder.py:build():443] Attempting to build job artifact
+2024-09-04 01:30:55,131 INFO    SenderThread:121035 [job_builder.py:_get_source_type():583] no source found
+2024-09-04 01:30:55,131 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 9
+2024-09-04 01:30:55,132 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:55,132 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 9
+2024-09-04 01:30:55,132 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:55,132 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 9
+2024-09-04 01:30:55,132 INFO    SenderThread:121035 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-09-04 01:30:55,310 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:55,382 INFO    Thread-12 :121035 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:55,382 INFO    SenderThread:121035 [dir_watcher.py:finish():388] scan: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/config.yaml config.yaml
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json wandb-summary.json
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/requirements.txt requirements.txt
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-metadata.json wandb-metadata.json
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log output.log
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [dir_watcher.py:finish():402] scan save: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/conda-environment.yaml conda-environment.yaml
+2024-09-04 01:30:55,383 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 10
+2024-09-04 01:30:55,383 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:30:55,387 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 01:30:55,388 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 10
+2024-09-04 01:30:55,392 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 01:30:55,392 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 10
+2024-09-04 01:30:55,392 INFO    SenderThread:121035 [file_pusher.py:finish():169] shutting down file pusher
+2024-09-04 01:30:56,117 INFO    wandb-upload_0:121035 [upload_job.py:push():130] Uploaded file /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/config.yaml
+2024-09-04 01:30:56,311 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:56,311 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:30:56,550 INFO    wandb-upload_1:121035 [upload_job.py:push():130] Uploaded file /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/wandb-summary.json
+2024-09-04 01:30:57,312 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:57,312 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:30:57,350 INFO    wandb-upload_3:121035 [upload_job.py:push():130] Uploaded file /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/output.log
+2024-09-04 01:30:58,312 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:58,313 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:30:59,313 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:30:59,314 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:00,314 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:00,314 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:01,315 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:01,315 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:01,316 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:02,316 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:02,317 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:03,317 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:03,317 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:04,317 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:04,318 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:05,318 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:05,318 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:06,318 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:06,319 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:06,319 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:07,319 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:07,320 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:08,320 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:08,320 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:09,320 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:09,320 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:10,320 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:10,321 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:11,321 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:11,321 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:11,322 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:12,321 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:12,322 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:13,322 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:13,322 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:14,322 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:14,323 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:15,323 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:15,324 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:16,323 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:16,324 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:16,324 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:17,324 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:17,325 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:18,324 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:18,325 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:19,325 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:19,325 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:20,325 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:20,326 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:21,327 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:21,327 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:21,327 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:22,327 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:22,328 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:23,328 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:23,328 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:24,328 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:24,329 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:25,329 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:25,329 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:26,329 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:26,329 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:26,329 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:27,330 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:27,330 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:28,331 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:28,331 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:29,331 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:29,332 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:30,332 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:30,332 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:31,332 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:31,333 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:31,333 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:32,333 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:32,334 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:33,334 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:33,334 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:34,334 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:34,335 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:35,335 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:35,336 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:36,336 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:36,338 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:36,339 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:37,339 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:37,339 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:38,339 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:38,339 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:39,340 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:39,340 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:40,341 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:40,341 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:41,342 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:41,342 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:41,342 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:42,342 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:42,343 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:43,343 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:43,344 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:44,343 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:44,344 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:45,345 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:45,345 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:46,345 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:46,345 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:46,346 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:47,345 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:47,346 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:48,346 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:48,346 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:49,346 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:49,347 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:50,347 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:50,347 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:51,348 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:51,348 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:51,348 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:52,348 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:52,348 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:53,349 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:53,349 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:54,349 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:54,349 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:55,349 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:55,350 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:56,350 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:56,350 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:56,350 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:31:57,350 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:57,350 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:58,351 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:58,351 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:31:59,351 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:31:59,352 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:00,352 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:00,352 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:01,353 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:01,353 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:01,353 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:02,354 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:02,354 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:03,354 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:03,355 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:04,355 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:04,355 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:05,355 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:05,355 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:06,355 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:06,356 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:06,356 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:07,356 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:07,356 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:08,356 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:08,356 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:09,357 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:09,357 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:10,358 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:10,358 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:11,358 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:11,359 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:11,359 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:12,359 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:12,359 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:13,360 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:13,360 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:14,360 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:14,361 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:15,361 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:15,361 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:16,361 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:16,362 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:16,362 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:17,362 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:17,362 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:18,362 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:18,363 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:19,363 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:19,363 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:20,364 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:20,364 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:21,364 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:21,364 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:21,364 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:22,364 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:22,365 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:23,365 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:23,365 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:24,365 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:24,365 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:25,366 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:25,366 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:26,366 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:26,366 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:26,367 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:27,367 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:27,367 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:28,367 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:28,367 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:29,367 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:29,368 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:30,368 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:30,368 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:31,369 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:31,369 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:31,369 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:32,369 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:32,370 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:33,370 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:33,370 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:45,363 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 01:32:45,363 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:45,363 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:45,364 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:46,363 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:46,364 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:47,365 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:47,365 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:48,366 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:48,367 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:49,369 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:49,370 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:50,371 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:50,373 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:50,374 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:51,374 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:51,375 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:52,376 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:52,377 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:53,378 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:53,380 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:54,381 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:54,383 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:55,382 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:55,383 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:55,384 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:32:56,383 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:56,384 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:57,385 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:57,386 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:58,389 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:58,390 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:32:59,392 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:32:59,393 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:33:00,394 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 01:33:00,395 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:33:00,396 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:33:01,396 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:33:01,397 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:33:02,399 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:33:02,400 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 01:33:03,399 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 01:33:03,399 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:30,315 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 08:11:30,316 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7192a93eb100>: Failed to establish a new connection: [Errno 101] Network is unreachable'))
+2024-09-04 08:11:30,316 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:11:30,317 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '5372'}
+2024-09-04 08:11:30,317 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:30,317 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:30,318 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:30,318 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7192a89a3a90>: Failed to establish a new connection: [Errno 101] Network is unreachable'))
+2024-09-04 08:11:30,318 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '4234'}
+2024-09-04 08:11:30,318 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:31,318 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:31,319 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:31,380 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a89a39d0>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+2024-09-04 08:11:31,380 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '4234'}
+2024-09-04 08:11:31,380 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:31,387 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a93eb580>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+2024-09-04 08:11:31,387 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '5372'}
+2024-09-04 08:11:31,387 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:31,387 INFO    wandb-upload_2:121035 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connection.py", line 196, in _new_conn
+    sock = connection.create_connection(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connection.py", line 615, in connect
+    self.sock = sock = self._new_conn()
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connection.py", line 203, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x7192a93eb580>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a93eb580>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 2880, in upload_file
+    response = self._upload_file_session.put(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 649, in put
+    return self.request("PUT", url, data=data, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a93eb580>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 2911, in upload_file
+    raise _e.with_traceback(sys.exc_info()[2])
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 2880, in upload_file
+    response = self._upload_file_session.put(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 649, in put
+    return self.request("PUT", url, data=data, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+wandb.sdk.lib.retry.TransientError: None
+2024-09-04 08:11:32,318 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:32,319 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:33,320 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:33,321 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:33,390 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/conda-environment.yaml?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bc%2B2DNbOKdCBQrU6cntr9YVy81e%2F6kAQUJj3%2FwOoKe0YzsAukGkJ44Om36Zv7b%2BJptaX5SN4tovlLfW%2FPQsc8XQUl%2BHqWonNHp3uRbLdNf1HaqIT3BRWxzf47Rwm3kYdxwI84JZTdXS9i60PJBdpTquRHHqKXDjqILQYAwxNyjYVl6M5ejkhffLeQCcrzqn5rOJkPK6ncByuvHZ4uNTro37zNJCVIcmFhn3C5NB1sL9hbPrSDrKhy%2F3j%2FfdedPGj25wZujdEvJtUXciSKkMD4VhIXncI%2BU%2FzvI1ku18Pk3kxaLzbecjw5Nv1BjQflRSQJ2bDTVYMjjklciOWY5NEdg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a894ee30>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+2024-09-04 08:11:33,390 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '4234'}
+2024-09-04 08:11:33,390 ERROR   wandb-upload_4:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:33,501 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2887] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D: HTTPSConnectionPool(host='storage.googleapis.com', port=443): Max retries exceeded with url: /wandb-production.appspot.com/liyiping-University%20of%20California,%20Riverside/ogm_pred/85fy0auh/requirements.txt?Expires=1725471055&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=OJC1Ni%2FFmMeZuv7Rk5tMRYfhmweUUGNE%2Fq6LiDJt5Wkl2ifQ8uRRpqyQt044Kos2QMOaOaLzORefIS62Qb8%2F%2BVCDvTibcM7eDot77iNDDfIVWGEBJ7Rez6R9pAO50tYTzWQbtgFprUsV66tKueyARgTLx0cJqBgTY2iXRnzOXt2IISM7E4ZwIVzUYxnYEgem0bX1sv4aUGJgFZXXGUSqfBHb9CRXql4u6od8dTVvBZ5Dc3G93cziz6orjSEB3Wx%2FASFPlCFtjnkjQbjNZiFEp5CPC7276MlqpGrvMUD0m3ZCUjsr3KMYYGPPN%2BwPVTzyXG7aG5IgrowEJGTweZtIAg%3D%3D (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7192a894f280>: Failed to resolve 'storage.googleapis.com' ([Errno -3] Temporary failure in name resolution)"))
+2024-09-04 08:11:33,502 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2889] upload_file request headers: {'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '5372'}
+2024-09-04 08:11:33,502 ERROR   wandb-upload_2:121035 [internal_api.py:upload_file():2891] upload_file response body: ''
+2024-09-04 08:11:34,321 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:34,322 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:35,323 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: status_report
+2024-09-04 08:11:35,324 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:35,324 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:36,325 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:36,326 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:37,327 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:37,328 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:38,234 INFO    wandb-upload_4:121035 [upload_job.py:push():130] Uploaded file /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/conda-environment.yaml
+2024-09-04 08:11:38,327 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:38,328 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: poll_exit
+2024-09-04 08:11:38,703 INFO    wandb-upload_2:121035 [upload_job.py:push():130] Uploaded file /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/files/requirements.txt
+2024-09-04 08:11:38,904 INFO    Thread-11 (_thread_body):121035 [sender.py:transition_state():626] send defer: 11
+2024-09-04 08:11:38,904 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 08:11:38,905 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 11
+2024-09-04 08:11:38,906 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 08:11:38,907 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 11
+2024-09-04 08:11:38,907 INFO    SenderThread:121035 [file_pusher.py:join():175] waiting for file pusher
+2024-09-04 08:11:38,908 INFO    SenderThread:121035 [sender.py:transition_state():626] send defer: 12
+2024-09-04 08:11:38,908 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: defer
+2024-09-04 08:11:38,909 INFO    HandlerThread:121035 [handler.py:handle_request_defer():184] handle defer: 12
+2024-09-04 08:11:38,909 DEBUG   SenderThread:121035 [sender.py:send_request():418] send_request: defer
+2024-09-04 08:11:38,909 INFO    SenderThread:121035 [sender.py:send_request_defer():622] handle sender defer: 12
+2024-09-04 08:11:38,909 INFO    SenderThread:121035 [file_stream.py:finish():601] file stream finish called
+2024-09-04 08:11:39,329 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-04 08:11:44,332 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:14,540 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:19,543 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:24,546 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:29,549 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:34,553 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:39,556 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:44,559 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:49,561 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:54,563 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:39:59,565 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:40:04,567 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:40:09,570 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:40:14,572 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:40:19,574 DEBUG   HandlerThread:121035 [handler.py:handle_request():158] handle_request: keepalive
+2024-09-04 08:40:27,609 WARNING StreamThr :121035 [internal.py:is_dead():413] Internal process exiting, parent pid 120992 disappeared
+2024-09-04 08:40:27,609 ERROR   StreamThr :121035 [internal.py:wandb_internal():151] Internal process shutdown.
+2024-09-04 08:40:28,555 INFO    WriterThread:121035 [datastore.py:close():296] close: /home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/wandb/run-20240904_012739-85fy0auh/run-85fy0auh.wandb
+2024-09-04 08:40:28,576 INFO    HandlerThread:121035 [handler.py:finish():880] shutting down handler

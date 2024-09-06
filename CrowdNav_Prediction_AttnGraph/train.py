@@ -40,7 +40,6 @@ def main():
 	# if output_dir exists and overwrite = False
 	elif not algo_args.overwrite:
 		raise ValueError('output_dir already exists!')
-	
 
 	save_config_dir = os.path.join(algo_args.output_dir, 'configs')
 	if not os.path.exists(save_config_dir):
@@ -89,9 +88,9 @@ def main():
 	else:
 		ax = None
 		 
-	wandb_log = not config.sim.render
-	if wandb_log:
-		wandb.init(project="smooth_action_space ",config={"human_num":config.sim.human_num,"robot_num":2})
+	# wandb_log = not config.sim.render
+	# if wandb_log:
+	# 	wandb.init(project="smooth_action_space ",config={"human_num":config.sim.human_num,"robot_num":2})
 	# Create a wrapped, monitored VecEnv
 	envs = make_vec_envs(env_name, algo_args.seed, algo_args.num_processes,
 						 algo_args.gamma, None, device, False, config=env_config, ax=ax, pretext_wrapper=config.env.use_wrapper)
@@ -105,7 +104,7 @@ def main():
 		envs.action_space,
 		base_kwargs=algo_args,
 		base=config.robot.policy)
-
+	
 	# storage buffer to store the agent's experience
 	rollouts = RolloutStorage(algo_args.num_steps,
 							  algo_args.num_processes,
@@ -123,7 +122,7 @@ def main():
 	# continue training from an existing model if resume = True
 	if algo_args.resume:
 		load_path = config.training.load_path
-		actor_critic.load_state_dict(torch.load(load_path))
+		actor_critic.load_state_dict(torch.load(load_path),strict=False)
 		print("Loaded the following checkpoint:", load_path)
 
 
@@ -191,8 +190,9 @@ def main():
 	all_hid_states=[init_hidden_states for _ in range(config.sim.robot_num)]
 	eval_all_hid_states = copy.deepcopy(all_hid_states)
 
-
-
+	
+	successful_actions = []
+	info_mask=[]
 	# start the training loop
 	for j in range(num_updates):
 		# schedule learning rate if needed
@@ -203,6 +203,8 @@ def main():
 
 		generated_gif=False
 		# step the environment for a few times
+		current_episode_actions=[]
+		add=True
 		for step in range(algo_args.num_steps):
 			# Sample actions
 			all_actions = []
@@ -211,36 +213,28 @@ def main():
 			with torch.no_grad():
 				# get the action for each robot				
 				for i in range(config.sim.robot_num):
-					value_i, action_i, log_i, recurrent_hidden_states_i = actor_critic.act(
+					value_i, action_i, log_i, recurrent_hidden_states_i ,ogm_for_vis_i= actor_critic.act(
 						all_obs[i], all_hid_states[i],
-						all_rollouts[i].masks[step])
-
+						all_rollouts[i].masks[step],i)
+					if i == 0:
+						ogm_for_vis=ogm_for_vis_i
 					all_values.append(value_i)
 					all_log_probs.append(log_i)
 					all_actions.append(action_i)					
 					all_hid_states[i]= copy.deepcopy(recurrent_hidden_states_i)					
 				all_actions = torch.stack(all_actions, dim=1)
 				
-			# # if we use real prediction, send predictions to env for rendering
-			# if env_name == 'CrowdSimPredRealGST-v0' and env_config.env.use_wrapper:
-			# 	# [nenv, max_human_num, 2*(pred_steps+1)] -> [nenv, max_human_num, 2*pred_steps]
-			# 	out_pred = rollouts_obs['spatial_edges'][:, :, 2:].to('cpu').numpy()
-			# 	# send manager action to all processes
-			# 	ack = envs.talk2Env(out_pred)
-			# 	assert all(ack)
-
-			frame_dir = "frames"
-			if not os.path.exists(frame_dir):
-				os.makedirs(frame_dir)
+			
 			if config.sim.render:
-				envs.render()
+				envs.render(ogm_for_vis)
 				# if j % algo_args.eval_interval == 0 and not generated_gif and j>0:
 				# 	create_gif_from_frames(frame_dir, "evaluation_{}.gif".format(j))
 				# 	envs.frame_count=0
 				# 	generated_gif=True
 
 			obs, rewards, done, infos= envs.step(all_actions)
-
+			current_episode_actions.append(all_actions.cpu().numpy())
+			
 			for r in range(config.sim.robot_num):
 				single_obs = {}
 				for keyy in obs.keys():	
@@ -254,6 +248,9 @@ def main():
 			for info in infos:
 				if 'episode' in info.keys():
 					episode_rewards.append(info['episode']['r'])
+				if 'info' in info.keys():
+					if isinstance(info['info'],ReachGoal):
+						add=True
 
 			# If done then clean the history of observations.
 			masks = torch.FloatTensor(
@@ -276,7 +273,7 @@ def main():
 
 				all_rollouts[robot_index].insert(single_obs, all_hid_states[robot_index], torch.stack([all_action[robot_index] for all_action in all_actions]),
 							all_log_probs[robot_index], all_values[robot_index], torch.tensor(rewards[:,robot_index:robot_index+1]), masks, bad_masks)
-
+		
 		with torch.no_grad():
 			#change to multi-agent rollout update
 			all_rollouts_obs=[{} for _ in range(config.sim.robot_num)]
@@ -291,8 +288,8 @@ def main():
 					#print(all_rollouts_hidden_s[robot_index][key])
 				next_value = actor_critic.get_value(
 					all_rollouts_obs[robot_index], all_rollouts_hidden_s[robot_index],
-					all_rollouts[robot_index].masks[-1]).detach()
-				
+					all_rollouts[robot_index].masks[-1],robot_index).detach()
+		
 		mean_action_loss=0	
 		for robot_index in range(config.sim.robot_num):
 			
@@ -301,7 +298,7 @@ def main():
 			all_rollouts[robot_index].compute_returns(next_value, algo_args.use_gae, algo_args.gamma,
 										algo_args.gae_lambda, algo_args.use_proper_time_limits)
 			
-			value_loss, action_loss, dist_entropy = agent.update(all_rollouts[robot_index])
+			value_loss, action_loss, dist_entropy = agent.update(all_rollouts[robot_index],robot_index)
 
 			mean_action_loss+=action_loss
 			
@@ -331,15 +328,15 @@ def main():
 							np.max(episode_rewards), dist_entropy, value_loss,
 							mean_action_loss))
 			
-			# log the training progress
-			if  wandb_log:
-				wandb.log({"median_reward":np.median(episode_rewards),
-						"mean_reward":np.mean(episode_rewards),
-						"min_reward":np.min(episode_rewards),
-						"max_reward":np.max(episode_rewards),
-						"dist_entropy":dist_entropy,
-						"value_loss":value_loss,
-						"action_loss":action_loss,})
+			# # log the training progress
+			# if  wandb_log:
+			# 	wandb.log({"median_reward":np.median(episode_rewards),
+			# 			"mean_reward":np.mean(episode_rewards),
+			# 			"min_reward":np.min(episode_rewards),
+			# 			"max_reward":np.max(episode_rewards),
+			# 			"dist_entropy":dist_entropy,
+			# 			"value_loss":value_loss,
+			# 			"action_loss":action_loss,})
 
 			df = pd.DataFrame({'misc/nupdates': [j], 'misc/total_timesteps': [total_num_steps],
 							   'fps': int(total_num_steps / (end - start)), 'eprewmean': [np.mean(episode_rewards)],
@@ -351,7 +348,7 @@ def main():
 				df.to_csv(os.path.join(algo_args.output_dir, 'progress.csv'), mode='w', header=True, index=False)
 
 			# create new map
-			create_new_map()
+			#create_new_map()
 			episode_rewards.clear()
 
 		# if j % algo_args.eval_interval == 0 and j>0:
@@ -370,8 +367,8 @@ def main():
 
 	
 	
-	if wandb_log:
-		wandb.finish()
+	# if wandb_log:
+	# 	wandb.finish()
 			
 
 if __name__ == '__main__':

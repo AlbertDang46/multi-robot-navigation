@@ -112,6 +112,7 @@ class Agent(object):
 
         omega = (np.arctan2(self.gy - self.py, self.gx - self.px)
                           - self.theta + np.pi) % (2 * np.pi) - np.pi
+        #print('omega:', omega)
         return [self.px, self.py, self.radius, 
             np.linalg.norm([self.gy - self.py, self.gx - self.px]), omega, self.v_pref, self.theta, self.vx, self.vy]
         # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta, self.vx, self.vy]
@@ -169,7 +170,7 @@ class Agent(object):
                 d_theta = 0
                 d_l = self.v_pref * delta_t
             else:
-                d_theta = action.v / 1.5 / self.radius * delta_t
+                d_theta = action.v / 2 / self.radius * delta_t
                 self.theta = (self.theta + d_theta) % (2 * np.pi)
                 d_l = (1 - np.abs(action.v)) * delta_t *self.v_pref
 

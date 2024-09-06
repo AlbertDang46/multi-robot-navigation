@@ -1,0 +1,141 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:769: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:770: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Loaded the following checkpoint: trained_models/my_model/trans_pos_4_clear_anglr/checkpoints/00200.pt
+Predictor Training Loss: 36.806322733561196 KL Loss: 343.9715067545573 CE Loss: 33.36660893758138
+Avg wmse 0.2695026695728302 Avg ssim 0.48708534240722656
+Predictor Training Loss: 25.7905756632487 KL Loss: 340.083984375 CE Loss: 22.38973617553711
+Avg wmse 0.21096454560756683 Avg ssim 0.5997828841209412
+Predictor Training Loss: 15.893854777018229 KL Loss: 319.5073954264323 CE Loss: 12.69878069559733
+Avg wmse 0.1556335687637329 Avg ssim 0.7170154452323914
+Predictor Training Loss: 36.4300422668457 KL Loss: 299.22231038411456 CE Loss: 33.437819163004555
+Avg wmse 0.2708304226398468 Avg ssim 0.4810830056667328
+Predictor Training Loss: 35.05782953898112 KL Loss: 285.71837361653644 CE Loss: 32.20064608256022
+Avg wmse 0.2680378556251526 Avg ssim 0.476538747549057
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:835: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:836: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Predictor Training Loss: 32.542534510294594 KL Loss: 285.41208902994794 CE Loss: 29.688413619995117
+Avg wmse 0.2639375925064087 Avg ssim 0.49885106086730957
+Predictor Training Loss: 25.092864354451496 KL Loss: 290.2028503417969 CE Loss: 22.19083595275879
+Avg wmse 0.2027539759874344 Avg ssim 0.6045916676521301
+Predictor Training Loss: 20.454443613688152 KL Loss: 296.8620096842448 CE Loss: 17.485823313395183
+Avg wmse 0.1606912761926651 Avg ssim 0.6578104496002197
+Predictor Training Loss: 24.846094767252605 KL Loss: 263.7431640625 CE Loss: 22.20866298675537
+Avg wmse 0.20687122642993927 Avg ssim 0.5976644158363342
+Predictor Training Loss: 24.102823893229168 KL Loss: 250.59561665852866 CE Loss: 21.59686787923177
+Avg wmse 0.21538829803466797 Avg ssim 0.5913826823234558
+Predictor Training Loss: 13.748625119527182 KL Loss: 258.49974060058594 CE Loss: 11.163627624511719
+Avg wmse 0.13109935820102692 Avg ssim 0.5897514224052429
+Predictor Training Loss: 21.163471857706707 KL Loss: 243.93484497070312 CE Loss: 18.724123160044353
+Avg wmse 0.2064756155014038 Avg ssim 0.5674362778663635
+Predictor Training Loss: 23.29174868265788 KL Loss: 240.02157084147134 CE Loss: 20.89153258005778
+Avg wmse 0.20124967396259308 Avg ssim 0.6203452944755554
+Predictor Training Loss: 12.533536275227865 KL Loss: 265.5290934244792 CE Loss: 9.878245830535889
+Avg wmse 0.13392318785190582 Avg ssim 0.7364125847816467
+Predictor Training Loss: 8.314950307210287 KL Loss: 256.3241780598958 CE Loss: 5.751708507537842
+Avg wmse 0.09805586189031601 Avg ssim 0.8239650130271912
+Predictor Training Loss: 37.051992416381836 KL Loss: 233.66639200846353 CE Loss: 34.71532885233561
+Avg wmse 0.3293221890926361 Avg ssim 0.3655947744846344
+Predictor Training Loss: 22.83556302388509 KL Loss: 243.94988505045572 CE Loss: 20.396064122517902
+Avg wmse 0.23907190561294556 Avg ssim 0.5420398116111755
+Predictor Training Loss: 14.986288706461588 KL Loss: 248.22131856282553 CE Loss: 12.504075686136881
+Avg wmse 0.16648763418197632 Avg ssim 0.6707804799079895
+Predictor Training Loss: 13.735366821289062 KL Loss: 242.11358642578125 CE Loss: 11.314231236775717
+Avg wmse 0.16647936403751373 Avg ssim 0.6812770962715149
+Predictor Training Loss: 11.003404299418131 KL Loss: 243.51138305664062 CE Loss: 8.5682905515035
+Avg wmse 0.11186639219522476 Avg ssim 0.7584829926490784
+Predictor Training Loss: 27.963965098063152 KL Loss: 233.2605946858724 CE Loss: 25.631359736124676
+Avg wmse 0.2972804307937622 Avg ssim 0.44958746433258057
+Predictor Training Loss: 19.180843353271484 KL Loss: 228.97388712565103 CE Loss: 16.89110501607259
+Avg wmse 0.1878315657377243 Avg ssim 0.6406694054603577
+Predictor Training Loss: 14.324800809224447 KL Loss: 214.2162628173828 CE Loss: 12.182638168334961
+Avg wmse 0.14177896082401276 Avg ssim 0.7307167649269104
+Predictor Training Loss: 14.096845626831055 KL Loss: 226.04675801595053 CE Loss: 11.83637809753418
+Avg wmse 0.15243025124073029 Avg ssim 0.7113234400749207
+Predictor Training Loss: 11.788297017415365 KL Loss: 226.93734232584634 CE Loss: 9.51892344156901
+Avg wmse 0.11673840135335922 Avg ssim 0.7745653986930847
+Predictor Training Loss: 19.29320462544759 KL Loss: 235.16434733072916 CE Loss: 16.941560745239258
+Avg wmse 0.19195683300495148 Avg ssim 0.6520841121673584
+Predictor Training Loss: 16.11150296529134 KL Loss: 211.12879435221353 CE Loss: 14.000215212504068
+Avg wmse 0.17430438101291656 Avg ssim 0.6870338916778564
+Predictor Training Loss: 15.572428067525228 KL Loss: 191.7718709309896 CE Loss: 13.654709498087565
+Avg wmse 0.17780132591724396 Avg ssim 0.6646637916564941
+Predictor Training Loss: 15.934961318969727 KL Loss: 203.13565063476562 CE Loss: 13.903605143229166
+Avg wmse 0.193031445145607 Avg ssim 0.645451545715332
+Predictor Training Loss: 12.781473795572916 KL Loss: 204.2021687825521 CE Loss: 10.739452362060547
+Avg wmse 0.14878086745738983 Avg ssim 0.7453913688659668
+Predictor Training Loss: 28.4556147257487 KL Loss: 193.77310180664062 CE Loss: 26.51788393656413
+Avg wmse 0.2539302408695221 Avg ssim 0.533427894115448
+Predictor Training Loss: 25.44953727722168 KL Loss: 193.31430053710938 CE Loss: 23.516394297281902
+Avg wmse 0.23357991874217987 Avg ssim 0.5766786932945251
+Predictor Training Loss: 25.215328216552734 KL Loss: 197.59948221842447 CE Loss: 23.239333470662434
+Avg wmse 0.20329947769641876 Avg ssim 0.619778573513031
+Predictor Training Loss: 25.91215642293294 KL Loss: 214.24993896484375 CE Loss: 23.769657135009766
+Avg wmse 0.2156810760498047 Avg ssim 0.571530282497406
+Predictor Training Loss: 21.791207631429035 KL Loss: 221.76897176106772 CE Loss: 19.573517481486004
+Avg wmse 0.1752697229385376 Avg ssim 0.6250982880592346
+Predictor Training Loss: 25.755460739135742 KL Loss: 187.7395782470703 CE Loss: 23.87806447347005
+Avg wmse 0.2233237773180008 Avg ssim 0.6057153344154358
+Predictor Training Loss: 19.970547993977863 KL Loss: 190.9267374674479 CE Loss: 18.061280568440754
+Avg wmse 0.17413310706615448 Avg ssim 0.6574540734291077
+Predictor Training Loss: 18.227261225382488 KL Loss: 175.83659871419272 CE Loss: 16.46889527638753
+Avg wmse 0.18039433658123016 Avg ssim 0.6026827692985535
+Predictor Training Loss: 12.330861727396647 KL Loss: 187.44595336914062 CE Loss: 10.456402142842611
+Avg wmse 0.21876458823680878 Avg ssim 0.6156141757965088
+Predictor Training Loss: 8.15609359741211 KL Loss: 196.3737030029297 CE Loss: 6.192356586456299
+Avg wmse 0.23236066102981567 Avg ssim 0.6806439757347107
+Predictor Training Loss: 42.718299865722656 KL Loss: 211.16694132486978 CE Loss: 40.60662968953451
+Avg wmse 0.34634289145469666 Avg ssim 0.3122936487197876
+Predictor Training Loss: 27.16004244486491 KL Loss: 203.8177744547526 CE Loss: 25.121864954630535
+Avg wmse 0.24011480808258057 Avg ssim 0.5418879985809326
+Predictor Training Loss: 21.619749069213867 KL Loss: 195.51521809895834 CE Loss: 19.664597193400066
+Avg wmse 0.20699064433574677 Avg ssim 0.606655478477478
+Predictor Training Loss: 38.23273150126139 KL Loss: 184.091796875 CE Loss: 36.39181327819824
+Avg wmse 0.28739818930625916 Avg ssim 0.4385410249233246
+Predictor Training Loss: 32.39843877156576 KL Loss: 201.1688690185547 CE Loss: 30.38675053914388
+Avg wmse 0.2603488862514496 Avg ssim 0.49140942096710205
+Predictor Training Loss: 42.50468063354492 KL Loss: 177.8660888671875 CE Loss: 40.726019541422524
+Avg wmse 0.3230123519897461 Avg ssim 0.35775598883628845
+Predictor Training Loss: 32.47308540344238 KL Loss: 188.29046122233072 CE Loss: 30.59018071492513
+Avg wmse 0.2916329801082611 Avg ssim 0.41187071800231934
+Predictor Training Loss: 25.167243321736652 KL Loss: 185.85806783040366 CE Loss: 23.30866305033366
+Avg wmse 0.302464097738266 Avg ssim 0.3438492715358734
+Predictor Training Loss: 58.11357180277506 KL Loss: 191.21464029947916 CE Loss: 56.201425552368164
+Avg wmse 0.35047292709350586 Avg ssim 0.2843942642211914
+Predictor Training Loss: 58.23275629679362 KL Loss: 197.96163431803384 CE Loss: 56.25313822428385
+Avg wmse 0.3923046588897705 Avg ssim 0.2610620856285095
+Traceback (most recent call last):
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py", line 368, in <module>
+    main()
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py", line 213, in main
+    value_i, action_i, log_i, recurrent_hidden_states_i ,ogm_for_vis_i= actor_critic.act(
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/model.py", line 60, in act
+    value, actor_features, rnn_hxs,ogm_for_vis= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 802, in forward
+    static_map,dynamic_map=transform_ogm(past_lidar, past_robot_vel_pos,x_odom, y_odom, theta_odom,map_size=32)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 304, in transform_ogm
+    static_obst, dynamic_obst=convert_lidar_to_ogm(lidar_data,map_size)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 376, in convert_lidar_to_ogm
+    local_ogm[local_ogm == -1] = 0
+KeyboardInterrupt
+Predictor Training Loss: 7.759880383809407 KL Loss: 172.18183390299478 CE Loss: 6.03806193669637
+Avg wmse 0.0022715136874467134 Avg ssim 0.592288076877594
+Predictor Training Loss: 11.008941650390625 KL Loss: 165.69478352864584 CE Loss: 9.351993640263876
+Avg wmse 0.09791748970746994 Avg ssim 0.6719124913215637
+Predictor Training Loss: 17.08099301656087 KL Loss: 160.14215087890625 CE Loss: 15.479571978251139
+Avg wmse 0.2631312906742096 Avg ssim 0.5724433064460754
+Predictor Training Loss: 26.074899355570476 KL Loss: 149.17047119140625 CE Loss: 24.583194732666016
+Avg wmse 0.29378703236579895 Avg ssim 0.45363953709602356
+Predictor Training Loss: 25.127398173014324 KL Loss: 165.92984517415366 CE Loss: 23.46810022989909
+Avg wmse 0.2678120732307434 Avg ssim 0.47851118445396423

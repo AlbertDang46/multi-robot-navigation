@@ -1,0 +1,363 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:772: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:773: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Loaded the following checkpoint: trained_models/my_model/holonomic/checkpoints/35600.pt
+0 1
+1 1
+2 1
+0 2
+1 2
+2 2
+0 3
+1 3
+2 3
+0 4
+1 4
+2 4
+0 5
+1 5
+2 5
+0 6
+1 6
+2 6
+0 7
+1 7
+2 7
+0 8
+1 8
+2 8
+0 9
+1 9
+2 9
+0 10
+1 10
+2 10
+0 11
+1 11
+2 11
+0 12
+1 12
+2 12
+0 13
+1 13
+2 13
+0 14
+1 14
+2 14
+0 15
+1 15
+2 15
+0 16
+1 16
+2 16
+0 17
+1 17
+2 17
+0 18
+1 18
+2 18
+0 19
+1 19
+2 19
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:844: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:845: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+Predictor Training Loss: 803.0961710611979 KL Loss: 546.6659545898438 CE Loss: 797.6295166015625
+Avg wmse 0.25601351261138916 Avg ssim 0.003444117261096835
+Predictor Training Loss: 759.3331909179688 KL Loss: 133.80716959635416 CE Loss: 757.9951171875
+Avg wmse 0.16258351504802704 Avg ssim 0.0030740436632186174
+Predictor Training Loss: 722.3795979817709 KL Loss: 810.492930094401 CE Loss: 714.2746785481771
+Avg wmse 0.0 Avg ssim 7.125845149857923e-05
+Predictor Training Loss: 684.5611775716146 KL Loss: 1062.405797322591 CE Loss: 673.9371134440104
+Avg wmse 0.1673588752746582 Avg ssim 0.0024292205926030874
+Predictor Training Loss: 641.8162434895834 KL Loss: 295.1954091389974 CE Loss: 638.8642985026041
+Avg wmse 0.249090313911438 Avg ssim 0.00402394263073802
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/tkinter/__init__.py", line 1921, in __call__
+    return self.func(*args)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/tkinter/__init__.py", line 839, in callit
+    func(*args)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/backends/_backend_tk.py", line 251, in idle_draw
+    self.draw()
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/backends/backend_tkagg.py", line 10, in draw
+    super().draw()
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/backends/backend_agg.py", line 405, in draw
+    self.figure.draw(self.renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 74, in draw_wrapper
+    result = draw(artist, renderer, *args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 51, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/figure.py", line 3071, in draw
+    mimage._draw_list_compositing_images(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/image.py", line 131, in _draw_list_compositing_images
+    a.draw(renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 51, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/axes/_base.py", line 3107, in draw
+    mimage._draw_list_compositing_images(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/image.py", line 131, in _draw_list_compositing_images
+    a.draw(renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 51, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 588, in draw
+    affine = transform.get_affine()
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/transforms.py", line 2446, in get_affine
+    return Affine2D(np.dot(self._b.get_affine().get_matrix(),
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/transforms.py", line 1886, in __init__
+    def __init__(self, matrix=None, **kwargs):
+KeyboardInterrupt
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+Predictor Training Loss: 602.5740356445312 KL Loss: 368.1387532552083 CE Loss: 598.8926391601562
+Avg wmse 0.2571418285369873 Avg ssim 0.003597036935389042
+Predictor Training Loss: 568.2696126302084 KL Loss: 237.62516276041666 CE Loss: 565.8933512369791
+Avg wmse 0.24548399448394775 Avg ssim 0.0030110019724816084
+Predictor Training Loss: 530.5975952148438 KL Loss: 146.30853525797525 CE Loss: 529.1345011393229
+Avg wmse 0.25912895798683167 Avg ssim 0.0009963203920051455
+Predictor Training Loss: 504.3713887532552 KL Loss: 223.2030792236328 CE Loss: 502.1393534342448
+Avg wmse 0.2708721458911896 Avg ssim 0.0041463603265583515
+Predictor Training Loss: 478.9315185546875 KL Loss: 491.95852915445965 CE Loss: 474.0119323730469
+Avg wmse 0.27817773818969727 Avg ssim 0.0028462728951126337
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+Traceback (most recent call last):
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/train.py", line 368, in <module>
+    main()
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/train.py", line 226, in main
+    envs.render(ogm_for_vis)
+  File "/home/liyiping/dev/MARL2_check_ogm_obst_/CrowdNav_Prediction_AttnGraph/baselines/baselines/common/vec_env/vec_env.py", line 167, in render
+    return self.venv.render(mode=mode)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/rl/networks/dummy_vec_env.py", line 91, in render
+    return self.envs[0].render(mode=mode)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/core.py", line 235, in render
+    return self.env.render(mode, **kwargs)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_multi_ahead/CrowdNav_Prediction_AttnGraph/crowd_sim/envs/crowd_sim_var_num.py", line 1088, in render
+    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=alpha_value, linewidth=0, edgecolor='none',)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/_api/deprecation.py", line 454, in wrapper
+    return func(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 712, in __init__
+    super().__init__(**kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/_api/deprecation.py", line 454, in wrapper
+    return func(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 98, in __init__
+    self._internal_update(kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 1186, in _internal_update
+    return self._update_props(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 1151, in _update_props
+    with cbook._setattr_cm(self, eventson=False):
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/contextlib.py", line 130, in __enter__
+    def __enter__(self):
+KeyboardInterrupt
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20
+0 20
+1 20
+2 20

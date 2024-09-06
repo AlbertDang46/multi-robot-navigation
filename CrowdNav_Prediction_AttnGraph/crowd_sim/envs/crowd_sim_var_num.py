@@ -3,6 +3,8 @@ import numpy as np
 from numpy.linalg import norm
 import copy
 import sys
+
+import torch
 from crowd_sim.envs.utils.action import ActionRot, ActionXY
 from crowd_sim.envs import *
 from crowd_sim.envs.utils.info import *
@@ -14,9 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 from matplotlib import patches
 from skimage.draw import line
-from crowd_sim.envs.utils.lidar2d import Lidar2d,merge_ogm
-import networkx as nx
-import pickle as pkl
+from crowd_sim.envs.utils.lidar2d import Lidar2d,merge_ogm,merge_lidar
 
 class CrowdSimVarNum(CrowdSim):
     """
@@ -39,13 +39,12 @@ class CrowdSimVarNum(CrowdSim):
         self.map_size = 32
         self.static_map_size = None
         self.original_map = None
-        self.human_generated_positions = None
-        self.map_topology_graph = None
         self.map_artists = []
         self.obst_directions = []
         self.lidar = None
         self.robots_connection_graph = None
-
+        self.num_ray=90
+        self.TIME=0
         
 
 
@@ -54,15 +53,14 @@ class CrowdSimVarNum(CrowdSim):
         # we set the max and min of action/observation space as inf
         # clip the action and observation as you need
         d={}
-        # robot node: px, py, r, gx, gy, v_pref, theta
+        # robot node: px, py, r, gx, gy, v_pref, theta,vx, vy
         d['robot_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1,9,), dtype = np.float32)
 
         # occupancy grid map: (2,map_size,map_size), 0: occupancy map, 1: semantic label map
         d['occupancy_map'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(2,self.map_size, self.map_size), dtype=np.float32)
-        
+        d['lidar'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(self.num_ray,2), dtype=np.float32)
         # detected robots info: relative px, relative py, disp_x, disp_y, sorted by distance
         d['detected_robots_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(self.robot_num, 4), dtype=np.float32)
-
 
 
         # only consider all temporal edges (human_num+1) and spatial edges pointing to robot (human_num)
@@ -188,7 +186,7 @@ class CrowdSimVarNum(CrowdSim):
         for i in range(self.human_num):
             self.humans[i].id = i
 
-    
+
     # generate a human that starts on a circle, and its goal is on the opposite side of the circle
     def generate_circle_crossing_human(self):
         human = Human(self.config, 'humans')
@@ -196,30 +194,22 @@ class CrowdSimVarNum(CrowdSim):
             #enter here
             human.sample_random_attributes()
         
-        
         while True:
+            angle = np.random.random() * np.pi * 2
             # add some noise to simulate all the possible cases robot could meet with human
             noise_range = 2
-
-            # px = self.circle_radius * np.cos(angle) + px_noise
-            # py = self.circle_radius * np.sin(angle) + py_noise
-            # collide = False
-
-            # # check if the human's goal is in the obstacle
-            # x1 = int(self.static_map_size / 2 - px / self.cell_length)
-            # y1 = int(self.static_map_size / 2 - py / self.cell_length)
-            # if 0 <= x1 < self.static_map_size and 0 <= y1 < self.static_map_size and self.original_map[x1, y1] > 0:
-            #     continue
-
-
-            positions= self.human_generated_positions[np.random.choice(range(len(self.human_generated_positions)),2,replace=False)]
-            x1,y1 = positions[0]
-            x2,y2 = positions[1]
-            px = (x1 - self.static_map_size / 2 - 0.5) * self.cell_length + np.random.uniform(0, 1) * noise_range
-            py = (y1 - self.static_map_size / 2 - 0.5) * self.cell_length + np.random.uniform(0, 1) * noise_range
-
-
+            px_noise = np.random.uniform(0, 1) * noise_range
+            py_noise = np.random.uniform(0, 1) * noise_range
+            px = self.circle_radius * np.cos(angle) + px_noise
+            py = self.circle_radius * np.sin(angle) + py_noise
             collide = False
+
+            # check if the human's goal is in the obstacle
+            x1 = int(self.static_map_size / 2 - px / self.cell_length)
+            y1 = int(self.static_map_size / 2 - py / self.cell_length)
+            if 0 <= x1 < self.static_map_size and 0 <= y1 < self.static_map_size and self.original_map[x1, y1] > 0:
+                continue
+
             for i, agent in enumerate(self.robots + self.humans): #check further!
                 # keep human at least 3 meters away from robot
                 if i < self.robot_num:
@@ -232,58 +222,11 @@ class CrowdSimVarNum(CrowdSim):
                     collide = True
                     break
             if not collide:
-                path = nx.shortest_path(self.map_topology_graph, source=(x1, y1), target=(x2, y2))
-                if (path is not None) and len(path) > 1:
-                    break
-
-        # add points in path to human's goal list
-        for point in path[1:]:
-            human.goal_list.append(point)
-        
-        gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
-        gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
-
-        human.set(px, py, gx, gy, 0, 0, 0)
+                break
+                
+        human.set(px, py, -px, -py, 0, 0, 0)
         return human
 
-    def update_human_goal(self, human):
-        # remove the nearest goal from his goal list
-        current_x, current_y = human.goal_list.pop(0)
-        # if there still goals in the list, set the first goal as the new goal
-        if len(human.goal_list) > 0:
-            human.gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
-            human.gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
-            return
-        # if there is no goal in the list, generate a new goal
-        if np.random.random() <= self.end_goal_change_chance:
-            humans_copy = []
-            for h in self.humans:
-                if h != human:
-                    humans_copy.append(h)
-
-
-            while True:
-                collide = False
-                goal = self.human_generated_positions[np.random.choice(range(len(self.human_generated_positions)))]
-                gx = (goal[0] - self.static_map_size / 2 - 0.5) * self.cell_length
-                gy = (goal[1] - self.static_map_size / 2 - 0.5) * self.cell_length
-                for agent in self.robots + humans_copy:
-                    min_dist = human.radius 
-                    min_dist += agent.radius + self.discomfort_dist
-                    if norm((gx - agent.px, gy - agent.py)) < min_dist or \
-                            norm((gx - agent.gx, gy - agent.gy)) < min_dist:
-                        collide = True
-                        break
-                if not collide:
-                    path = nx.shortest_path(self.map_topology_graph, source=(current_x, current_y), target=tuple(goal))
-                    if (path is not None) and len(path) > 1:
-                        break
-            for point in path[1:]:
-                human.goal_list.append(point)
-            # Give human new goal
-            human.gx = (human.goal_list[0][0] - self.static_map_size / 2 - 0.5) * self.cell_length
-            human.gy = (human.goal_list[0][1] - self.static_map_size / 2 - 0.5) * self.cell_length
-        return
 
     # calculate the ground truth future trajectory of humans
     # if robot is visible: assume linear motion for robot
@@ -383,7 +326,10 @@ class CrowdSimVarNum(CrowdSim):
         robot_pos_x = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].px / self.cell_length))
         robot_pos_y = int(self.static_map_size / 2 + np.floor(self.robots[robot_index].py / self.cell_length))
         ob['occupancy_map'] = self.lidar.convert_to_bitmap(self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta), self.map_size)
-
+        # print(ob['occupancy_map'].shape)#(2,32,32)
+        # print(self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta).shape)#(90,2)
+        
+        ob['lidar']=self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta)
         
         ob['detected_robots_info'] = np.array([[1e5, 1e5, 0, 0] for _ in range(self.robot_num)], dtype=np.float32)
         
@@ -474,18 +420,19 @@ class CrowdSimVarNum(CrowdSim):
         self.static_map_size = int(10 * self.map_size / self.robots[0].sensor_range)
         bitmap_file = os.path.join("bitmaps", f"bitmap_{map_index}", "bitmap.npy")
         self.original_map = np.load(bitmap_file)
-        self.map_topology_graph = pkl.load(open(os.path.join("bitmaps", f"bitmap_{map_index}", "topology_graph.pkl"), "rb"))
-        self.human_generated_positions = np.load(os.path.join("bitmaps", f"bitmap_{map_index}", "rand_points.npy"))
+
         self.map_drawed = False
     
     
     # update the robots connection graph
     def update_robots_connection_graph(self):
         self.robots_connection_graph = np.array([[np.linalg.norm([robot.px - other_robot.px, robot.py - other_robot.py]) < self.config.robot.broadcast_range  for other_robot in self.robots] for robot in self.robots])
+        #print(self.robots_connection_graph)
 
     # broadcast robot's observation to other robots which are in the broadcast range
     def broadcast(self,obs):
         self.update_robots_connection_graph()
+
         broadcasted_obs = copy.deepcopy(obs)
         for i in range(self.robot_num):
             for j in range(self.robot_num):
@@ -501,6 +448,7 @@ class CrowdSimVarNum(CrowdSim):
                                                                           (self.robots[j].vx - self.robots[i].vx)*np.cos(self.robots[i].theta) + (self.robots[j].vy - self.robots[i].vy)*np.sin(self.robots[i].theta), 
                                                                           (self.robots[j].vy - self.robots[i].vy)*np.cos(self.robots[i].theta) - (self.robots[j].vx - self.robots[i].vx)*np.sin(self.robots[i].theta)
                                                                           ])
+                broadcasted_obs[i]['lidar'] = merge_lidar(broadcasted_obs[i]['lidar'], obs[j]['lidar'],self.robots[i].px,self.robots[j].px, self.robots[i].py,self.robots[j].py, self.robots[i].theta, self.robots[j].theta)
             # sort the detected robots by distance, the first one is the nearest robot
             broadcasted_obs[i]['detected_robots_info'] = np.array(sorted(broadcasted_obs[i]['detected_robots_info'], key=lambda x: x[0]**2 + x[1]**2))
         return broadcasted_obs
@@ -514,7 +462,8 @@ class CrowdSimVarNum(CrowdSim):
         :return:
         """
 
-        self.get_static_map(np.random.randint(10))
+        self.get_static_map(self.TIME%10)
+        self.TIME=self.TIME+1
        
         if self.phase is not None:
             phase = self.phase
@@ -742,9 +691,9 @@ class CrowdSimVarNum(CrowdSim):
             self.ob = obs[0]
         
         # Update all humans' goals randomly midway through episode
-        # if self.random_goal_changing:
-        #     if self.global_time % 5 == 0:
-        #         self.update_human_goals_randomly()
+        if self.random_goal_changing:
+            if self.global_time % 5 == 0:
+                self.update_human_goals_randomly()
 
         # Update a specific human's goal once its reached its original goal
         if self.end_goal_changing:
@@ -988,7 +937,7 @@ class CrowdSimVarNum(CrowdSim):
         return output_tensor
 
 
-    def render(self, mode='human'):
+    def render(self, ogm_for_vis,mode='human'):
         #print('enter crowd_sim_var_num/render')
         
         # change render to 2 robots
@@ -1114,27 +1063,46 @@ class CrowdSimVarNum(CrowdSim):
                 #             str(x_dif), # str( np.clip(np.arctan2(self.obst_directions[r][1], self.obst_directions[r][0])/np.pi,-0.5,0.5)% 2 - 0.5),#0.3* (np.clip(np.dot(np.array([-0.3,0.85]), self.obst_directions[r]),-0.1,1) - 0.6)),
                 #             color='black', fontsize=12))
             
+        # print(ogm_for_vis)
         
-        self.ob['occupancy_map'] = self.convert_to_3_channel_bitmap(self.ob['occupancy_map'])
+        # Convert numpy array to a PyTorch tensor
+        chan_0 = torch.from_numpy(self.ob['occupancy_map'][0])
+        # Convert tensor to float
+        chan_0 = chan_0.float()
+        chan_0=ogm_for_vis[0,0,0,:,:].cpu().float()
+        self.ob['occupancy_map'][1]=ogm_for_vis[0,0,1,:,:].cpu()
+        
+
+        # print(self.ob['occupancy_map'][1])
+        # exit()
+        #self.ob['occupancy_map'] = self.convert_to_3_channel_bitmap(self.ob['occupancy_map'])
         for i in range(self.map_size):
+            c=0
             for j in range(self.map_size):
                 global_x =  self.robots[0].px + (i - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta) - (j - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta)
                 global_y =  self.robots[0].py + (i - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta) + (j - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta)
+                # no negative? 
+                thes=0.1 * torch.max(chan_0)
+                
+               
+                if chan_0[i, j]> thes:
+                    alpha_value = chan_0[i, j].item()
+                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=alpha_value, linewidth=0, edgecolor='none',)
+                    ax.add_artist(ogm)
+                    artists.append(ogm)
+                    c+=1
+                # if self.ob['occupancy_map'][1][i, j] > 0:
                     
-                if self.ob['occupancy_map'][0][i, j]> 0:
-                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=self.ob['occupancy_map'][0][i, j], linewidth=0, edgecolor='none',)
-                    ax.add_artist(ogm)
-                    artists.append(ogm)
+                #     ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][1][i, j].clip(0,1)*0.8, linewidth=0, edgecolor='none',)
+                #     ax.add_artist(ogm)
+                #     artists.append(ogm)
+                #print('occ_percentage : {}'.format(c/(self.map_size*self.map_size)))
 
-                if self.ob['occupancy_map'][1][i, j] > 0:
-                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='blue', alpha=self.ob['occupancy_map'][1][i, j]*0.8, linewidth=0, edgecolor='none',)
-                    ax.add_artist(ogm)
-                    artists.append(ogm)
-
-                if self.ob['occupancy_map'][2][i, j] > 0:
-                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
-                    ax.add_artist(ogm)
-                    artists.append(ogm)
+                
+                # if self.ob['occupancy_map'][2][i, j] > 0:
+                #     ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
+                #     ax.add_artist(ogm)
+                #     artists.append(ogm)
 
         # add arrow of humans to show the direction
         for i, human in enumerate(self.humans):
@@ -1196,15 +1164,6 @@ class CrowdSimVarNum(CrowdSim):
         #     frame_path = os.path.join('frames', f"frame_{self.frame_count:04d}.png")
         #     plt.savefig(frame_path)
         #     self.frame_count += 1
-
-        # if the mode is 'record', save the frame
-        frame_dir = 'frames'
-        if mode == 'record':
-            frame_files = os.listdir(frame_dir)
-            frame_count = len(frame_files)
-            save_path = os.path.join(frame_dir, f"frame_{frame_count + 1:04d}.png")
-            plt.savefig(save_path)
-
         
         plt.pause(0.01)
         for item in artists:

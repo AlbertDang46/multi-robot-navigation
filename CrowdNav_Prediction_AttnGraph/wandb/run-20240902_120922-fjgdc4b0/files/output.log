@@ -1,0 +1,349 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:732: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:733: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Loaded the following checkpoint: trained_models/my_model/trans_pos_2/checkpoints/00200.pt
+tensor([[[[0.0000, 0.6000, 1.7756, 4.1679, 0.0339]]]], device='cuda:0')
+tensor([[[[0.2093, 0.6000, 1.8264, 4.1556, 6.0458]]]], device='cuda:0')
+tensor([[[[0.2514, 0.6000, 1.8822, 4.1266, 5.8037]]]], device='cuda:0')
+tensor([[[[0.2176, 0.6000, 1.9222, 4.0897, 5.5382]]]], device='cuda:0')
+tensor([[[[0.2141, 0.6000, 1.9505, 4.0443, 5.2701]]]], device='cuda:0')
+tensor([[[[0.2826, 0.6000, 1.9739, 3.9776, 5.0498]]]], device='cuda:0')
+tensor([[[[0.5147, 0.6000, 2.0092, 3.8539, 4.9905]]]], device='cuda:0')
+tensor([[[[0.5354, 0.6000, 2.0517, 3.7269, 5.0354]]]], device='cuda:0')
+tensor([[[[0.2708, 0.6000, 2.0581, 3.6595, 4.8067]]]], device='cuda:0')
+tensor([[[[0.2649, 0.6000, 2.0489, 3.5940, 4.5740]]]], device='cuda:0')
+tensor([[[[0.4479, 0.6000, 2.0453, 3.4820, 4.6796]]]], device='cuda:0')
+tensor([[[[0.4355, 0.6000, 2.0541, 3.3735, 4.7939]]]], device='cuda:0')
+tensor([[[[0.5405, 0.6000, 2.0707, 3.2394, 4.8352]]]], device='cuda:0')
+tensor([[[[0.2991, 0.6000, 2.0643, 3.1649, 4.6262]]]], device='cuda:0')
+tensor([[[[0.5408, 0.6000, 2.0471, 3.0308, 4.5851]]]], device='cuda:0')
+tensor([[[[0.5297, 0.6000, 2.0239, 2.9004, 4.5363]]]], device='cuda:0')
+tensor([[[[0.5482, 0.6000, 1.9951, 2.7665, 4.5003]]]], device='cuda:0')
+tensor([[[[0.5296, 0.6000, 1.9735, 2.6358, 4.5492]]]], device='cuda:0')
+tensor([[[[0.3605, 0.6000, 1.9444, 2.5505, 4.3829]]]], device='cuda:0')
+tensor([[[[0.5052, 0.6000, 1.9115, 2.4286, 4.4488]]]], device='cuda:0')
+tensor([[[[0.4733, 0.6000, 1.8707, 2.3175, 4.3608]]]], device='cuda:0')
+tensor([[[[0.3934, 0.6000, 1.8504, 2.2213, 4.5043]]]], device='cuda:0')
+tensor([[[[0.3155, 0.6000, 1.8496, 2.1424, 4.7019]]]], device='cuda:0')
+tensor([[[[0.3951, 0.6000, 1.8626, 2.0445, 4.8442]]]], device='cuda:0')
+tensor([[[[0.3988, 0.6000, 1.8618, 1.9448, 4.7045]]]], device='cuda:0')
+tensor([[[[0.5981, 0.6000, 1.8604, 1.7953, 4.7032]]]], device='cuda:0')
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:798: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:799: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+tensor([[[[0.3456, 0.6000, 1.8748, 1.7101, 4.8798]]]], device='cuda:0')
+tensor([[[[0.3042, 0.6000, 1.8719, 1.6341, 4.6744]]]], device='cuda:0')
+tensor([[[[0.3946, 0.6000, 1.8822, 1.5360, 4.8170]]]], device='cuda:0')
+tensor([[[[0.5541, 0.6000, 1.9010, 1.3988, 4.8489]]]], device='cuda:0')
+tensor([[[[0.4643, 0.6000, 1.9059, 1.2828, 4.7546]]]], device='cuda:0')
+Predictor Training Loss: 32.048784255981445 KL Loss: 256.5163167317708 CE Loss: 29.48362096150716
+Avg wmse 0.28955915570259094 Avg ssim 0.4487368166446686
+Predictor Training Loss: 26.99296696980794 KL Loss: 252.63226826985678 CE Loss: 24.466644287109375
+Avg wmse 0.22909432649612427 Avg ssim 0.5709821581840515
+Predictor Training Loss: 28.109102249145508 KL Loss: 255.0519561767578 CE Loss: 25.558582941691082
+Avg wmse 0.225818932056427 Avg ssim 0.5628173351287842
+Predictor Training Loss: 38.40692583719889 KL Loss: 251.66399637858072 CE Loss: 35.89028549194336
+Avg wmse 0.30005696415901184 Avg ssim 0.4185599386692047
+Predictor Training Loss: 36.45761362711588 KL Loss: 247.95201110839844 CE Loss: 33.97809410095215
+Avg wmse 0.2927387058734894 Avg ssim 0.4104917049407959
+tensor([[[[0.4643, 0.6000, 1.9059, 1.2828, 4.7546]]]], device='cuda:0')
+tensor([[[[0.4542, 0.6000, 1.8993, 1.1695, 4.6534]]]], device='cuda:0')
+tensor([[[[0.5284, 0.6000, 1.8849, 1.0381, 4.6037]]]], device='cuda:0')
+tensor([[[[0.4587, 0.6000, 1.8837, 0.9234, 4.7018]]]], device='cuda:0')
+tensor([[[[0.4768, 0.6000, 1.8926, 0.8046, 4.7874]]]], device='cuda:0')
+tensor([[[[0.5290, 0.6000, 1.9090, 0.6733, 4.8367]]]], device='cuda:0')
+tensor([[[[0.5637, 0.6000, 1.9230, 0.5331, 4.8115]]]], device='cuda:0')
+tensor([[[[0.3877, 0.6000, 1.9466, 0.4391, 4.9589]]]], device='cuda:0')
+tensor([[[[0.3949, 0.6000, 1.9569, 0.3409, 4.8165]]]], device='cuda:0')
+tensor([[[[0.3495, 0.6000, 1.9508, 0.2538, 4.6425]]]], device='cuda:0')
+tensor([[[[0.5368, 0.6000, 1.9473, 0.1196, 4.6864]]]], device='cuda:0')
+tensor([[[[0.4582, 0.6000, 1.9556, 0.0054, 4.7849]]]], device='cuda:0')
+tensor([[[[ 0.4074,  0.6000,  1.9764, -0.0943,  4.9186]]]], device='cuda:0')
+tensor([[[[ 0.5748,  0.6000,  2.0083, -0.2344,  4.9362]]]], device='cuda:0')
+tensor([[[[ 0.3719,  0.6000,  2.0144, -0.3272,  4.7778]]]], device='cuda:0')
+tensor([[[[ 0.3296,  0.6000,  2.0044, -0.4090,  4.5901]]]], device='cuda:0')
+tensor([[[[ 0.3351,  0.6000,  2.0095, -0.4926,  4.7740]]]], device='cuda:0')
+tensor([[[[ 0.5503,  0.6000,  2.0227, -0.6296,  4.8086]]]], device='cuda:0')
+tensor([[[[ 0.2688,  0.6000,  2.0138, -0.6962,  4.5786]]]], device='cuda:0')
+tensor([[[[ 0.3399,  0.6000,  1.9875, -0.7770,  4.3979]]]], device='cuda:0')
+tensor([[[[ 0.3657,  0.6000,  1.9737, -0.8673,  4.5607]]]], device='cuda:0')
+tensor([[[[ 0.4774,  0.6000,  1.9657, -0.9864,  4.6458]]]], device='cuda:0')
+tensor([[[[ 0.3935,  0.6000,  1.9452, -1.0826,  4.5024]]]], device='cuda:0')
+tensor([[[[ 0.4462,  0.6000,  1.9105, -1.1886,  4.3956]]]], device='cuda:0')
+tensor([[[[ 0.5557,  0.6000,  1.8713, -1.3219,  4.4264]]]], device='cuda:0')
+tensor([[[[ 0.4083,  0.6000,  1.8297, -1.4151,  4.2933]]]], device='cuda:0')
+tensor([[[[ 0.4812,  0.6000,  1.7719, -1.5206,  4.2108]]]], device='cuda:0')
+tensor([[[[ 0.3976,  0.6000,  1.7124, -1.6002,  4.0702]]]], device='cuda:0')
+tensor([[[[ 0.4000,  0.6000,  1.6641, -1.6878,  4.2091]]]], device='cuda:0')
+tensor([[[[ 0.2749,  0.6000,  1.6453, -1.7539,  4.4348]]]], device='cuda:0')
+tensor([[[[ 0.3388,  0.6000,  1.6372, -1.8382,  4.6162]]]], device='cuda:0')
+Predictor Training Loss: 25.045894622802734 KL Loss: 243.42074584960938 CE Loss: 22.61168670654297
+Avg wmse 0.20316027104854584 Avg ssim 0.5916761755943298
+Predictor Training Loss: 25.023361841837566 KL Loss: 241.2701873779297 CE Loss: 22.610659917195637
+Avg wmse 0.20183248817920685 Avg ssim 0.6059293150901794
+Predictor Training Loss: 27.607768376668293 KL Loss: 244.95903523763022 CE Loss: 25.158178329467773
+Avg wmse 0.22428743541240692 Avg ssim 0.5594808459281921
+Predictor Training Loss: 28.93118731180827 KL Loss: 243.8148396809896 CE Loss: 26.49303944905599
+Avg wmse 0.2275005728006363 Avg ssim 0.5425368547439575
+Predictor Training Loss: 26.53745396931966 KL Loss: 241.2188517252604 CE Loss: 24.12526512145996
+Avg wmse 0.21622835099697113 Avg ssim 0.5619966387748718
+tensor([[[[ 0.3388,  0.6000,  1.6372, -1.8382,  4.6162]]]], device='cuda:0')
+tensor([[[[ 0.3600,  0.6000,  1.6435, -1.9280,  4.7829]]]], device='cuda:0')
+tensor([[[[ 0.3639,  0.6000,  1.6350, -2.0186,  4.6189]]]], device='cuda:0')
+tensor([[[[ 0.5794,  0.6000,  1.6194, -2.1626,  4.6046]]]], device='cuda:0')
+tensor([[[[ 0.5939,  0.6000,  1.6041, -2.3103,  4.6089]]]], device='cuda:0')
+tensor([[[[ 0.4602,  0.6000,  1.5812, -2.4230,  4.5118]]]], device='cuda:0')
+tensor([[[[ 0.5859,  0.6000,  1.5534, -2.5669,  4.5216]]]], device='cuda:0')
+tensor([[[[ 0.2312,  0.6000,  1.5284, -2.6190,  4.2655]]]], device='cuda:0')
+tensor([[[[ 0.5740,  0.6000,  1.4687, -2.7495,  4.2835]]]], device='cuda:0')
+tensor([[[[ 0.4654,  0.6000,  1.4305, -2.8593,  4.3770]]]], device='cuda:0')
+tensor([[[[ 0.2899,  0.6000,  1.4218, -2.9313,  4.5924]]]], device='cuda:0')
+tensor([[[[ 0.3846,  0.6000,  1.4246, -3.0274,  4.7419]]]], device='cuda:0')
+tensor([[[[ 0.4081,  0.6000,  1.4412, -3.1281,  4.8752]]]], device='cuda:0')
+tensor([[[[ 0.3302,  0.6000,  1.4391, -3.2106,  4.6878]]]], device='cuda:0')
+tensor([[[[ 0.3894,  0.6000,  1.4509, -3.3072,  4.8341]]]], device='cuda:0')
+tensor([[[[ 0.5926,  0.6000,  1.4697, -3.4542,  4.8392]]]], device='cuda:0')
+tensor([[[[ 0.4848,  0.6000,  1.4754, -3.5752,  4.7592]]]], device='cuda:0')
+tensor([[[[ 0.2641,  0.6000,  1.4631, -3.6401,  4.5259]]]], device='cuda:0')
+tensor([[[[ 0.5746,  0.6000,  1.4390, -3.7817,  4.5436]]]], device='cuda:0')
+tensor([[[[ 0.4855,  0.6000,  1.4091, -3.8994,  4.4641]]]], device='cuda:0')
+tensor([[[[ 0.2945,  0.6000,  1.4065, -3.9730,  4.6762]]]], device='cuda:0')
+tensor([[[[ 0.4580,  0.6000,  1.3911, -4.0864,  4.5776]]]], device='cuda:0')
+tensor([[[[ 0.5946,  0.6000,  1.3706, -4.2336,  4.5738]]]], device='cuda:0')
+tensor([[[[ 0.4484,  0.6000,  1.3435, -4.3424,  4.4686]]]], device='cuda:0')
+tensor([[[[ 0.3660,  0.6000,  1.3074, -4.4265,  4.3061]]]], device='cuda:0')
+tensor([[[[ 0.5015,  0.6000,  1.2500, -4.5380,  4.2377]]]], device='cuda:0')
+tensor([[[[ 0.4164,  0.6000,  1.2146, -4.6359,  4.3652]]]], device='cuda:0')
+tensor([[[[ 0.3215,  0.6000,  1.1733, -4.7048,  4.1717]]]], device='cuda:0')
+tensor([[[[ 0.3537,  0.6000,  1.1413, -4.7873,  4.3428]]]], device='cuda:0')
+tensor([[[[ 0.5711,  0.6000,  1.0871, -4.9193,  4.3228]]]], device='cuda:0')
+tensor([[[[ 0.4437,  0.6000,  1.0563, -5.0259,  4.4313]]]], device='cuda:0')
+Predictor Training Loss: 21.747121175130207 KL Loss: 195.98192342122397 CE Loss: 19.787302017211914
+Avg wmse 0.18680262565612793 Avg ssim 0.6165763735771179
+Predictor Training Loss: 19.947954177856445 KL Loss: 196.6019287109375 CE Loss: 17.981934865315754
+Avg wmse 0.16953420639038086 Avg ssim 0.6670311093330383
+Predictor Training Loss: 17.491700490315754 KL Loss: 196.8804677327474 CE Loss: 15.522895495096842
+Avg wmse 0.16620033979415894 Avg ssim 0.7003663182258606
+Predictor Training Loss: 13.896579424540201 KL Loss: 216.67760213216147 CE Loss: 11.729803403218588
+Avg wmse 0.16627787053585052 Avg ssim 0.6645151972770691
+Predictor Training Loss: 12.740290323893229 KL Loss: 210.1442667643229 CE Loss: 10.638847668965658
+Avg wmse 0.1685585379600525 Avg ssim 0.6522814631462097
+tensor([[[[ 0.4437,  0.6000,  1.0563, -5.0259,  4.4313]]]], device='cuda:0')
+tensor([[[[ 0.0000,  0.6000, -3.1339,  0.6141,  4.0065]]]], device='cuda:0')
+tensor([[[[ 0.4215,  0.6000, -3.2117,  0.5430,  3.8825]]]], device='cuda:0')
+tensor([[[[ 0.4346,  0.6000, -3.2829,  0.4609,  3.9974]]]], device='cuda:0')
+tensor([[[[ 0.5844,  0.6000, -3.3799,  0.3516,  3.9866]]]], device='cuda:0')
+tensor([[[[ 0.2844,  0.6000, -3.4375,  0.3100,  3.7674]]]], device='cuda:0')
+tensor([[[[ 0.4357,  0.6000, -3.5179,  0.2366,  3.8815]]]], device='cuda:0')
+tensor([[[[ 0.3759,  0.6000, -3.5767,  0.1632,  4.0371]]]], device='cuda:0')
+tensor([[[[ 0.4054,  0.6000, -3.6288,  0.0763,  4.1723]]]], device='cuda:0')
+tensor([[[[ 0.5266,  0.6000, -3.6906, -0.0399,  4.2233]]]], device='cuda:0')
+tensor([[[[ 0.5300,  0.6000, -3.7471, -0.1598,  4.2719]]]], device='cuda:0')
+tensor([[[[ 0.5314,  0.6000, -3.7980, -0.2825,  4.3195]]]], device='cuda:0')
+tensor([[[[ 0.3086,  0.6000, -3.8126, -0.3583,  4.5219]]]], device='cuda:0')
+tensor([[[[ 0.3423,  0.6000, -3.8435, -0.4381,  4.3429]]]], device='cuda:0')
+tensor([[[[ 0.2703,  0.6000, -3.8816, -0.4939,  4.1139]]]], device='cuda:0')
+tensor([[[[ 0.4496,  0.6000, -3.9349, -0.5928,  4.2184]]]], device='cuda:0')
+tensor([[[[ 0.5233,  0.6000, -3.9907, -0.7112,  4.2716]]]], device='cuda:0')
+tensor([[[[ 0.4383,  0.6000, -4.0483, -0.8044,  4.1593]]]], device='cuda:0')
+tensor([[[[ 0.4378,  0.6000, -4.0949, -0.9034,  4.2720]]]], device='cuda:0')
+tensor([[[[ 0.4945,  0.6000, -4.1393, -1.0188,  4.3452]]]], device='cuda:0')
+tensor([[[[ 0.4938,  0.6000, -4.1750, -1.1370,  4.4190]]]], device='cuda:0')
+tensor([[[[ 0.3464,  0.6000, -4.2142, -1.2142,  4.2429]]]], device='cuda:0')
+tensor([[[[ 0.3699,  0.6000, -4.2686, -1.2890,  4.0831]]]], device='cuda:0')
+tensor([[[[ 0.4160,  0.6000, -4.3400, -1.3646,  3.9553]]]], device='cuda:0')
+tensor([[[[ 0.5068,  0.6000, -4.4328, -1.4508,  3.8906]]]], device='cuda:0')
+tensor([[[[ 0.3566,  0.6000, -4.4870, -1.5216,  4.0596]]]], device='cuda:0')
+tensor([[[[ 0.3886,  0.6000, -4.5341, -1.6066,  4.2065]]]], device='cuda:0')
+tensor([[[[ 0.5396,  0.6000, -4.6043, -1.7218,  4.1645]]]], device='cuda:0')
+tensor([[[[ 0.5982,  0.6000, -4.6824, -1.8493,  4.1633]]]], device='cuda:0')
+tensor([[[[ 0.3847,  0.6000, -4.7198, -1.9379,  4.3128]]]], device='cuda:0')
+tensor([[[[ 0.4344,  0.6000, -4.7732, -2.0325,  4.1978]]]], device='cuda:0')
+Predictor Training Loss: 24.94032605489095 KL Loss: 206.5453084309896 CE Loss: 22.87487284342448
+Avg wmse 0.31509819626808167 Avg ssim 0.4411211907863617
+Predictor Training Loss: 17.43659273783366 KL Loss: 205.79237365722656 CE Loss: 15.378668467203775
+Avg wmse 0.24385036528110504 Avg ssim 0.5295949578285217
+Predictor Training Loss: 9.926697731018066 KL Loss: 206.51256306966147 CE Loss: 7.8615719477335615
+Avg wmse 0.1746969223022461 Avg ssim 0.6042635440826416
+Predictor Training Loss: 13.587246576944986 KL Loss: 203.23414103190103 CE Loss: 11.55490493774414
+Avg wmse 0.19928695261478424 Avg ssim 0.5314271450042725
+Predictor Training Loss: 13.120769182840982 KL Loss: 220.92879740397134 CE Loss: 10.911481221516928
+Avg wmse 0.17589277029037476 Avg ssim 0.6064109206199646
+tensor([[[[ 0.4344,  0.6000, -4.7732, -2.0325,  4.1978]]]], device='cuda:0')
+tensor([[[[ 0.3876,  0.6000, -4.8328, -2.1089,  4.0503]]]], device='cuda:0')
+tensor([[[[ 0.5263,  0.6000, -4.9189, -2.2084,  3.9991]]]], device='cuda:0')
+tensor([[[[ 0.5181,  0.6000, -4.9980, -2.3110,  4.0560]]]], device='cuda:0')
+tensor([[[[ 0.3219,  0.6000, -5.0339, -2.3830,  4.2491]]]], device='cuda:0')
+tensor([[[[ 0.5396,  0.6000, -5.0891, -2.5061,  4.2910]]]], device='cuda:0')
+tensor([[[[ 0.4836,  0.6000, -5.1295, -2.6200,  4.3719]]]], device='cuda:0')
+tensor([[[[ 0.2942,  0.6000, -5.1389, -2.6930,  4.5842]]]], device='cuda:0')
+tensor([[[[ 0.3990,  0.6000, -5.1377, -2.7927,  4.7238]]]], device='cuda:0')
+tensor([[[[ 0.3347,  0.6000, -5.1521, -2.8752,  4.5396]]]], device='cuda:0')
+tensor([[[[ 0.5083,  0.6000, -5.1819, -2.9987,  4.4759]]]], device='cuda:0')
+tensor([[[[ 0.2630,  0.6000, -5.2117, -3.0573,  4.2418]]]], device='cuda:0')
+tensor([[[[ 0.3490,  0.6000, -5.2641, -3.1270,  4.0675]]]], device='cuda:0')
+tensor([[[[ 0.4068,  0.6000, -5.3356, -3.1994,  3.9333]]]], device='cuda:0')
+tensor([[[[ 0.3074,  0.6000, -5.3995, -3.2421,  3.7301]]]], device='cuda:0')
+tensor([[[[ 0.3982,  0.6000, -5.4738, -3.3083,  3.8702]]]], device='cuda:0')
+tensor([[[[ 0.3235,  0.6000, -5.5227, -3.3727,  4.0623]]]], device='cuda:0')
+tensor([[[[ 0.4355,  0.6000, -5.5981, -3.4513,  3.9480]]]], device='cuda:0')
+tensor([[[[ 0.3149,  0.6000, -5.6403, -3.5177,  4.1460]]]], device='cuda:0')
+tensor([[[[ 0.5906,  0.6000, -5.7187, -3.6428,  4.1526]]]], device='cuda:0')
+tensor([[[[ 0.4077,  0.6000, -5.7609, -3.7356,  4.2861]]]], device='cuda:0')
+tensor([[[[ 0.5431,  0.6000, -5.8219, -3.8570,  4.2466]]]], device='cuda:0')
+tensor([[[[ 0.3858,  0.6000, -5.8775, -3.9358,  4.0978]]]], device='cuda:0')
+tensor([[[[ 0.4584,  0.6000, -5.9524, -4.0225,  3.9995]]]], device='cuda:0')
+tensor([[[[ 0.5914,  0.6000, -6.0498, -4.1337,  3.9935]]]], device='cuda:0')
+tensor([[[[ 0.2798,  0.6000, -6.0831, -4.1952,  4.2159]]]], device='cuda:0')
+tensor([[[[ 0.5043,  0.6000, -6.1357, -4.3098,  4.2824]]]], device='cuda:0')
+tensor([[[[ 0.3823,  0.6000, -6.1881, -4.3897,  4.1312]]]], device='cuda:0')
+tensor([[[[ 0.4660,  0.6000, -6.2428, -4.4926,  4.2242]]]], device='cuda:0')
+tensor([[[[ 0.3991,  0.6000, -6.3014, -4.5733,  4.0848]]]], device='cuda:0')
+tensor([[[[ 0.5478,  0.6000, -6.3857, -4.6812,  4.0485]]]], device='cuda:0')
+Predictor Training Loss: 21.289587020874023 KL Loss: 194.95374552408853 CE Loss: 19.340049107869465
+Avg wmse 0.2847086191177368 Avg ssim 0.482891708612442
+Predictor Training Loss: 18.368661244710285 KL Loss: 198.03998311360678 CE Loss: 16.388261795043945
+Avg wmse 0.25128912925720215 Avg ssim 0.5471052527427673
+Predictor Training Loss: 19.719586690266926 KL Loss: 201.10427856445312 CE Loss: 17.708543459574383
+Avg wmse 0.27812862396240234 Avg ssim 0.49933043122291565
+Predictor Training Loss: 13.830617268880209 KL Loss: 188.81793212890625 CE Loss: 11.942438125610352
+Avg wmse 0.23791731894016266 Avg ssim 0.6069794297218323
+Predictor Training Loss: 11.664553960164389 KL Loss: 183.64867655436197 CE Loss: 9.828067143758139
+Avg wmse 0.21875019371509552 Avg ssim 0.6427658200263977
+tensor([[[[ 0.5478,  0.6000, -6.3857, -4.6812,  4.0485]]]], device='cuda:0')
+tensor([[[[ 0.4492,  0.6000, -6.4453, -4.7764,  4.1532]]]], device='cuda:0')
+tensor([[[[ 0.3016,  0.6000, -6.4713, -4.8472,  4.3605]]]], device='cuda:0')
+tensor([[[[ 0.4262,  0.6000, -6.4957, -4.9509,  4.4812]]]], device='cuda:0')
+tensor([[[[ 0.4796,  0.6000, -6.5134, -5.0695,  4.5648]]]], device='cuda:0')
+tensor([[[[ 0.5018,  0.6000, -6.5402, -5.1920,  4.4966]]]], device='cuda:0')
+tensor([[[[ 0.3641,  0.6000, -6.5740, -5.2766,  4.3328]]]], device='cuda:0')
+tensor([[[[ 0.5348,  0.6000, -6.6291, -5.3984,  4.2875]]]], device='cuda:0')
+tensor([[[[ 0.4285,  0.6000, -6.6613, -5.5005,  4.4065]]]], device='cuda:0')
+tensor([[[[ 0.5402,  0.6000, -6.6966, -5.6309,  4.4481]]]], device='cuda:0')
+tensor([[[[ 0.5946,  0.6000, -6.7349, -5.7745,  4.4518]]]], device='cuda:0')
+tensor([[[[ 0.4961,  0.6000, -6.7581, -5.8963,  4.5240]]]], device='cuda:0')
+tensor([[[[ 0.5950,  0.6000, -6.7865, -6.0424,  4.5205]]]], device='cuda:0')
+tensor([[[[ 0.3004,  0.6000, -6.8157, -6.1115,  4.3124]]]], device='cuda:0')
+tensor([[[[ 0.3799,  0.6000, -6.8390, -6.2036,  4.4653]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+Predictor Training Loss: 15.048577308654785 KL Loss: 196.11762491861978 CE Loss: 13.087401072184244
+Avg wmse 0.2121288776397705 Avg ssim 0.5868419408798218
+Predictor Training Loss: 22.63262875874837 KL Loss: 184.9588826497396 CE Loss: 20.783039728800457
+Avg wmse 0.23987746238708496 Avg ssim 0.528033971786499
+Predictor Training Loss: 39.12079620361328 KL Loss: 173.95457458496094 CE Loss: 37.3812510172526
+Avg wmse 0.334995836019516 Avg ssim 0.3426932394504547
+Predictor Training Loss: 20.25348663330078 KL Loss: 161.9753163655599 CE Loss: 18.63373374938965
+Avg wmse 0.2077275663614273 Avg ssim 0.49335646629333496
+Predictor Training Loss: 10.331198692321777 KL Loss: 158.52317810058594 CE Loss: 8.745966911315918
+Avg wmse 0.11401402950286865 Avg ssim 0.6605711579322815
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+Predictor Training Loss: 17.774433135986328 KL Loss: 172.32088724772134 CE Loss: 16.05122407277425
+Avg wmse 0.2419942021369934 Avg ssim 0.5428532958030701
+Predictor Training Loss: 20.267746925354004 KL Loss: 170.85290018717447 CE Loss: 18.55921745300293
+Avg wmse 0.2339365929365158 Avg ssim 0.5627211928367615
+Predictor Training Loss: 30.062819798787434 KL Loss: 183.82872517903647 CE Loss: 28.224533081054688
+Avg wmse 0.2885988652706146 Avg ssim 0.43359068036079407
+Predictor Training Loss: 13.771364053090414 KL Loss: 177.64835103352866 CE Loss: 11.994880517323812
+Avg wmse 0.11569314450025558 Avg ssim 0.675586998462677
+Predictor Training Loss: 6.631216208140056 KL Loss: 175.08178202311197 CE Loss: 4.880398591359456
+Avg wmse 0.0446445532143116 Avg ssim 0.8045210838317871
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.2622,  0.6000, -6.8398, -6.2692,  4.6999]]]], device='cuda:0')
+tensor([[[[ 0.0000,  0.6000,  4.4365, -5.6589,  1.2662]]]], device='cuda:0')
+tensor([[[[ 0.3052,  0.6000,  4.4441, -5.5829,  1.4709]]]], device='cuda:0')
+tensor([[[[ 0.2938,  0.6000,  4.4358, -5.5100,  1.6836]]]], device='cuda:0')
+tensor([[[[ 0.3913,  0.6000,  4.4109, -5.4154,  1.8285]]]], device='cuda:0')
+tensor([[[[ 0.5174,  0.6000,  4.3708, -5.2924,  1.8859]]]], device='cuda:0')
+tensor([[[[ 0.4886,  0.6000,  4.3240, -5.1795,  1.9632]]]], device='cuda:0')
+Traceback (most recent call last):
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py", line 368, in <module>
+    main()
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py", line 226, in main
+    envs.render(ogm_for_vis)
+  File "/home/liyiping/dev/MARL2_check_ogm_obst_/CrowdNav_Prediction_AttnGraph/baselines/baselines/common/vec_env/vec_env.py", line 167, in render
+    return self.venv.render(mode=mode)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/dummy_vec_env.py", line 91, in render
+    return self.envs[0].render(mode=mode)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/core.py", line 235, in render
+    return self.env.render(mode, **kwargs)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/crowd_sim/envs/crowd_sim_var_num.py", line 1088, in render
+    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=alpha_value, linewidth=0, edgecolor='none',)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/_api/deprecation.py", line 454, in wrapper
+    return func(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 712, in __init__
+    super().__init__(**kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/_api/deprecation.py", line 454, in wrapper
+    return func(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 98, in __init__
+    self._internal_update(kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 1186, in _internal_update
+    return self._update_props(
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/artist.py", line 1162, in _update_props
+    ret.append(func(v))
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/matplotlib/patches.py", line 377, in set_alpha
+    super().set_alpha(alpha)
+KeyboardInterrupt
+tensor([[[[ 0.3284,  0.6000,  4.2790, -5.1109,  2.1518]]]], device='cuda:0')
+tensor([[[[ 0.3609,  0.6000,  4.2426, -5.0283,  1.9858]]]], device='cuda:0')
+tensor([[[[ 0.5421,  0.6000,  4.1930, -4.9022,  1.9456]]]], device='cuda:0')
+tensor([[[[ 0.4296,  0.6000,  4.1422, -4.8076,  2.0639]]]], device='cuda:0')

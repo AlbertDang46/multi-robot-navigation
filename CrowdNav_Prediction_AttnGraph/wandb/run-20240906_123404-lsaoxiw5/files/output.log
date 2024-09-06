@@ -1,0 +1,43 @@
+Logging to /tmp/openai-2024-09-06-12-34-07-497681
+Creating dummy env object to get spaces
+Loaded the following checkpoint: trained_models/my_model/holonomic/checkpoints/35600.pt
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:937: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item).clone().detach() for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:938: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item).clone().detach() for item in self.lidar_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:944: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  all_robot_vel_pos_list=[[torch.tensor(item).clone().detach() for item in self.robot_vel_pos_deque[r]] for r in range(self.robot_num)]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:945: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  all_lidar_list=[[torch.tensor(item).clone().detach() for item in self.lidar_deque[r]] for r in range(self.robot_num)]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1027: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item).clone().detach() for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1028: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item).clone().detach() for item in self.lidar_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1036: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  all_robot_vel_pos_list=[[torch.tensor(item).clone().detach() for item in self.robot_vel_pos_deque[r]] for r in range(self.robot_num)]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1037: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  all_lidar_list=[[torch.tensor(item).clone().detach() for item in self.lidar_deque[r]] for r in range(self.robot_num)]
+Traceback (most recent call last):
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py", line 368, in <module>
+    main()
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py", line 294, in main
+    value_loss, action_loss, dist_entropy = agent.update(all_rollouts[robot_index],robot_index)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/ppo/ppo.py", line 66, in update
+    values, action_log_probs, dist_entropy, _ = self.actor_critic.evaluate_actions(
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/model.py", line 85, in evaluate_actions
+    value, actor_features, rnn_hxs,_= self.base(inputs, rnn_hxs, masks,robot_index)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 1091, in forward
+    new_target_lidar_=self.merge_all_lidar_data(new_target_lidar,target_pos_tensor,robot_index)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 866, in merge_all_lidar_data
+    connected=check_distance_above_range(target_pos_tensor_,broadcast_range=10)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 380, in check_distance_above_range
+    all_positions = all_positions[:,:,:,[2,3,4]]
+IndexError: too many indices for tensor of dimension 3

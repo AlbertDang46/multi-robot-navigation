@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 from typing import List
 from math import atan2, degrees, pi
@@ -119,13 +120,48 @@ class Lidar2d:
         return local_ogm
     
 
+def merge_lidar(lidar1,lidar2,x1,y1,theta1,x2,y2,theta2): #lidar 1 ego, lidar 2 other
+    dx = x1-x2
+    dy = y1-y2
+    th = theta1-theta2
+    x_odom = np.cos(th) * dx + np.sin(th) * dy
+    y_odom = np.sin(-th) * dx + np.cos(th) * dy
+    theta_odom = theta2 - th
+        
+    initial_angles = theta2  # Update this as per your data
+
+    # Compute Cartesian coordinates from polar coordinates for lidar2
+    distances = lidar2[:, 0]
+    angles = initial_angles + theta_odom  # Adjust angles by dtheta
+
+    distance_x = distances * np.cos(angles)
+    distance_y = distances * np.sin(angles)
+
+    
+    distances_x = distance_x + x_odom
+    distances_y = distance_y + y_odom
+    
+    # Calculate new distances from transformed coordinates
+    new_distances = np.sqrt(distances_x**2 + distances_y**2)
+    
+    # Update lidar2 data with new distances
+    lidar2[:, 0] = new_distances
+    # Initialize the merged lidar data with the same shape and device
+    merged_lidar = copy.deepcopy(lidar1)
+    
+    mask_new_obstacle=(lidar1[:, 1] == 0) & (lidar2[:, 1] != 0)
+    merged_lidar[mask_new_obstacle] = lidar2[mask_new_obstacle]
+    
+    mask_both_inf = (lidar1[:, 0] == float('inf')) & (lidar2[:, 0] == float('inf'))
+    merged_lidar[mask_both_inf] = lidar1[mask_both_inf]  # Could choose either since both are inf
+   
+    return merged_lidar
+
 
 def merge_ogm(local_ogm, recieved_ogm, relative_position: List[float],theta1 = 0, theta2 = 0,cell_length:float = 1, trust_rate : float = 0.5) -> np.ndarray:
     assert trust_rate >= 0 and trust_rate <= 1
     assert theta1 >= 0 and theta1 < 2*np.pi
     assert theta2 >= 0 and theta2 < 2*np.pi
-    #local_ogm = np.copy(local_ogm)
-
     local_rel_pos_x = relative_position[0] * np.cos(theta1) + relative_position[1] * np.sin(theta1)
     local_rel_pos_y = -relative_position[0] * np.sin(theta1) + relative_position[1] * np.cos(theta1)
     rel_x = (local_rel_pos_x/cell_length)
@@ -138,7 +174,6 @@ def merge_ogm(local_ogm, recieved_ogm, relative_position: List[float],theta1 = 0
 
     if (abs(2 * rel_x) > local_ogm.shape[1] + recieved_ogm.shape[1]) or (abs(2 *rel_y) > local_ogm.shape[2] + recieved_ogm.shape[2]):
         return local_ogm
-    
     for i in range(recieved_ogm.shape[1]):
         for j in range(recieved_ogm.shape[2]):
             if recieved_ogm[1,i,j] == -1 :

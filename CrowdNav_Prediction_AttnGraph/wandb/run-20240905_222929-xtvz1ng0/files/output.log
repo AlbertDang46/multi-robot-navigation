@@ -1,0 +1,14 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Traceback (most recent call last):
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py", line 368, in <module>
+    main()
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py", line 102, in main
+    actor_critic = Policy(
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/model.py", line 27, in __init__
+    self.base = base(obs_shape, base_kwargs)
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py", line 544, in __init__
+    self.robot_num=self.args.robot_num
+AttributeError: 'Namespace' object has no attribute 'robot_num'
+Logging to /tmp/openai-2024-09-05-22-29-32-648934
+Creating dummy env object to get spaces

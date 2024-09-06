@@ -52,13 +52,15 @@ class Policy(nn.Module):
     def forward(self, inputs, rnn_hxs, masks):
         raise NotImplementedError
 
-    def act(self, inputs, rnn_hxs, masks, deterministic=False):
+    def act(self, inputs, rnn_hxs, masks, robot_index,deterministic=False):
         if not hasattr(self, 'srnn'):
             self.srnn = False
         if self.srnn:
-            value, actor_features, rnn_hxs = self.base(inputs, rnn_hxs, masks, infer=True)
+            #enter here
+            value, actor_features, rnn_hxs,ogm_for_vis= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
 
         else:
+           
             value, actor_features, rnn_hxs = self.base(inputs, rnn_hxs, masks)
         dist = self.dist(actor_features)
 
@@ -70,17 +72,17 @@ class Policy(nn.Module):
         action_log_probs = dist.log_probs(action)
         dist_entropy = dist.entropy().mean()
 
-        return value, action, action_log_probs, rnn_hxs
+        return value, action, action_log_probs, rnn_hxs,ogm_for_vis
 
-    def get_value(self, inputs, rnn_hxs, masks):
+    def get_value(self, inputs, rnn_hxs, masks,robot_index):
 
-        value, _, _ = self.base(inputs, rnn_hxs, masks, infer=True)
+        value, _, _ ,_= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
 
         return value
 
-    def evaluate_actions(self, inputs, rnn_hxs, masks, action):
+    def evaluate_actions(self, inputs, rnn_hxs, masks, robot_index,action):
         #print("inputs",inputs)
-        value, actor_features, rnn_hxs = self.base(inputs, rnn_hxs, masks)
+        value, actor_features, rnn_hxs,_= self.base(inputs, rnn_hxs, masks,robot_index)
         #print("actor_features",actor_features)
         dist = self.dist(actor_features)
 

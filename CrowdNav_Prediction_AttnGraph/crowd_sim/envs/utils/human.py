@@ -9,7 +9,6 @@ class Human(Agent):
         self.isObstacle = False # whether the human is a static obstacle (part of wall) or a moving agent
         self.id = None # the human's ID, used for collecting traj data
         self.observed_id = -1 # if it is observed, give it a tracking ID
-        self.goal_list = []
 
     # ob: a list of observable states
     def act(self, ob):

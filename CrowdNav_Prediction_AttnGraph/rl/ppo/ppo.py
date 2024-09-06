@@ -33,7 +33,7 @@ class PPO():
 
 
 
-    def update(self, rollouts):
+    def update(self, rollouts,robot_index):
         #print("rollouts",rollouts.obs)#generate robot_node all zeros why?
         advantages = rollouts.returns[:-1] - rollouts.value_preds[:-1]
         advantages = (advantages - advantages.mean()) / (
@@ -64,7 +64,7 @@ class PPO():
 
                 # Reshape to do in a single forward pass for all steps
                 values, action_log_probs, dist_entropy, _ = self.actor_critic.evaluate_actions(
-                    obs_batch, recurrent_hidden_states_batch, masks_batch,
+                    obs_batch, recurrent_hidden_states_batch, masks_batch,robot_index,
                     actions_batch)
 
                 ratio = torch.exp(action_log_probs -
@@ -84,13 +84,13 @@ class PPO():
                                                  value_losses_clipped).mean()
                 else:
                     value_loss = 0.5 * (return_batch - values).pow(2).mean()
-
-                self.optimizer.zero_grad()
-                total_loss=value_loss * self.value_loss_coef + action_loss - dist_entropy * self.entropy_coef
-                total_loss.backward()
-                nn.utils.clip_grad_norm_(self.actor_critic.parameters(),
-                                         self.max_grad_norm)
-                self.optimizer.step()
+                
+                # self.optimizer.zero_grad()
+                # total_loss=value_loss * self.value_loss_coef + action_loss - dist_entropy * self.entropy_coef
+                # total_loss.backward()
+                # nn.utils.clip_grad_norm_(self.actor_critic.parameters(),
+                #                          self.max_grad_norm)
+                # self.optimizer.step()
 
                 value_loss_epoch += value_loss.item()
                 action_loss_epoch += action_loss.item()

@@ -1,0 +1,115 @@
+Logging to /tmp/openai-2024-09-04-00-25-37-585903
+Creating dummy env object to get spaces
+Loaded the following checkpoint: trained_models/my_model/middle_fusion_2/checkpoints/00200.pt
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:942: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:943: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1247.8094482421875 KL Loss: 400.81504313151044 CE Loss: 1243.8013102213542
+Avg wmse 0.44859907031059265 Avg ssim 0.11015167087316513
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1033: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_middle_fusion/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:1034: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1081.951416015625 KL Loss: 400.7020772298177 CE Loss: 1077.9444173177083
+Avg wmse 0.429397851228714 Avg ssim 0.15467572212219238
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 998.6925862630209 KL Loss: 400.2263590494792 CE Loss: 994.6903279622396
+Avg wmse 0.41628575325012207 Avg ssim 0.18451422452926636
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1030.2557779947917 KL Loss: 396.78785196940106 CE Loss: 1026.2879231770833
+Avg wmse 0.42702922224998474 Avg ssim 0.16421204805374146
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1007.8121134440104 KL Loss: 398.62668863932294 CE Loss: 1003.8258463541666
+Avg wmse 0.42296838760375977 Avg ssim 0.17120234668254852
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 948.7186482747396 KL Loss: 399.0987141927083 CE Loss: 944.7276407877604
+Avg wmse 0.40322843194007874 Avg ssim 0.20778031647205353
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 940.6814982096354 KL Loss: 399.903076171875 CE Loss: 936.6824544270834
+Avg wmse 0.3917045593261719 Avg ssim 0.22788630425930023
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 962.8859252929688 KL Loss: 399.9281514485677 CE Loss: 958.8866373697916
+Avg wmse 0.39093708992004395 Avg ssim 0.22994481027126312
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 899.2363891601562 KL Loss: 400.9205017089844 CE Loss: 895.2271728515625
+Avg wmse 0.3796055316925049 Avg ssim 0.25640472769737244
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 848.4483235677084 KL Loss: 402.3768005371094 CE Loss: 844.424560546875
+Avg wmse 0.37226834893226624 Avg ssim 0.2743489444255829
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1243.8551025390625 KL Loss: 427.2486267089844 CE Loss: 1239.5826416015625
+Avg wmse 0.4550892114639282 Avg ssim 0.11128436774015427
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1146.0755208333333 KL Loss: 429.6900227864583 CE Loss: 1141.7786458333333
+Avg wmse 0.43845677375793457 Avg ssim 0.1430278867483139
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1048.4156901041667 KL Loss: 427.8149007161458 CE Loss: 1044.1375325520833
+Avg wmse 0.4135459363460541 Avg ssim 0.1889926642179489
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1050.891092936198 KL Loss: 429.3975016276042 CE Loss: 1046.5971272786458
+Avg wmse 0.4073132276535034 Avg ssim 0.1976218968629837
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 1016.2389119466146 KL Loss: 431.16339111328125 CE Loss: 1011.9272664388021
+Avg wmse 0.40131017565727234 Avg ssim 0.20826978981494904
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 941.1020914713541 KL Loss: 434.54750569661456 CE Loss: 936.7566324869791
+Avg wmse 0.38968315720558167 Avg ssim 0.23353822529315948
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 911.548095703125 KL Loss: 436.8424072265625 CE Loss: 907.1796671549479
+Avg wmse 0.3844050168991089 Avg ssim 0.24556928873062134
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 916.0177815755209 KL Loss: 435.2518819173177 CE Loss: 911.6652628580729
+Avg wmse 0.3812519609928131 Avg ssim 0.2518167793750763
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 870.2765096028646 KL Loss: 434.65394083658856 CE Loss: 865.9299723307291
+Avg wmse 0.3706112802028656 Avg ssim 0.2746712267398834
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+torch.Size([3, 1, 16, 1, 5])
+Predictor Training Loss: 829.1577758789062 KL Loss: 431.1899820963542 CE Loss: 824.8458862304688
+Avg wmse 0.3584427833557129 Avg ssim 0.29892557859420776

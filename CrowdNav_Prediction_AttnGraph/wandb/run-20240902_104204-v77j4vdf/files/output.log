@@ -1,0 +1,124 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:732: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:733: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Loaded the following checkpoint: trained_models/my_model/trans_pos_2/checkpoints/00200.pt
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:802: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  ogm_list=[torch.tensor(item) for item in self.ogm_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:803: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:804: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Predictor Training Loss: 14.604586283365885 KL Loss: 259.50091552734375 CE Loss: 12.009577115376791
+Avg wmse 0.1814020872116089 Avg ssim 0.642846941947937
+Predictor Training Loss: 14.4820343653361 KL Loss: 247.761474609375 CE Loss: 12.004419326782227
+Avg wmse 0.15579791367053986 Avg ssim 0.7110834121704102
+Predictor Training Loss: 18.103342692057293 KL Loss: 240.91905721028647 CE Loss: 15.694152196248373
+Avg wmse 0.19527912139892578 Avg ssim 0.6398105621337891
+Predictor Training Loss: 32.42054812113444 KL Loss: 236.7700653076172 CE Loss: 30.052847544352215
+Avg wmse 0.29096558690071106 Avg ssim 0.4469422996044159
+Predictor Training Loss: 28.87632942199707 KL Loss: 227.05602518717447 CE Loss: 26.60576883951823
+Avg wmse 0.2774756848812103 Avg ssim 0.4450850486755371
+Predictor Training Loss: 20.656853357950848 KL Loss: 202.83942667643228 CE Loss: 18.628459294637043
+Avg wmse 0.21794390678405762 Avg ssim 0.4839828908443451
+Predictor Training Loss: 21.43286387125651 KL Loss: 202.95128885904947 CE Loss: 19.403350830078125
+Avg wmse 0.21622149646282196 Avg ssim 0.5352739095687866
+Predictor Training Loss: 26.305779139200848 KL Loss: 222.44227600097656 CE Loss: 24.081356684366863
+Avg wmse 0.2505227327346802 Avg ssim 0.5167841911315918
+Predictor Training Loss: 32.188551584879555 KL Loss: 203.3329111735026 CE Loss: 30.155222574869793
+Avg wmse 0.3336890637874603 Avg ssim 0.3564867079257965
+Predictor Training Loss: 29.365010579427082 KL Loss: 203.6717987060547 CE Loss: 27.328292846679688
+Avg wmse 0.32654550671577454 Avg ssim 0.3646377623081207
+Predictor Training Loss: 29.675947189331055 KL Loss: 234.38602193196616 CE Loss: 27.33208719889323
+Avg wmse 0.29976868629455566 Avg ssim 0.41880837082862854
+Predictor Training Loss: 28.443850835164387 KL Loss: 223.61810302734375 CE Loss: 26.207669576009113
+Avg wmse 0.27348291873931885 Avg ssim 0.4722164571285248
+Predictor Training Loss: 29.119735717773438 KL Loss: 208.72547912597656 CE Loss: 27.032480875651043
+Avg wmse 0.28707918524742126 Avg ssim 0.44215497374534607
+Predictor Training Loss: 31.306997934977215 KL Loss: 242.22124226888022 CE Loss: 28.884784698486328
+Avg wmse 0.26206910610198975 Avg ssim 0.5061008930206299
+Predictor Training Loss: 31.02458381652832 KL Loss: 237.6916300455729 CE Loss: 28.647667566935223
+Avg wmse 0.25201669335365295 Avg ssim 0.5356801152229309
+Predictor Training Loss: 31.116974512736004 KL Loss: 239.16778055826822 CE Loss: 28.725296020507812
+Avg wmse 0.3047507107257843 Avg ssim 0.35041752457618713
+Predictor Training Loss: 20.653594970703125 KL Loss: 220.35391743977866 CE Loss: 18.450056076049805
+Avg wmse 0.16235630214214325 Avg ssim 0.4430452585220337
+Predictor Training Loss: 9.439152081807455 KL Loss: 191.38017781575522 CE Loss: 7.525350252787272
+Avg wmse 0.009407044388353825 Avg ssim 0.5733965039253235
+Predictor Training Loss: 15.862374623616537 KL Loss: 177.82249959309897 CE Loss: 14.084149519602457
+Avg wmse 0.1710721254348755 Avg ssim 0.5798457860946655
+Predictor Training Loss: 17.57617441813151 KL Loss: 184.27769470214844 CE Loss: 15.733397483825684
+Avg wmse 0.24047885835170746 Avg ssim 0.5498895049095154
+Predictor Training Loss: 23.831584930419922 KL Loss: 172.49893188476562 CE Loss: 22.106595357259113
+Avg wmse 0.2768132984638214 Avg ssim 0.46413978934288025
+Predictor Training Loss: 14.3039391040802 KL Loss: 187.06851704915366 CE Loss: 12.433253844579061
+Avg wmse 0.1575353890657425 Avg ssim 0.6872178912162781
+Predictor Training Loss: 2.7175848484039307 KL Loss: 214.8889923095703 CE Loss: 0.5686949193477631
+Avg wmse 0.0001404924551025033 Avg ssim 0.9925820231437683
+Predictor Training Loss: 24.06082073847453 KL Loss: 184.276611328125 CE Loss: 22.21805453300476
+Avg wmse 0.23379825055599213 Avg ssim 0.5532592535018921
+Predictor Training Loss: 26.383548100789387 KL Loss: 168.65532938639322 CE Loss: 24.69699478149414
+Avg wmse 0.2979094386100769 Avg ssim 0.4481896162033081
+Predictor Training Loss: 13.527329762776693 KL Loss: 164.6733144124349 CE Loss: 11.880596478780111
+Avg wmse 0.18314404785633087 Avg ssim 0.6826395988464355
+Predictor Training Loss: 8.592989047368368 KL Loss: 171.62631225585938 CE Loss: 6.876726011435191
+Avg wmse 0.10483752936124802 Avg ssim 0.8144590258598328
+Predictor Training Loss: 2.285740296045939 KL Loss: 180.50843302408853 CE Loss: 0.480655958255132
+Avg wmse 0.00016011805564630777 Avg ssim 0.9928424954414368
+Predictor Training Loss: 22.265333255132038 KL Loss: 184.15133158365884 CE Loss: 20.423819581667583
+Avg wmse 0.1821422129869461 Avg ssim 0.6510310173034668
+Predictor Training Loss: 25.050358454386394 KL Loss: 190.42379252115884 CE Loss: 23.14612070719401
+Avg wmse 0.22354061901569366 Avg ssim 0.5773827433586121
+Predictor Training Loss: 19.28876241048177 KL Loss: 196.70331319173178 CE Loss: 17.3217290242513
+Avg wmse 0.221225306391716 Avg ssim 0.5759117603302002
+Predictor Training Loss: 14.763969421386719 KL Loss: 177.7527872721354 CE Loss: 12.986441612243652
+Avg wmse 0.1923152357339859 Avg ssim 0.7086234092712402
+Predictor Training Loss: 9.997121493021647 KL Loss: 152.95110575358072 CE Loss: 8.467610836029053
+Avg wmse 0.24982613325119019 Avg ssim 0.7359811663627625
+Predictor Training Loss: 20.45624033610026 KL Loss: 171.9054412841797 CE Loss: 18.737185796101887
+Avg wmse 0.24247099459171295 Avg ssim 0.5556840300559998
+Predictor Training Loss: 23.496220270792644 KL Loss: 187.01846822102866 CE Loss: 21.62603505452474
+Avg wmse 0.21015773713588715 Avg ssim 0.5460518002510071
+Predictor Training Loss: 21.30736796061198 KL Loss: 175.05335998535156 CE Loss: 19.556833902994793
+Avg wmse 0.21040648221969604 Avg ssim 0.5700607299804688
+Predictor Training Loss: 13.272382418314615 KL Loss: 174.07910664876303 CE Loss: 11.531591256459555
+Avg wmse 0.11252623051404953 Avg ssim 0.6901095509529114
+Predictor Training Loss: 3.422262748082479 KL Loss: 147.40167744954428 CE Loss: 1.9482460419336955
+Avg wmse 0.0006413281080313027 Avg ssim 0.8743334412574768
+Predictor Training Loss: 16.055726528167725 KL Loss: 143.00422159830728 CE Loss: 14.62568442026774
+Avg wmse 0.18064267933368683 Avg ssim 0.6292033195495605
+Predictor Training Loss: 17.70508925120036 KL Loss: 139.8690948486328 CE Loss: 16.306398391723633
+Avg wmse 0.21911698579788208 Avg ssim 0.6009455919265747
+Predictor Training Loss: 25.692475001017254 KL Loss: 146.26420084635416 CE Loss: 24.229832967122395
+Avg wmse 0.31672203540802 Avg ssim 0.38903555274009705
+Predictor Training Loss: 17.657353083292644 KL Loss: 150.5801035563151 CE Loss: 16.151551882425945
+Avg wmse 0.2714571952819824 Avg ssim 0.5111221075057983
+Predictor Training Loss: 13.123478889465332 KL Loss: 144.0160115559896 CE Loss: 11.683319091796875
+Avg wmse 0.3025648891925812 Avg ssim 0.46468305587768555
+Predictor Training Loss: 9.470335642496744 KL Loss: 147.96444193522134 CE Loss: 7.990691343943278
+Avg wmse 0.18661154806613922 Avg ssim 0.6763864159584045
+Predictor Training Loss: 7.836297353108724 KL Loss: 150.88696797688803 CE Loss: 6.327427705128987
+Avg wmse 0.12822353839874268 Avg ssim 0.7884483337402344
+Predictor Training Loss: 25.350009282430012 KL Loss: 140.94727579752603 CE Loss: 23.940536499023438
+Avg wmse 0.26128700375556946 Avg ssim 0.537031352519989
+Predictor Training Loss: 15.170415878295898 KL Loss: 133.34539286295572 CE Loss: 13.836961845556894
+Avg wmse 0.15956929326057434 Avg ssim 0.7173505425453186
+Predictor Training Loss: 1.8936547835667927 KL Loss: 124.0739974975586 CE Loss: 0.652914841969808
+Avg wmse 0.0003918489965144545 Avg ssim 0.9901997447013855
+Predictor Training Loss: 1.750789205233256 KL Loss: 124.84079488118489 CE Loss: 0.502381294965744
+Avg wmse 0.00027497299015522003 Avg ssim 0.994591236114502
+Predictor Training Loss: 1.827500303586324 KL Loss: 121.43493143717448 CE Loss: 0.6131510337193807
+Avg wmse 0.00039544622995890677 Avg ssim 0.9909793734550476
+Predictor Training Loss: 9.4666535059611 KL Loss: 136.30338033040366 CE Loss: 8.103619893391928
+Avg wmse 0.16321419179439545 Avg ssim 0.6549615263938904
+Predictor Training Loss: 12.728381792704264 KL Loss: 139.22258504231772 CE Loss: 11.336156209309896
+Avg wmse 0.2057909220457077 Avg ssim 0.6522693037986755
+Predictor Training Loss: 19.372018178304035 KL Loss: 156.8875732421875 CE Loss: 17.803141911824543
+Avg wmse 0.2631405293941498 Avg ssim 0.5366394519805908
+Predictor Training Loss: 27.190465291341145 KL Loss: 155.88528951009116 CE Loss: 25.63161277770996
+Avg wmse 0.28128787875175476 Avg ssim 0.4720032215118408
+Predictor Training Loss: 24.92775281270345 KL Loss: 164.19845581054688 CE Loss: 23.285767873128254

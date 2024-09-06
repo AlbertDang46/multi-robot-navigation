@@ -1,0 +1,148 @@
+{
+    "os": "Linux-6.8.0-40-generic-x86_64-with-glibc2.35",
+    "python": "3.10.14",
+    "heartbeatAt": "2024-09-06T15:05:12.947785",
+    "startedAt": "2024-09-06T15:05:11.273977",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/train.py",
+    "codePathLocal": "train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": null,
+        "commit": null
+    },
+    "email": "liyiping179@gmail.com",
+    "root": "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph",
+    "host": "liyiping-desktop",
+    "username": "liyiping",
+    "executable": "/home/liyiping/anaconda3/envs/CrowdNav2/bin/python",
+    "cpu_count": 14,
+    "cpu_count_logical": 20,
+    "cpu_freq": {
+        "current": 1111.95555,
+        "min": 400.0,
+        "max": 4400.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 553.742,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 1899.923,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 2043.439,
+            "min": 400.0,
+            "max": 5000.0
+        },
+        {
+            "current": 854.193,
+            "min": 400.0,
+            "max": 5000.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5000.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5000.0
+        },
+        {
+            "current": 1996.727,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 400.221,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 815.552,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 4800.0
+        },
+        {
+            "current": 401.991,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2152.918,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 399.006,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 400.786,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 1599.989,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 1706.531,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 1800.396,
+            "min": 400.0,
+            "max": 3700.0
+        },
+        {
+            "current": 1699.99,
+            "min": 400.0,
+            "max": 3700.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 227.47819137573242,
+            "used": 180.9215202331543
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+            "memory_total": 8585740288
+        }
+    ],
+    "memory": {
+        "total": 15.246742248535156
+    }
+}

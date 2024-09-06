@@ -6,12 +6,11 @@ from PIL import Image
 from crowd_sim.envs.utils.info import *
 import copy
 # 
-def create_gif_from_frames(frame_dir, gif_path, duration=2):
+def create_gif_from_frames(frame_dir, gif_path, duration=100):
     
     frames = [Image.open(os.path.join(frame_dir, f)) for f in sorted(os.listdir(frame_dir)) if f.endswith('.png')]
-    print(f"Creating GIF from {len(frames)} frames")
     if frames:
-        frames[0].save(gif_path, save_all=True, append_images=frames[1:], duration=0, loop=0, optimize=True, dpi = (120,120))
+        frames[0].save(gif_path, save_all=True, append_images=frames[1:], duration=duration, loop=0)
         print(f"GIF saved at {gif_path}")
     
 
@@ -90,12 +89,12 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         eval_recurrent_hidden_states = {}
 
         node_num = 1
-        edge_num = config.sim.robot_num + 1
-        eval_recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_processes, node_num, args.rnn_hidden_size,
+        edge_num = 20 + 1
+        eval_recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_processes, node_num, actor_critic.base.human_node_rnn_size,
                                                                      device=device)
 
         eval_recurrent_hidden_states['human_human_edge_rnn'] = torch.zeros(num_processes, edge_num,
-                                                                           args.human_human_edge_rnn_size,
+                                                                           actor_critic.base.human_human_edge_rnn_size,
                                                                            device=device)
 
     eval_masks = torch.zeros(num_processes, 1, device=device)
@@ -122,16 +121,6 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         baseEnv = eval_envs.venv.unwrapped.envs[0].env
     time_limit = baseEnv.time_limit
 
-    gif_dir = "gifs"
-    if os.path.exists(gif_dir):
-        file_list = os.listdir(gif_dir)
-        for file_name in file_list:
-            file_path = os.path.join(gif_dir, file_name)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
-    else:
-        os.makedirs(gif_dir)
-
     # start the testing episodes
     for k in range(test_size):
         gif_generated=False
@@ -151,21 +140,8 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         global_time = 0.0
         path_len = 0.
         too_close = 0.
-        last_pos = [obs['robot_info'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+        last_pos = [obs['robot_node'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
 
-        # Clear the frames folder
-        frame_dir = "frames"
-        if os.path.exists(frame_dir):
-            file_list = os.listdir(frame_dir)
-            for file_name in file_list:
-                file_path = os.path.join(frame_dir, file_name)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
-        else:
-            os.makedirs(frame_dir)
-        
-        
-         
 
         while not done:
             stepCounter = stepCounter + 1
@@ -203,15 +179,17 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
                 # send manager action to all processes
                 ack = eval_envs.talk2Env(out_pred)
                 assert all(ack)
-            
-
+            # 创建一个目录来存储帧
+            frame_dir = "frames"
+            if not os.path.exists(frame_dir):
+                os.makedirs(frame_dir)
             
             if visualize:
-                eval_envs.render(mode = 'record')
-            # if not gif_generated and k==0:
-            #     create_gif_from_frames(frame_dir, "evaluation0.gif")
-            #     eval_envs.frame_count=0
-            #     gif_generated=True
+                eval_envs.render()
+            if not gif_generated and k==0:
+                create_gif_from_frames(frame_dir, "evaluation0.gif")
+                eval_envs.frame_count=0
+                gif_generated=True
                 
             
 
@@ -232,8 +210,8 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
                 single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
             
         
-            path_len = path_len + np.linalg.norm(single_obs['robot_info'][0, 0, :2].cpu().numpy() - last_pos)
-            last_pos = [obs['robot_info'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+            path_len = path_len + np.linalg.norm(single_obs['robot_node'][0, 0, :2].cpu().numpy() - last_pos)
+            last_pos = [obs['robot_node'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
 
 
             if isinstance(infos[0]['info'], Danger):
@@ -258,9 +236,7 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         print('Episode', k, 'ends in', stepCounter)
         all_path_len.append(path_len)
         too_close_ratios.append(too_close/stepCounter*100)
-        
-        if visualize:
-            create_gif_from_frames(frame_dir,os.path.join("gifs",f"evaluation{k:04d}.gif"))
+
         
         if isinstance(infos[0]['info'], ReachGoal):
             success += num_robot

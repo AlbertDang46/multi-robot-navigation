@@ -1,0 +1,233 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/train.py:125: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  actor_critic.load_state_dict(torch.load(load_path),strict=False)
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:769: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:770: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+Loaded the following checkpoint: trained_models/my_model/trans_pos_4_clear_anglr/checkpoints/00200.pt
+1 1
+1 1
+1 1
+2 2
+2 2
+2 2
+3 3
+3 3
+3 3
+4 4
+4 4
+4 4
+5 5
+5 5
+5 5
+6 6
+6 6
+6 6
+7 7
+7 7
+7 7
+8 8
+8 8
+8 8
+9 9
+9 9
+9 9
+10 10
+10 10
+10 10
+11 11
+11 11
+11 11
+12 12
+12 12
+12 12
+13 13
+13 13
+13 13
+14 14
+14 14
+14 14
+15 15
+15 15
+15 15
+16 16
+16 16
+16 16
+17 17
+17 17
+17 17
+18 18
+18 18
+18 18
+19 19
+19 19
+19 19
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:842: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  robot_vel_pos_list=[torch.tensor(item) for item in self.robot_vel_pos_deque[robot_index]]
+/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos/CrowdNav_Prediction_AttnGraph/rl/networks/ogm_rnn.py:843: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  lidar_list=[torch.tensor(item) for item in self.lidar_deque[robot_index]]
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+Predictor Training Loss: 8.452753384908041 KL Loss: 330.30284627278644 CE Loss: 5.149724880854289
+Avg wmse 0.044355813413858414 Avg ssim 0.7117927670478821
+Predictor Training Loss: 8.473179817199707 KL Loss: 306.2404073079427 CE Loss: 5.410775979359944
+Avg wmse 0.10620791465044022 Avg ssim 0.7980806231498718
+Predictor Training Loss: 11.458576202392578 KL Loss: 305.4917297363281 CE Loss: 8.403658866882324
+Avg wmse 0.1779124140739441 Avg ssim 0.6909783482551575
+Predictor Training Loss: 9.698467254638672 KL Loss: 262.34120178222656 CE Loss: 7.075055281321208
+Avg wmse 0.18172414600849152 Avg ssim 0.7010014057159424
+Predictor Training Loss: 6.947733243306478 KL Loss: 238.32674662272134 CE Loss: 4.564465840657552
+Avg wmse 0.1365702748298645 Avg ssim 0.8080363273620605
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+Predictor Training Loss: 5.331106503804524 KL Loss: 234.77286275227866 CE Loss: 2.9833778540293374
+Avg wmse 0.14784817397594452 Avg ssim 0.6820747256278992
+Predictor Training Loss: 8.448575178782145 KL Loss: 220.13066609700522 CE Loss: 6.247268319129944
+Avg wmse 0.11953538656234741 Avg ssim 0.7393167614936829
+Predictor Training Loss: 13.947439511617025 KL Loss: 246.7389933268229 CE Loss: 11.480049769083658
+Avg wmse 0.21367059648036957 Avg ssim 0.6100083589553833
+Predictor Training Loss: 5.772181749343872 KL Loss: 209.0256144205729 CE Loss: 3.681925674279531
+Avg wmse 0.05805256962776184 Avg ssim 0.887589156627655
+Predictor Training Loss: 2.298804680506388 KL Loss: 194.2273915608724 CE Loss: 0.35653088490168255
+Avg wmse 0.0004328236391302198 Avg ssim 0.9971850514411926
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20
+20 20

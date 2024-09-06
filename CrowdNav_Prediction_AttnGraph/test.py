@@ -20,14 +20,14 @@ def test(is_train_test=False):
 	# the following parameters will be determined for each test run
 	parser = argparse.ArgumentParser('Parse configuration file')
 	# the model directory that we are testing
-	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/holonomic')
+	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/ogm_pred/')
 	# render the environment or not
 	parser.add_argument('--visualize', default=False, action='store_true')
 	#parser.add_argument('--robot_num', type=int, default=3)
 	# if -1, it will run 500 different cases; if >=0, it will run the specified test case repeatedly
 	parser.add_argument('--test_case', type=int, default=-1)
 	# model weight file you want to test
-	parser.add_argument('--test_model', type=str, default='35600.pt')
+	parser.add_argument('--test_model', type=str, default='01200.pt')
 	# whether to save trajectories of episodes
 	parser.add_argument('--render_traj', default=False, action='store_true')
 	# whether to save slide show of episodes
