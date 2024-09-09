@@ -571,7 +571,6 @@ class CrowdSimVarNum(CrowdSim):
         # if self.robot.kinematics == 'unicycle':
         #     self.desiredVelocity[0] = np.clip(self.desiredVelocity[0] + action.v, -self.robot.v_pref, self.robot.v_pref)
         #     action = ActionRot(self.desiredVelocity[0], action.r)
-     
         
         for i in range(self.robot_num):
             if self.robots[i].kinematics == 'holonomic':
@@ -604,10 +603,12 @@ class CrowdSimVarNum(CrowdSim):
         info_list=[]
 
         for i in range(self.robot_num):
+            
             reward, done, episode_info= self.calc_reward(i,actions[i], danger_zone='future')
             all_rewards+=reward
             rewards_list.append(reward)
             info_list.append(episode_info)
+            
             
                 
 
