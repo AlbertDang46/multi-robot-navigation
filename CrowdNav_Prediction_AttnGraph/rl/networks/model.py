@@ -57,7 +57,7 @@ class Policy(nn.Module):
             self.srnn = False
         if self.srnn:
             #enter here
-            value, actor_features, rnn_hxs,ogm_for_vis= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
+            value, actor_features, rnn_hxs,ogm_for_vis,lidar,vel_pos= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
 
         else:
            
@@ -72,17 +72,17 @@ class Policy(nn.Module):
         action_log_probs = dist.log_probs(action)
         dist_entropy = dist.entropy().mean()
 
-        return value, action, action_log_probs, rnn_hxs,ogm_for_vis
+        return value, action, action_log_probs, rnn_hxs,ogm_for_vis,lidar,vel_pos
 
     def get_value(self, inputs, rnn_hxs, masks,robot_index):
 
-        value, _, _ ,_= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
+        value, _, _ ,_,_,_= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
 
         return value
 
     def evaluate_actions(self, inputs, rnn_hxs, masks, robot_index,action):
         #print("inputs",inputs)
-        value, actor_features, rnn_hxs,_= self.base(inputs, rnn_hxs, masks,robot_index)
+        value, actor_features, rnn_hxs,_,_,_= self.base(inputs, rnn_hxs, masks,robot_index)
         #print("actor_features",actor_features)
         dist = self.dist(actor_features)
 
@@ -90,6 +90,5 @@ class Policy(nn.Module):
         dist_entropy = dist.entropy().mean()
 
         return value, action_log_probs, dist_entropy, rnn_hxs
-
 
 
