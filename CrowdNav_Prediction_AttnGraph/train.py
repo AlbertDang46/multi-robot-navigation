@@ -191,10 +191,11 @@ def main():
 	eval_all_hid_states = copy.deepcopy(all_hid_states)
 
 	
-	successful_actions = []
-	info_mask=[]
+	successful_lidar_seq= []
+	successful_vel_pos_seq=[]
 	# start the training loop
 	for j in range(num_updates):
+		
 		# schedule learning rate if needed
 		if algo_args.use_linear_lr_decay:
 			network_utils.update_linear_schedule(
@@ -203,26 +204,41 @@ def main():
 
 		generated_gif=False
 		# step the environment for a few times
-		current_episode_actions=[]
-		add=True
+		
+		current_episode_lidar=[]
+		current_episode_vel_pos=[]
+		add=0
 		for step in range(algo_args.num_steps):
+			
+			
 			# Sample actions
 			all_actions = []
 			all_values = []
 			all_log_probs = []
+			all_lidars=[]
+			all_vel_pos=[]
 			with torch.no_grad():
 				# get the action for each robot				
 				for i in range(config.sim.robot_num):
-					value_i, action_i, log_i, recurrent_hidden_states_i ,ogm_for_vis_i= actor_critic.act(
+					value_i, action_i, log_i, recurrent_hidden_states_i ,ogm_for_vis_i,lidar_i,vel_pos_i= actor_critic.act(
 						all_obs[i], all_hid_states[i],
 						all_rollouts[i].masks[step],i)
+					
 					if i == 0:
 						ogm_for_vis=ogm_for_vis_i
+					
 					all_values.append(value_i)
 					all_log_probs.append(log_i)
 					all_actions.append(action_i)					
-					all_hid_states[i]= copy.deepcopy(recurrent_hidden_states_i)					
+					all_hid_states[i]= copy.deepcopy(recurrent_hidden_states_i)
+					all_lidars.append(lidar_i)
+					all_vel_pos.append(vel_pos_i)			
 				all_actions = torch.stack(all_actions, dim=1)
+				all_lidars=torch.stack(all_lidars, dim=1).squeeze()
+				all_vel_pos=torch.stack(all_vel_pos, dim=1).squeeze()
+			current_episode_lidar.append(all_lidars.cpu().numpy())
+			current_episode_vel_pos.append(all_vel_pos.cpu().numpy())
+				
 				
 			
 			if config.sim.render:
@@ -231,9 +247,9 @@ def main():
 				# 	create_gif_from_frames(frame_dir, "evaluation_{}.gif".format(j))
 				# 	envs.frame_count=0
 				# 	generated_gif=True
-
+			
 			obs, rewards, done, infos= envs.step(all_actions)
-			current_episode_actions.append(all_actions.cpu().numpy())
+			
 			
 			for r in range(config.sim.robot_num):
 				single_obs = {}
@@ -250,7 +266,10 @@ def main():
 					episode_rewards.append(info['episode']['r'])
 				if 'info' in info.keys():
 					if isinstance(info['info'],ReachGoal):
-						add=True
+						add=1
+						
+						
+						
 
 			# If done then clean the history of observations.
 			masks = torch.FloatTensor(
@@ -273,7 +292,10 @@ def main():
 
 				all_rollouts[robot_index].insert(single_obs, all_hid_states[robot_index], torch.stack([all_action[robot_index] for all_action in all_actions]),
 							all_log_probs[robot_index], all_values[robot_index], torch.tensor(rewards[:,robot_index:robot_index+1]), masks, bad_masks)
-		
+		if add==1:
+			print(len(current_episode_lidar),len(current_episode_vel_pos))
+			successful_lidar_seq.append(current_episode_lidar)
+			successful_vel_pos_seq.append(current_episode_vel_pos)
 		with torch.no_grad():
 			#change to multi-agent rollout update
 			all_rollouts_obs=[{} for _ in range(config.sim.robot_num)]
@@ -306,8 +328,9 @@ def main():
 			all_rollouts[robot_index].after_update()
 
 		# save the model for every interval-th episode or for the last epoch
-		if (j % algo_args.save_interval == 0
+		if (j % algo_args.save_interval == 0 
 			or j == num_updates - 1) :
+			
 			save_path = os.path.join(algo_args.output_dir, 'checkpoints')
 			if not os.path.exists(save_path):
 				os.mkdir(save_path)   
@@ -318,6 +341,25 @@ def main():
 		if j % algo_args.log_interval == 0 and len(episode_rewards) > 1:
 			total_num_steps = (j + 1) * algo_args.num_processes * algo_args.num_steps
 			end = time.time()
+			# Determine the maximum length of the sequences
+			max_len = max(len(seq) for seq in successful_lidar_seq)
+
+			# Pad each sequence to the maximum length
+			lidar_seq = np.array([np.pad(seq, (0, max_len - len(seq)), 'constant', constant_values=0) for seq in successful_lidar_seq])
+
+			print(len(lidar_seq))
+			np.save('dataset/successful_lidar_seq3.npy', lidar_seq)
+			
+			max_len = max(len(seq) for seq in successful_vel_pos_seq)
+
+			# Pad each sequence to the maximum length
+			vel_pos_seq = np.array([np.pad(seq, (0, max_len - len(seq)), 'constant', constant_values=0) for seq in successful_vel_pos_seq])
+
+			print(len(vel_pos_seq))
+			
+			np.save('dataset/successful_vel_pos_seq3.npy', vel_pos_seq)
+			print("Saving successful actions and info mask")
+			
 			print(
 				"Updates {}, num timesteps {}, FPS {} \n Last {} training episodes: mean/median reward "
 				"{:.1f}/{:.1f}, min/max reward {:.1f}/{:.1f}\n"
