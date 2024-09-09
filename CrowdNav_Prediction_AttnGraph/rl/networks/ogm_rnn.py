@@ -22,7 +22,7 @@ LEARNING_RATE = "lr"
 BETAS = "betas"
 EPS = "eps"
 WEIGHT_DECAY = "weight_decay"
-wandb.init(project="ogm_pred")
+#wandb.init(project="ogm_pred")
 class WeightedMSELoss(nn.Module):
     def forward(self, input, target, weights):
         squared_diffs = (input - target) ** 2
@@ -1173,9 +1173,9 @@ class Ogm_RNN(nn.Module):
             rnn_hxs[key] = rnn_hxs[key].squeeze(0)
 
         if infer:
-            return self.critic_linear(hidden_critic).squeeze(0), output_actor.squeeze(0), rnn_hxs,occupancy_map_for_vis
+            return self.critic_linear(hidden_critic).squeeze(0), output_actor.squeeze(0), rnn_hxs,occupancy_map_for_vis,lidar,robot_info
         else:
-            return self.critic_linear(hidden_critic).view(-1, 1), output_actor.view(-1, self.output_size), rnn_hxs,occupancy_map_for_vis
+            return self.critic_linear(hidden_critic).view(-1, 1), output_actor.view(-1, self.output_size), rnn_hxs,occupancy_map_for_vis,lidar,robot_info
 
         temporal_edges = reshapeT(inputs['temporal_edges'], seq_length, nenv)
         spatial_edges = reshapeT(inputs['spatial_edges'], seq_length, nenv)
@@ -1274,4 +1274,3 @@ class Ogm_RNN(nn.Module):
 
         # x is the output and will be sent to actor and critic
         
-
