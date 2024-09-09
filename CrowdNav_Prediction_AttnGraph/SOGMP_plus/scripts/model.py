@@ -18,8 +18,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from collections import OrderedDict
-from SOGMP_plus.scripts.convlstm import ConvLSTMCell
-#from convlstm import ConvLSTMCell
+#from SOGMP_plus.scripts.convlstm import ConvLSTMCell
+from convlstm import ConvLSTMCell
 
 
 # import modules
@@ -68,7 +68,7 @@ def set_seed(seed):
 # returns: data - the signals/features
 #
 # this method takes in a fp and returns the data and labels
-POINTS = 1080   # the number of lidar points
+POINTS = 90   # the number of lidar points
 IMG_SIZE = 32
 SEQ_LEN = 10
 class VaeTestDataset(torch.utils.data.Dataset):
@@ -85,13 +85,23 @@ class VaeTestDataset(torch.utils.data.Dataset):
         # for each line of the file:
         for line in fp_scan.read().split(NEW_LINE):
             if('.npy' in line): 
-                self.scan_file_names.append(img_path+'/scans/'+line)
+                self.scan_file_names.append(img_path+'/'+line)
         for line in fp_pos.read().split(NEW_LINE):
             if('.npy' in line): 
-                self.pos_file_names.append(img_path+'/positions/'+line)
+                self.pos_file_names.append(img_path+'/'+line)
         for line in fp_vel.read().split(NEW_LINE):
             if('.npy' in line): 
-                self.vel_file_names.append(img_path+'/velocities/'+line)
+                self.vel_file_names.append(img_path+'/'+line)
+        # # for each line of the file:
+        # for line in fp_scan.read().split(NEW_LINE):
+        #     if('.npy' in line): 
+        #         self.scan_file_names.append(img_path+'/scans/'+line)
+        # for line in fp_pos.read().split(NEW_LINE):
+        #     if('.npy' in line): 
+        #         self.pos_file_names.append(img_path+'/positions/'+line)
+        # for line in fp_vel.read().split(NEW_LINE):
+        #     if('.npy' in line): 
+        #         self.vel_file_names.append(img_path+'/velocities/'+line)
         # close txt file:
         fp_scan.close()
         fp_pos.close()
@@ -104,53 +114,60 @@ class VaeTestDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.length
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx): # where is idx2?
         # get the index of start point:
-        scans = np.zeros((SEQ_LEN+SEQ_LEN, POINTS))
-        positions = np.zeros((SEQ_LEN+SEQ_LEN, 3))
-        vels = np.zeros((SEQ_LEN+SEQ_LEN, 2))
+        scans = np.zeros((SEQ_LEN+SEQ_LEN, 3,POINTS,2))
+        positions = np.zeros((SEQ_LEN+SEQ_LEN, 3,3))
+        vels = np.zeros((SEQ_LEN+SEQ_LEN, 3,2))
         # get the index of start point:
-        if(idx+(SEQ_LEN+SEQ_LEN) < self.length): # train1:
-            idx_s = idx
-        else:
-            idx_s = idx - (SEQ_LEN+SEQ_LEN)
-
-        for i in range(SEQ_LEN+SEQ_LEN):
-            # get the scan data:
-            scan_name = self.scan_file_names[idx_s+i]
-            scan = np.load(scan_name)
-            scans[i] = scan
-            # get the scan_ur data:
-            pos_name = self.pos_file_names[idx_s+i]
-            pos = np.load(pos_name)
-            positions[i] = pos
-            # get the velocity data:
-            vel_name = self.vel_file_names[idx_s+i]
-            vel = np.load(vel_name)
-            vels[i] = vel
         
-        # initialize:
-        scans[np.isnan(scans)] = 20.
-        scans[np.isinf(scans)] = 20.
-        scans[scans==30] = 20.
+        # if(idx2%30+(SEQ_LEN+SEQ_LEN) < 30): # train1:
+        #     idx_s2 = idx2
+        # else:
+        #     idx_s2 = idx2 - (SEQ_LEN+SEQ_LEN)
+        
+        #print(len(self.pos_file_names),len(self.scan_file_names),len(self.vel_file_names))
+        idx=idx//30
+        if idx*30+30 < self.length:
+            idx = idx
+        else:
+            idx = idx - 1
+        for j in range(SEQ_LEN+SEQ_LEN): # load the first 20 frames
+            # get the scan data:
+            scan_name = self.scan_file_names[30*idx+j]
+            scan = np.load(scan_name)
+            scans[j,:,:,:] = scan
+            # get the scan_ur data:
+            pos_name = self.pos_file_names[30*idx+j]
+            pos = np.load(pos_name)
+            positions[j,:,:] = pos
+            # get the velocity data:
+            vel_name = self.vel_file_names[30*idx+j]
+            vel = np.load(vel_name)
+            vels[j,:,:] = vel
+    
+        # # initialize:
+        # scans[np.isnan(scans)] = 20.
+        # scans[np.isinf(scans)] = 20.
+        # scans[scans==30] = 20.
 
-        positions[np.isnan(positions)] = 0.
-        positions[np.isinf(positions)] = 0.
+        # positions[np.isnan(positions)] = 0.
+        # positions[np.isinf(positions)] = 0.
 
-        vels[np.isnan(vels)] = 0.
-        vels[np.isinf(vels)] = 0.
+        # vels[np.isnan(vels)] = 0.
+        # vels[np.isinf(vels)] = 0.
 
         # transfer to pytorch tensor:
         scan_tensor = torch.FloatTensor(scans)
         pose_tensor = torch.FloatTensor(positions)
         vel_tensor =  torch.FloatTensor(vels)
-
+        
         data = {
                 'scan': scan_tensor,
                 'position': pose_tensor,
                 'velocity': vel_tensor, 
                 }
-
+        
         return data
 
 #
@@ -324,7 +341,7 @@ class RVAEP(nn.Module):
         self.z_w = int(np.sqrt(latent_dim//2))
 
         # Constants
-        num_hiddens = 128 
+        num_hiddens = 64
         num_residual_hiddens = 64 
         num_residual_layers = 2
         embedding_dim = 2 
@@ -409,8 +426,11 @@ class RVAEP(nn.Module):
         # reconstruction: 
         # encode:
         # input reshape:
-        b, seq_len, c, h, w = x.size()
+        
+        b,seq_len, h, w = x.size()
+        
         x = x.reshape(b, seq_len, 1, IMG_SIZE, IMG_SIZE)
+        
         x_map = x_map.reshape(b, 1, IMG_SIZE, IMG_SIZE)
         # find size of different input dimensions
         b, seq_len, c, h, w = x.size()
@@ -459,7 +479,7 @@ class RConvLSTM(nn.Module):
                                     bias=True)
         
     def forward(self, x, x_map):
-        b, seq_len, c, h, w = x.size()
+        b, seq_len, h, w = x.size()
         x = x.reshape(b, seq_len, 1, IMG_SIZE, IMG_SIZE)
         x_map = x_map.reshape(b, 1, IMG_SIZE, IMG_SIZE)
         # find size of different input dimensions
