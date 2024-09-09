@@ -53,7 +53,7 @@ class Config(object):
     # 'none': no prediction
     sim.predict_method = 'none'
     # render the simulation during training or not
-    sim.render = True
+    sim.render = False
     
 
     # for save_traj only
@@ -112,7 +112,7 @@ class Config(object):
     # radius of perception range
     robot.sensor_range = 5
     robot.broadcast_range = 10
-    robot.broadcast_open = True #early fusion
+    robot.broadcast_open = False #early fusion
 
     # action space of the robot
     action_space = BaseConfig()
