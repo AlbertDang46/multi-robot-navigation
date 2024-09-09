@@ -18,8 +18,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from collections import OrderedDict
-#from SOGMP_plus.scripts.convlstm import ConvLSTMCell
-from convlstm import ConvLSTMCell
+from SOGMP_plus.scripts.convlstm import ConvLSTMCell
+#from convlstm import ConvLSTMCell
 
 
 # import modules
