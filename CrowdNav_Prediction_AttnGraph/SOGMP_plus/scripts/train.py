@@ -443,37 +443,37 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
             # #no fusion
             # pos = positions[:,:SEQ_LEN,r,:].unsqueeze(2).repeat(1,1,robot_num,1)
             # current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-            # #early fusion
-            # pos = positions[:,:SEQ_LEN,:,:]
-            # current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-            # # Transform the robot past poses to the predicted reference frame.
-            # x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
-            # #static_obst, dynamic_obst=convert_lidar_to_ogm(lidar,map_size=32)
-            # # for s in range(SEQ_LEN):
-            # #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
-            # #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
-            # static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
-            # # for s in range(SEQ_LEN):
-            # #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
-            # #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
+            #early fusion
+            pos = positions[:,:SEQ_LEN,:,:]
+            current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+            # Transform the robot past poses to the predicted reference frame.
+            x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
+            #static_obst, dynamic_obst=convert_lidar_to_ogm(lidar,map_size=32)
+            # for s in range(SEQ_LEN):
+            #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
+            #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
+            static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
+            # for s in range(SEQ_LEN):
+            #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
+            #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
             
-            #middle fusion
-            #all to local robot's current coordination
-            dynamic_obst_list=[]
-            current_static_obst_list=[]
-            for rv in range(robot_num):
-                current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
-                pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
-                x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
-                lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
-                static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
-                # if rv==0:
-                #     plot_ogm(static_obst[0,-1,:,:].unsqueeze(0),f'static_obst_{rv}.png')
-                #     plot_ogm(dynamic_obst[0,-1,:,:].unsqueeze(0),f'dynamic_obst_{rv}.png')
-                dynamic_obst_list.append(dynamic_obst)
-                current_static_obst_list.append(static_obst[:,-1,:,:])
-            dynamic_obst_tensor=torch.stack(dynamic_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
-            current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
+            # #middle fusion
+            # #all to local robot's current coordination
+            # dynamic_obst_list=[]
+            # current_static_obst_list=[]
+            # for rv in range(robot_num):
+            #     current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
+            #     pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
+            #     x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
+            #     lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
+            #     static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
+            #     # if rv==0:
+            #     #     plot_ogm(static_obst[0,-1,:,:].unsqueeze(0),f'static_obst_{rv}.png')
+            #     #     plot_ogm(dynamic_obst[0,-1,:,:].unsqueeze(0),f'dynamic_obst_{rv}.png')
+            #     dynamic_obst_list.append(dynamic_obst)
+            #     current_static_obst_list.append(static_obst[:,-1,:,:])
+            # dynamic_obst_tensor=torch.stack(dynamic_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
+            # current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
             
             # if r==0:
             #     plot_ogm(static_obst[0,-1,:,:].unsqueeze(0),f'static_obst_{r}.png')
@@ -499,56 +499,58 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
                 
                 mask_map=(static_obst_t+dynamic_obst_t).clamp(0,1)
                 mask_list.append(mask_map)
-                # # b seq 32 32
-                # past_dogm=dynamic_obst[:,len(prediction_list):SEQ_LEN,:,:] # b _ 32 32
-                # current_static_obst=static_obst[:,-1,:,:]
+                # b seq 32 32
+                past_dogm=dynamic_obst[:,len(prediction_list):SEQ_LEN,:,:] # b _ 32 32
+                current_static_obst=static_obst[:,-1,:,:]
                
-                # if len(prediction_list)>0:
-                    
-                #     pred_ogm=torch.stack(prediction_list,dim=1).squeeze(2)
-                    
-                #     pred_dogm=torch.abs(pred_ogm-current_static_obst.unsqueeze(1))
-                    
-                #     # if r==0:
-                #     #     plot_ogm(pred_ogm[0][-1].unsqueeze(0),'pred_ogm.png')
-                #     #     plot_ogm(current_static_obst[0].unsqueeze(0),'current_static_obst.png')
-                #     #     plot_ogm(past_dogm[0][-1].unsqueeze(0),'past_dogm.png')
-                #     #     plot_ogm(pred_dogm[0][-1].unsqueeze(0),'pred_dogm.png')
-                #     dynamic_obst=torch.cat((past_dogm,pred_dogm),dim=1)
-                # else:
-                #     dynamic_obst=past_dogm
-
-                # #autograd leave for later
-                # #middle fusion 
-                # # b seq 32 32
-                # past_dogm=dynamic_obst_tensor[r,:,len(prediction_list):SEQ_LEN,:,:] # 3 b _ 32 32
-                # current_static_obst=static_obst_tensor[:,:,-1,:,:]
-                past_dogm=dynamic_obst_tensor[r][:,len(prediction_list):SEQ_LEN,:,:]
                 if len(prediction_list)>0:
                     
                     pred_ogm=torch.stack(prediction_list,dim=1).squeeze(2)
                     
-                    pred_dogm=torch.abs(pred_ogm-current_static_obst_tensor[r].unsqueeze(1))
-                    # print(pred_ogm[0][-1])
-                    # print(current_static_obst.unsqueeze(1))
-                    # print(pred_dogm[0][-1])
+                    pred_dogm=torch.abs(pred_ogm-current_static_obst.unsqueeze(1))
+                    
                     # if r==0:
                     #     plot_ogm(pred_ogm[0][-1].unsqueeze(0),'pred_ogm.png')
                     #     plot_ogm(current_static_obst[0].unsqueeze(0),'current_static_obst.png')
                     #     plot_ogm(past_dogm[0][-1].unsqueeze(0),'past_dogm.png')
                     #     plot_ogm(pred_dogm[0][-1].unsqueeze(0),'pred_dogm.png')
-                    dynamic_obst_ego=torch.cat((past_dogm,pred_dogm),dim=1)
-                    dynamic_obst_tensor[r]=dynamic_obst_ego
-                # else:
-                #    dynamic_obst_tensor[r]=past_dogm
+                    dynamic_obst=torch.cat((past_dogm,pred_dogm),dim=1)
+                else:
+                    dynamic_obst=past_dogm
+                prediction, kl_loss = model(dynamic_obst,current_static_obst)
+                
+                # # #middle fusion 
+                # # # b seq 32 32
+                # # past_dogm=dynamic_obst_tensor[r,:,len(prediction_list):SEQ_LEN,:,:] # 3 b _ 32 32
+                # # current_static_obst=static_obst_tensor[:,:,-1,:,:]
+                # past_dogm=dynamic_obst_tensor[r][:,len(prediction_list):SEQ_LEN,:,:]
+                # if len(prediction_list)>0:
+                    
+                #     pred_ogm=torch.stack(prediction_list,dim=1).squeeze(2)
+                    
+                #     pred_dogm=torch.abs(pred_ogm-current_static_obst_tensor[r].unsqueeze(1))
+                #     # print(pred_ogm[0][-1])
+                #     # print(current_static_obst.unsqueeze(1))
+                #     # print(pred_dogm[0][-1])
+                #     # if r==0:
+                #     #     plot_ogm(pred_ogm[0][-1].unsqueeze(0),'pred_ogm.png')
+                #     #     plot_ogm(current_static_obst[0].unsqueeze(0),'current_static_obst.png')
+                #     #     plot_ogm(past_dogm[0][-1].unsqueeze(0),'past_dogm.png')
+                #     #     plot_ogm(pred_dogm[0][-1].unsqueeze(0),'pred_dogm.png')
+                #     dynamic_obst_ego=torch.cat((past_dogm,pred_dogm),dim=1)
+                #     dynamic_obst_tensor[r]=dynamic_obst_ego
+                # # else:
+                # #    dynamic_obst_tensor[r]=past_dogm
                     
                 
                 
-                pos=positions[:,SEQ_LEN-1,:,:]#b robot_num 3
-                # # print(relat_pos[0])
-                # plot_ogm(static_obst_t[0],f'static_obst_{r}.png') # fusioned static obst
-                prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos,r)
-                #plot_ogm(prediction[0],f'pred_{r}_{t}.png')
+                # pos=positions[:,SEQ_LEN-1,:,:]#b robot_num 3
+                # # # print(relat_pos[0])
+                # # plot_ogm(static_obst_t[0],f'static_obst_{r}.png') # fusioned static obst
+                # prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos,r)
+                # #plot_ogm(prediction[0],f'pred_{r}_{t}.png')
+                
+                
                 prediction_list.append(prediction)
                 
                     
@@ -682,34 +684,34 @@ def validate(model, dataloader, dataset, device, criterion):
                 #     #plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
                 
                 
-                # #early fusion
-                # pos = positions[:,:SEQ_LEN,:,:]
-                # current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-                # # Transform the robot past poses to the predicted reference frame.
-                # x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
-                # #static_obst, dynamic_obst=convert_lidar_to_ogm(lidar,map_size=32)
-                # # for s in range(SEQ_LEN):
-                # #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
-                # #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
-                # static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
-                # # for s in range(SEQ_LEN):
-                # #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
-                # #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
+                #early fusion
+                pos = positions[:,:SEQ_LEN,:,:]
+                current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                # Transform the robot past poses to the predicted reference frame.
+                x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
+                #static_obst, dynamic_obst=convert_lidar_to_ogm(lidar,map_size=32)
+                # for s in range(SEQ_LEN):
+                #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
+                #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
+                static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
+                # for s in range(SEQ_LEN):
+                #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{s}.png')
+                #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{s}.png')
 
-                #middle fusion
-                #all to local robot's current coordination
-                dynamic_obst_list=[]
-                current_static_obst_list=[]
-                for rv in range(robot_num):
-                    current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
-                    pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
-                    x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
-                    lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
-                    static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
-                    dynamic_obst_list.append(dynamic_obst)
-                    current_static_obst_list.append(static_obst[:,-1,:,:])
-                dynamic_obst_tensor=torch.stack(dynamic_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
-                current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
+                # #middle fusion
+                # #all to local robot's current coordination
+                # dynamic_obst_list=[]
+                # current_static_obst_list=[]
+                # for rv in range(robot_num):
+                #     current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
+                #     pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
+                #     x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
+                #     lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
+                #     static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
+                #     dynamic_obst_list.append(dynamic_obst)
+                #     current_static_obst_list.append(static_obst[:,-1,:,:])
+                # dynamic_obst_tensor=torch.stack(dynamic_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
+                # current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
                 
                 
                 for t in range(FUTURE_STEP): 
@@ -730,18 +732,18 @@ def validate(model, dataloader, dataset, device, criterion):
                     mask_list.append(mask_map)    
 
                     # # b seq 32 32
-                    past_dogm=dynamic_obst_tensor[r][:,len(prediction_list):SEQ_LEN,:,:] # b _ 32 32
-                    # current_static_obst=static_obst[:,-1,:,:]
+                    past_dogm=dynamic_obst[:,len(prediction_list):SEQ_LEN,:,:] # b _ 32 32
+                    current_static_obst=static_obst[:,-1,:,:]
                     
                     if len(prediction_list)>0:
                         pred_ogm=torch.stack(prediction_list,dim=1).squeeze(2)
-                        pred_dogm=torch.abs(pred_ogm-current_static_obst_tensor[r].unsqueeze(1))
-                        dynamic_obst_tensor[r]=torch.cat((past_dogm,pred_dogm),dim=1)
+                        pred_dogm=torch.abs(pred_ogm-current_static_obst.unsqueeze(1))
+                        dynamic_obst=torch.cat((past_dogm,pred_dogm),dim=1)
                     # else:
                     #     dynamic_obst=past_dogm
                     
-                    pos=positions[:,SEQ_LEN-1,:,:] #b robot_num 3
-                    prediction, kl_loss = model(dynamic_obst_tensor, current_static_obst_tensor, pos, r)
+                    #pos=positions[:,SEQ_LEN-1,:,:] #b robot_num 3
+                    prediction, kl_loss = model(dynamic_obst, current_static_obst)
 
                     
                     # if r==0:
