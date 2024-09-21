@@ -1,0 +1,25 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/functional.py:513: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3609.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+  0%|                                                                                           | 0/351 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 1019, in <module>
+    main()
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 947, in main
+    train_epoch_loss, train_kl_epoch_loss, train_ce_epoch_loss,wmse_train,ssim_train= train(
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 550, in train
+    prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos,r)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/model.py", line 461, in forward
+    h_enc_rec = warp_affine(h_enc, T, (32, 32)) #b 16 32 32
+  File "/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph/SOGMP_plus/CoBEVT/opv2v/opencood/models/sub_modules/torch_transformation_utils.py", line 354, in warp_affine
+    return F.grid_sample(src.half() if grid.dtype==torch.half else src, grid, align_corners=align_corners, mode=mode,
+  File "/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/nn/functional.py", line 4381, in grid_sample
+    return torch.grid_sampler(input, grid, mode_enum, padding_mode_enum, align_corners)
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument grid in method wrapper_CUDA__grid_sampler_2d)
+...Start reading data...
+dataset length:  5616
+dataset length:  624
+No trained models, restart training

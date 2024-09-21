@@ -1,0 +1,15 @@
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/functional.py:513: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3609.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+  0%|                                                                                          | 0/5616 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 1019, in <module>
+    main()
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 947, in main
+    train_epoch_loss, train_kl_epoch_loss, train_ce_epoch_loss,wmse_train,ssim_train= train(
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 526, in train
+    past_dogm=dynamic_obst_tensor[r][:,len(prediction_list):SEQ_LEN,:,:]
+IndexError: too many indices for tensor of dimension 3
+...Start reading data...
+dataset length:  5616
+dataset length:  624
+No trained models, restart training

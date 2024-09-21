@@ -1,0 +1,13 @@
+...Start reading data...
+dataset length:  5616
+dataset length:  624
+No trained models, restart training
+/home/liyiping/anaconda3/envs/CrowdNav2/lib/python3.10/site-packages/torch/functional.py:513: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3609.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+  0%|                                                                                          | 0/2808 [00:00<?, ?it/s]
+
+
+
+
+
+

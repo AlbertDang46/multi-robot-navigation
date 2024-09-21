@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py", line 38, in <module>
+    from model import *
+  File "/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/model.py", line 27, in <module>
+    from SOGMP_plus.scripts.torch_transformation_utils import get_transformation_matrix, warp_affine
+ModuleNotFoundError: No module named 'SOGMP_plus.scripts.torch_transformation_utils'

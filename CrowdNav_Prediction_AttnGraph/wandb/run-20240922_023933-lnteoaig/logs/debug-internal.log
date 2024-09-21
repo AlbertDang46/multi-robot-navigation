@@ -1,0 +1,195 @@
+2024-09-22 02:39:33,352 INFO    StreamThr :125184 [internal.py:wandb_internal():85] W&B internal server running at pid: 125184, started at: 2024-09-22 02:39:33.352162
+2024-09-22 02:39:33,354 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: status
+2024-09-22 02:39:33,355 INFO    WriterThread:125184 [datastore.py:open_for_write():87] open: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/run-lnteoaig.wandb
+2024-09-22 02:39:33,357 DEBUG   SenderThread:125184 [sender.py:send():391] send: header
+2024-09-22 02:39:33,357 DEBUG   SenderThread:125184 [sender.py:send():391] send: run
+2024-09-22 02:39:34,470 INFO    SenderThread:125184 [dir_watcher.py:__init__():211] watching files in: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files
+2024-09-22 02:39:34,470 INFO    SenderThread:125184 [sender.py:_start_run_threads():1200] run started: lnteoaig with start time 1726943973.351955
+2024-09-22 02:39:34,476 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: check_version
+2024-09-22 02:39:34,476 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: check_version
+2024-09-22 02:39:36,128 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: run_start
+2024-09-22 02:39:36,136 DEBUG   HandlerThread:125184 [system_info.py:__init__():26] System info init
+2024-09-22 02:39:36,136 DEBUG   HandlerThread:125184 [system_info.py:__init__():41] System info init done
+2024-09-22 02:39:36,136 INFO    HandlerThread:125184 [system_monitor.py:start():194] Starting system monitor
+2024-09-22 02:39:36,136 INFO    SystemMonitor:125184 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-09-22 02:39:36,136 INFO    HandlerThread:125184 [system_monitor.py:probe():214] Collecting system info
+2024-09-22 02:39:36,136 INFO    SystemMonitor:125184 [interfaces.py:start():188] Started cpu monitoring
+2024-09-22 02:39:36,137 INFO    SystemMonitor:125184 [interfaces.py:start():188] Started disk monitoring
+2024-09-22 02:39:36,137 INFO    SystemMonitor:125184 [interfaces.py:start():188] Started gpu monitoring
+2024-09-22 02:39:36,138 INFO    SystemMonitor:125184 [interfaces.py:start():188] Started memory monitoring
+2024-09-22 02:39:36,138 INFO    SystemMonitor:125184 [interfaces.py:start():188] Started network monitoring
+2024-09-22 02:39:36,146 DEBUG   HandlerThread:125184 [system_info.py:probe():152] Probing system
+2024-09-22 02:39:36,148 DEBUG   HandlerThread:125184 [system_info.py:_probe_git():137] Probing git
+2024-09-22 02:39:36,153 DEBUG   HandlerThread:125184 [system_info.py:_probe_git():145] Probing git done
+2024-09-22 02:39:36,153 DEBUG   HandlerThread:125184 [system_info.py:probe():200] Probing system done
+2024-09-22 02:39:36,153 DEBUG   HandlerThread:125184 [system_monitor.py:probe():223] {'os': 'Linux-6.8.0-40-generic-x86_64-with-glibc2.35', 'python': '3.10.14', 'heartbeatAt': '2024-09-21T18:39:36.146734', 'startedAt': '2024-09-21T18:39:33.348918', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py', 'codePathLocal': 'SOGMP_plus/scripts/train.py', 'codePath': 'CrowdNav_Prediction_AttnGraph/SOGMP_plus/scripts/train.py', 'git': {'remote': 'https://github.com/AlbertDang46/multi-robot-navigation.git', 'commit': '33e8c43980382d9978836b2e77ad14828d2c03b1'}, 'email': 'liyiping179@gmail.com', 'root': '/home/liyiping/multi-robot-navigation', 'host': 'liyiping-desktop', 'username': 'liyiping', 'executable': '/home/liyiping/anaconda3/envs/CrowdNav2/bin/python', 'cpu_count': 14, 'cpu_count_logical': 20, 'cpu_freq': {'current': 1504.4099999999999, 'min': 400.0, 'max': 4400.0}, 'cpu_freq_per_core': [{'current': 398.917, 'min': 400.0, 'max': 4800.0}, {'current': 1540.267, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 3800.0, 'min': 400.0, 'max': 5000.0}, {'current': 400.0, 'min': 400.0, 'max': 5000.0}, {'current': 3700.0, 'min': 400.0, 'max': 5000.0}, {'current': 400.0, 'min': 400.0, 'max': 5000.0}, {'current': 3799.959, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 1913.159, 'min': 400.0, 'max': 4800.0}, {'current': 400.0, 'min': 400.0, 'max': 4800.0}, {'current': 1118.274, 'min': 400.0, 'max': 3700.0}, {'current': 1227.046, 'min': 400.0, 'max': 3700.0}, {'current': 2402.523, 'min': 400.0, 'max': 3700.0}, {'current': 400.0, 'min': 400.0, 'max': 3700.0}, {'current': 399.931, 'min': 400.0, 'max': 3700.0}, {'current': 400.0, 'min': 400.0, 'max': 3700.0}, {'current': 505.661, 'min': 400.0, 'max': 3700.0}, {'current': 399.699, 'min': 400.0, 'max': 3700.0}], 'disk': {'/': {'total': 227.47819137573242, 'used': 189.64288711547852}}, 'gpu': 'NVIDIA GeForce RTX 4060 Laptop GPU', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 4060 Laptop GPU', 'memory_total': 8585740288}], 'memory': {'total': 15.246742248535156}}
+2024-09-22 02:39:36,153 INFO    HandlerThread:125184 [system_monitor.py:probe():224] Finished collecting system info
+2024-09-22 02:39:36,153 INFO    HandlerThread:125184 [system_monitor.py:probe():227] Publishing system info
+2024-09-22 02:39:36,153 DEBUG   HandlerThread:125184 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-09-22 02:39:36,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/conda-environment.yaml
+2024-09-22 02:39:38,173 DEBUG   HandlerThread:125184 [system_info.py:_save_conda():224] Saving conda packages done
+2024-09-22 02:39:38,174 INFO    HandlerThread:125184 [system_monitor.py:probe():229] Finished publishing system info
+2024-09-22 02:39:38,177 DEBUG   SenderThread:125184 [sender.py:send():391] send: files
+2024-09-22 02:39:38,178 INFO    SenderThread:125184 [sender.py:_save_file():1466] saving file wandb-metadata.json with policy now
+2024-09-22 02:39:38,239 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: python_packages
+2024-09-22 02:39:38,239 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: python_packages
+2024-09-22 02:39:38,239 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: stop_status
+2024-09-22 02:39:38,239 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: stop_status
+2024-09-22 02:39:38,241 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-22 02:39:38,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/conda-environment.yaml
+2024-09-22 02:39:38,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/wandb-metadata.json
+2024-09-22 02:39:38,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/requirements.txt
+2024-09-22 02:39:39,388 DEBUG   SenderThread:125184 [sender.py:send():391] send: telemetry
+2024-09-22 02:39:39,388 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: status_report
+2024-09-22 02:39:39,389 DEBUG   SenderThread:125184 [sender.py:send():391] send: exit
+2024-09-22 02:39:39,389 INFO    SenderThread:125184 [sender.py:send_exit():598] handling exit code: 1
+2024-09-22 02:39:39,389 INFO    SenderThread:125184 [sender.py:send_exit():600] handling runtime: 2
+2024-09-22 02:39:39,389 INFO    SenderThread:125184 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-22 02:39:39,389 INFO    SenderThread:125184 [sender.py:send_exit():606] send defer
+2024-09-22 02:39:39,391 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,391 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 0
+2024-09-22 02:39:39,391 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,391 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 0
+2024-09-22 02:39:39,391 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 1
+2024-09-22 02:39:39,391 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,391 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 1
+2024-09-22 02:39:39,391 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,391 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 1
+2024-09-22 02:39:39,391 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 2
+2024-09-22 02:39:39,391 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,391 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 2
+2024-09-22 02:39:39,391 INFO    HandlerThread:125184 [system_monitor.py:finish():203] Stopping system monitor
+2024-09-22 02:39:39,392 DEBUG   SystemMonitor:125184 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-09-22 02:39:39,392 INFO    HandlerThread:125184 [interfaces.py:finish():200] Joined cpu monitor
+2024-09-22 02:39:39,392 DEBUG   SystemMonitor:125184 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-09-22 02:39:39,392 INFO    HandlerThread:125184 [interfaces.py:finish():200] Joined disk monitor
+2024-09-22 02:39:39,392 DEBUG   SystemMonitor:125184 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-09-22 02:39:39,431 INFO    HandlerThread:125184 [interfaces.py:finish():200] Joined gpu monitor
+2024-09-22 02:39:39,431 INFO    HandlerThread:125184 [interfaces.py:finish():200] Joined memory monitor
+2024-09-22 02:39:39,431 INFO    HandlerThread:125184 [interfaces.py:finish():200] Joined network monitor
+2024-09-22 02:39:39,431 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,431 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 2
+2024-09-22 02:39:39,431 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 3
+2024-09-22 02:39:39,431 DEBUG   SenderThread:125184 [sender.py:send():391] send: stats
+2024-09-22 02:39:39,432 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,432 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 3
+2024-09-22 02:39:39,432 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,432 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 3
+2024-09-22 02:39:39,432 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 4
+2024-09-22 02:39:39,432 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,432 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 4
+2024-09-22 02:39:39,432 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,432 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 4
+2024-09-22 02:39:39,433 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 5
+2024-09-22 02:39:39,433 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,433 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 5
+2024-09-22 02:39:39,433 DEBUG   SenderThread:125184 [sender.py:send():391] send: summary
+2024-09-22 02:39:39,433 INFO    SenderThread:125184 [sender.py:_save_file():1466] saving file wandb-summary.json with policy end
+2024-09-22 02:39:39,433 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,433 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 5
+2024-09-22 02:39:39,433 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 6
+2024-09-22 02:39:39,434 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,434 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 6
+2024-09-22 02:39:39,434 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,434 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 6
+2024-09-22 02:39:39,438 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: status_report
+2024-09-22 02:39:39,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/wandb-summary.json
+2024-09-22 02:39:39,471 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_created():271] file/dir created: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/output.log
+2024-09-22 02:39:39,665 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:39,727 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 7
+2024-09-22 02:39:39,727 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:39,727 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:39,727 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 7
+2024-09-22 02:39:39,728 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:39,728 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 7
+2024-09-22 02:39:40,070 INFO    wandb-upload_0:125184 [upload_job.py:push():130] Uploaded file /tmp/tmpvwho7lfwwandb/qkzlcof2-wandb-metadata.json
+2024-09-22 02:39:40,472 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/config.yaml
+2024-09-22 02:39:40,666 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:41,392 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 8
+2024-09-22 02:39:41,392 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:41,392 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:41,392 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 8
+2024-09-22 02:39:41,393 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:41,393 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 8
+2024-09-22 02:39:41,393 INFO    SenderThread:125184 [job_builder.py:build():443] Attempting to build job artifact
+2024-09-22 02:39:41,393 INFO    SenderThread:125184 [job_builder.py:_get_source_type():572] is repo sourced job
+2024-09-22 02:39:41,407 INFO    SenderThread:125184 [job_builder.py:build():548] adding wandb-job metadata file
+2024-09-22 02:39:41,409 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 9
+2024-09-22 02:39:41,410 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:41,410 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 9
+2024-09-22 02:39:41,410 DEBUG   SenderThread:125184 [sender.py:send():391] send: artifact
+2024-09-22 02:39:41,472 INFO    Thread-12 :125184 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/output.log
+2024-09-22 02:39:41,666 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:42,835 INFO    SenderThread:125184 [sender.py:send_artifact():1549] sent artifact job-https___github.com_AlbertDang46_multi-robot-navigation.git_CrowdNav_Prediction_AttnGraph_SOGMP_plus_scripts_train.py - {'id': 'QXJ0aWZhY3Q6MTI0MTE2MjI1Ng==', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjQ1OTkyNzkyMg==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTI0MTE2MjI1Ng==', 'versionIndex': 0}}}
+2024-09-22 02:39:42,835 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:42,835 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 9
+2024-09-22 02:39:42,835 INFO    SenderThread:125184 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-09-22 02:39:43,473 INFO    SenderThread:125184 [dir_watcher.py:finish():388] scan: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files
+2024-09-22 02:39:43,473 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/config.yaml config.yaml
+2024-09-22 02:39:43,473 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/wandb-summary.json wandb-summary.json
+2024-09-22 02:39:43,474 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/requirements.txt requirements.txt
+2024-09-22 02:39:43,474 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/wandb-metadata.json wandb-metadata.json
+2024-09-22 02:39:43,474 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/output.log output.log
+2024-09-22 02:39:43,474 INFO    SenderThread:125184 [dir_watcher.py:finish():402] scan save: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/conda-environment.yaml conda-environment.yaml
+2024-09-22 02:39:43,474 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 10
+2024-09-22 02:39:43,474 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:43,474 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:43,477 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 10
+2024-09-22 02:39:43,479 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:43,480 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 10
+2024-09-22 02:39:43,480 INFO    SenderThread:125184 [file_pusher.py:finish():169] shutting down file pusher
+2024-09-22 02:39:43,667 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:43,667 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:44,348 INFO    wandb-upload_0:125184 [upload_job.py:push():130] Uploaded file /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/config.yaml
+2024-09-22 02:39:44,668 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: status_report
+2024-09-22 02:39:44,668 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:44,669 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:44,916 INFO    wandb-upload_2:125184 [upload_job.py:push():130] Uploaded file /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/requirements.txt
+2024-09-22 02:39:44,918 INFO    wandb-upload_1:125184 [upload_job.py:push():130] Uploaded file /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/wandb-summary.json
+2024-09-22 02:39:45,429 INFO    wandb-upload_4:125184 [upload_job.py:push():130] Uploaded file /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/conda-environment.yaml
+2024-09-22 02:39:45,430 INFO    wandb-upload_3:125184 [upload_job.py:push():130] Uploaded file /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/files/output.log
+2024-09-22 02:39:45,630 INFO    Thread-11 (_thread_body):125184 [sender.py:transition_state():626] send defer: 11
+2024-09-22 02:39:45,630 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:45,631 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 11
+2024-09-22 02:39:45,631 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:45,631 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 11
+2024-09-22 02:39:45,631 INFO    SenderThread:125184 [file_pusher.py:join():175] waiting for file pusher
+2024-09-22 02:39:45,631 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 12
+2024-09-22 02:39:45,631 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:45,631 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 12
+2024-09-22 02:39:45,632 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:45,632 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 12
+2024-09-22 02:39:45,632 INFO    SenderThread:125184 [file_stream.py:finish():601] file stream finish called
+2024-09-22 02:39:45,668 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:46,005 INFO    SenderThread:125184 [file_stream.py:finish():605] file stream finish is done
+2024-09-22 02:39:46,005 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 13
+2024-09-22 02:39:46,005 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:46,006 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:46,006 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 13
+2024-09-22 02:39:46,006 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:46,006 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 13
+2024-09-22 02:39:46,006 INFO    SenderThread:125184 [sender.py:transition_state():626] send defer: 14
+2024-09-22 02:39:46,006 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: defer
+2024-09-22 02:39:46,006 INFO    HandlerThread:125184 [handler.py:handle_request_defer():184] handle defer: 14
+2024-09-22 02:39:46,006 DEBUG   SenderThread:125184 [sender.py:send():391] send: final
+2024-09-22 02:39:46,007 DEBUG   SenderThread:125184 [sender.py:send():391] send: footer
+2024-09-22 02:39:46,007 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: defer
+2024-09-22 02:39:46,007 INFO    SenderThread:125184 [sender.py:send_request_defer():622] handle sender defer: 14
+2024-09-22 02:39:46,007 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:46,007 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: server_info
+2024-09-22 02:39:46,007 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:46,008 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: server_info
+2024-09-22 02:39:46,009 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: poll_exit
+2024-09-22 02:39:46,009 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: get_summary
+2024-09-22 02:39:46,009 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: sampled_history
+2024-09-22 02:39:46,009 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: internal_messages
+2024-09-22 02:39:46,308 DEBUG   SenderThread:125184 [sender.py:send_request():418] send_request: poll_exit
+2024-09-22 02:39:46,308 INFO    MainThread:125184 [wandb_run.py:_footer_history_summary_info():4076] rendering history
+2024-09-22 02:39:46,308 INFO    MainThread:125184 [wandb_run.py:_footer_history_summary_info():4108] rendering summary
+2024-09-22 02:39:46,308 INFO    MainThread:125184 [wandb_run.py:_footer_sync_info():4035] logging synced files
+2024-09-22 02:39:46,309 DEBUG   HandlerThread:125184 [handler.py:handle_request():158] handle_request: shutdown
+2024-09-22 02:39:46,309 INFO    HandlerThread:125184 [handler.py:finish():880] shutting down handler
+2024-09-22 02:39:47,009 INFO    WriterThread:125184 [datastore.py:close():296] close: /home/liyiping/multi-robot-navigation/CrowdNav_Prediction_AttnGraph/wandb/run-20240922_023933-lnteoaig/run-lnteoaig.wandb
+2024-09-22 02:39:47,308 INFO    SenderThread:125184 [sender.py:finish():1631] shutting down sender
+2024-09-22 02:39:47,308 INFO    SenderThread:125184 [file_pusher.py:finish():169] shutting down file pusher
+2024-09-22 02:39:47,308 INFO    SenderThread:125184 [file_pusher.py:join():175] waiting for file pusher
