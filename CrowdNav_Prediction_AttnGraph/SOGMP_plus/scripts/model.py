@@ -404,6 +404,7 @@ class RVAEP(nn.Module):
         kl_loss = -kl_divergence.mean()
 
         return z, kl_loss 
+    # this forward is for middle fusion
     def forward(self, x, x_map,pos,ego_index):
         
         """
@@ -525,6 +526,7 @@ class RVAEP(nn.Module):
         
         
         return prediction, kl_loss
+    #this forward is for no fusion and early fusion
     # def forward(self, x, x_map):
         
     #     """
