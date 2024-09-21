@@ -1,0 +1,81 @@
+CrowdNav_Prediction_AttnGraph/wandb/
+CrowdNav_Prediction_AttnGraph/dataset/
+CrowdNav_Prediction_AttnGraph/SOGMP_plus/OGM-datasets/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Logs and database files
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.env/
+.venv/
+ENV/
+env/
+venv/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+
+# Test outputs
+coverage/
+*.cover
+*.gcov
+*.lst
+*.out
+
+# Documentation
+docs/_build/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Data and large files
+data/
+*.h5
+*.ckpt
+*.tfrecord
+*.tar.gz
+*.zip
+*.csv
+*.json
+
+# Ignore specific config or checkpoints
+checkpoints
