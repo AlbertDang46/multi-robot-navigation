@@ -86,8 +86,9 @@ def set_seed(seed):
 # this method takes in a fp and returns the data and labels
 POINTS = 90   # the number of lidar points
 IMG_SIZE = 32
-SEQ_LEN = 10
+SEQ_LEN = 4
 FUTURE_STEP=4
+DELAY=0
 class VaeTestDataset(torch.utils.data.Dataset):
     def __init__(self, img_path, file_name):
         # initialize the data and labels
@@ -129,15 +130,16 @@ class VaeTestDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx): # where is idx?
         # get the index of start point:
-        scans = np.zeros((SEQ_LEN, 3,POINTS,2))
-        positions = np.zeros((SEQ_LEN, 3,3))
-        targets=np.zeros((SEQ_LEN,3,4,POINTS,2))
+        scans = np.zeros((SEQ_LEN+DELAY, 3,POINTS,2))
+        positions = np.zeros((SEQ_LEN+DELAY, 3,3))
+        targets=np.zeros((SEQ_LEN+DELAY,3,4,POINTS,2))
         idx=idx%self.length
         
-        if idx+SEQ_LEN>= self.length:
-            idx=idx-SEQ_LEN
-        
-        for j in range(SEQ_LEN): 
+        if idx+SEQ_LEN+DELAY>= self.length:
+            idx=idx-SEQ_LEN-DELAY
+        if idx+SEQ_LEN+DELAY>= self.length:
+            exit()
+        for j in range(SEQ_LEN+DELAY): 
             # get the scan data:
             scan_name = self.scan_file_names[idx+j]
             scan = np.load(scan_name)
@@ -349,7 +351,8 @@ class RVAEP(nn.Module):
                                     hidden_dim=num_hiddens//4,
                                     kernel_size=(3, 3),
                                     bias=True)
-        self._encoder = VAE_Encoder((num_hiddens//4 + self.input_channels),)
+        
+        self._encoder = VAE_Encoder((num_hiddens//4+ self.input_channels),) # num_hiddens//4 + self.input_channels
 
         # decoder:
         self._decoder_z_mu = nn.ConvTranspose2d(in_channels=embedding_dim, 
@@ -360,6 +363,7 @@ class RVAEP(nn.Module):
                                 num_hiddens, 
                                 num_residual_layers, 
                                 num_residual_hiddens)
+        # in_channels=(num_hiddens//4 + self.input_channels)
         self.conv=nn.Sequential(nn.Conv2d(in_channels=(num_hiddens//4 + self.input_channels), 
                                     out_channels=self.output_channels,
                                     kernel_size=1, 
@@ -404,130 +408,7 @@ class RVAEP(nn.Module):
         kl_loss = -kl_divergence.mean()
 
         return z, kl_loss 
-    # # this forward is for middle fusion
-    # def forward(self, x, x_map,pos,ego_index):
-        
-    #     """
-    #     Forward pass `input_img` through the network
-    #     """
-    #     # reconstruction: 
-    #     # encode:
-    #     # input reshape:
-        
-    #     robot_num,b,seq_len,h, w = x.size()
-        
-    #     x= x.reshape(robot_num,b, seq_len, 1, IMG_SIZE, IMG_SIZE)
-    #     x_map = x_map.reshape(robot_num,b, 1, IMG_SIZE, IMG_SIZE)
-        
-        
-    #     #plot_ogm(x_map[0][0],'x_map.png')
-    #     robot_num,b, seq_len, c, h, w = x.size()
-    #     # h_enc_list=[]
-    #     # x_map_list=[]
-    #     enc_list=[[] for _ in range(b)]
-        
-        
-    #     record_len=torch.zeros(b).to(x.device)
-    #     for r in range(robot_num):
-            
-    #         h_enc, enc_state = self._convlstm.init_hidden(batch_size=b, image_size=(h, w))
-    #         for t in range(seq_len): 
-    #             x_in = x[r][:,t]
-    #             h_enc, enc_state = self._convlstm(input_tensor=x_in,
-    #                                             cur_state=[h_enc, enc_state])
-    #         # for tt in range(16):
-    #         #     plot_ogm(h_enc[0][tt].unsqueeze(0),'h_enc.png')
-    #         # exit()
-    #         distance_check=torch.sqrt((pos[:,ego_index,0]-pos[:,r,0])**2+(pos[:,ego_index,1]-pos[:,r,1])**2)<10 #b
-            
-    #         dx = pos[:, r, 0] - pos[:, ego_index, 0]
-    #         dy = (pos[:, r, 1] - pos[:, ego_index, 1])
-    #         dtheta = (pos[:, r, 2] - pos[:, ego_index, 2])
-
-    #         # Calculate rotation matrix components
-    #         cos = torch.cos(dtheta)
-    #         sin = torch.sin(dtheta)
-
-    #         # Assembling the transformation matrix (2x3)
-    #         rotation_matrices = torch.zeros(b, 2, 3)  # Shape: [batch_size, 2, 3]
-    #         rotation_matrices[:, 0, 0] = cos
-    #         rotation_matrices[:, 0, 1] = -sin
-    #         rotation_matrices[:, 1, 0] = sin
-    #         rotation_matrices[:, 1, 1] = cos
-    #         rotation_matrices[:, 0, 2] = dx/(32*0.3125)
-    #         rotation_matrices[:, 1, 2] = dy/(32*0.3125)
-            
-    #         T = get_transformation_matrix(rotation_matrices, (32, 32))
-            
-    #         h_enc_rec = warp_affine(h_enc, T, (32, 32)) #b 16 32 32
-            
-    #         #h_enc_rec[~distance_check]=0.
-    #         #h_enc_list.append(h_enc_rec)
-            
-    #         x_map_rec = warp_affine(x_map[r], T, (32, 32)) #b 1 32 32
-            
-    #         enc_in = torch.cat([h_enc_rec, x_map_rec], dim=1)  # 64 17 32 32
-            
-    #         #enc_list.append(enc_in)
-    #         for bz in range(b):
-    #             if distance_check[bz]:
-    #                 enc_list[bz].append(enc_in[bz])
-    #                 record_len[bz]+=1
-                    
-    #     enc_list_=[]
-    #     for bz in range(b):
-
-    #         enc_list_+=enc_list[bz]
-           
-        
-    #     enc_in_tensor=torch.stack(enc_list_,dim=0)
-        
-    #     # h_enc_tensor=torch.stack(h_enc_list,dim=0) # robot_num 64 16 32 32
-    #     # x_map_tensor=torch.stack(x_map_list,dim=0)  # robot_num 64 1 32 32
-    #     # enc_in = torch.cat([h_enc_tensor, x_map_tensor], dim=2)  #robot_num b 17 32 32
-        
-        
-        
-        
-    #     #enc_in_tensor=enc_in_tensor.permute(1,0,2,3,4).reshape(b*robot_num,17,32,32)
-
-        
-    #     regroup_feature, mask = regroup(enc_in_tensor,record_len,max_len=3)
-        
-        
-        
-    #     com_mask = mask.unsqueeze(1).unsqueeze(2).unsqueeze(3)
-    #     # com_mask = torch.repeat(com_mask,
-    #     #                   'b h w c l -> b (h new_h) (w new_w) c l',
-    #     #                   new_h=regroup_feature.shape[3],
-    #     #                   new_w=regroup_feature.shape[4])
-    #     com_mask = com_mask.repeat(1,regroup_feature.shape[3] // com_mask.shape[2], 
-    #                        regroup_feature.shape[4] // com_mask.shape[3], 1,1)
-        
-        
-    #     fused_feature = self.fusenet(regroup_feature, com_mask)
-
-    #     #plot_ogm(fused_feature[0],'fused_feature.png')
-    #     #print(h_enc.shape)
-
-    #     z_mu, z_log_sd = self._encoder(fused_feature)
-
-    #     # get the latent vector through reparameterization:
-    #     z, kl_loss = self.vae_reparameterize(z_mu, z_log_sd)
-        
-    #     # decode:
-    #     # reshape:
-    #     z = z.reshape(-1, 2, self.z_w, self.z_w)
-    #     #print(distance_check[:,robot_index].shape) #b
-        
-    #     x_d = self._decoder_z_mu(z)
-                
-    #     prediction = self._decoder(x_d)
-        
-        
-    #     return prediction, kl_loss
-    #this forward is for no fusion and early fusion
-    def forward(self, x, x_map):
+    def forward(self, x, x_map,pos,ego_index):
         
         """
         Forward pass `input_img` through the network
@@ -536,30 +417,97 @@ class RVAEP(nn.Module):
         # encode:
         # input reshape:
         
-        b,seq_len, h, w = x.size()
+        robot_num,b,seq_len,h, w = x.size()
         
-        x = x.reshape(b, seq_len, 1, IMG_SIZE, IMG_SIZE)
+        x= x.reshape(robot_num,b, seq_len, 1, IMG_SIZE, IMG_SIZE)
+        x_map = x_map.reshape(robot_num,b, 1, IMG_SIZE, IMG_SIZE)
         
-        x_map = x_map.reshape(b, 1, IMG_SIZE, IMG_SIZE)
-        # find size of different input dimensions
-        b, seq_len, c, h, w = x.size()
         
-        # encode: 
-        # initialize hidden states
-        h_enc, enc_state = self._convlstm.init_hidden(batch_size=b, image_size=(h, w))
-        for t in range(seq_len): 
-            x_in = x[:,t]
-            h_enc, enc_state = self._convlstm(input_tensor=x_in,
-                                              cur_state=[h_enc, enc_state])
+        #plot_ogm(x_map[0][0],'x_map.png')
+        robot_num,b, seq_len, c, h, w = x.size()
+        # h_enc_list=[]
+        # x_map_list=[]
+        enc_list=[[] for _ in range(b)]
         
-        #print(h_enc)
-        enc_in = torch.cat([h_enc, x_map], dim=1)  
         
-        #prediction = self.conv(enc_in)
-        #prediction = self.fc(enc_in.reshape(b,-1)).reshape(b,1,IMG_SIZE,IMG_SIZE)
-    
-        #return prediction,torch.tensor(0.0).to(device)
-        z_mu, z_log_sd = self._encoder(enc_in)
+        record_len=torch.zeros(b).to(x.device)
+        for r in range(robot_num):
+            
+            h_enc, enc_state = self._convlstm.init_hidden(batch_size=b, image_size=(h, w))
+            for t in range(seq_len): 
+                x_in = x[r][:,t]
+                h_enc, enc_state = self._convlstm(input_tensor=x_in,
+                                                cur_state=[h_enc, enc_state])
+            # for tt in range(16):
+            #     plot_ogm(h_enc[0][tt].unsqueeze(0),'h_enc.png')
+            # exit()
+            distance_check=torch.sqrt((pos[:,ego_index,0]-pos[:,r,0])**2+(pos[:,ego_index,1]-pos[:,r,1])**2)<10 #b
+            
+            dx = pos[:, r, 0] - pos[:, ego_index, 0]
+            dy = (pos[:, r, 1] - pos[:, ego_index, 1])
+            dtheta = (pos[:, r, 2] - pos[:, ego_index, 2])
+
+            # Calculate rotation matrix components
+            cos = torch.cos(dtheta)
+            sin = torch.sin(dtheta)
+
+            # Assembling the transformation matrix (2x3)
+            rotation_matrices = torch.zeros(b, 2, 3)  # Shape: [batch_size, 2, 3]
+            rotation_matrices[:, 0, 0] = cos
+            rotation_matrices[:, 0, 1] = -sin
+            rotation_matrices[:, 1, 0] = sin
+            rotation_matrices[:, 1, 1] = cos
+            rotation_matrices[:, 0, 2] = dx/(32*0.3125)
+            rotation_matrices[:, 1, 2] = dy/(32*0.3125)
+            
+            T = get_transformation_matrix(rotation_matrices, (32, 32))
+            
+            h_enc_rec = warp_affine(h_enc, T, (32, 32)) #b 16 32 32
+            
+            x_map_rec = warp_affine(x_map[r], T, (32, 32)) #b 1 32 32
+            
+            enc_in = torch.cat([h_enc_rec, x_map_rec], dim=1)  # 64 17 32 32
+            
+            #enc_list.append(enc_in)
+            for bz in range(b):
+                if distance_check[bz]:
+                    enc_list[bz].append(enc_in[bz])
+                    record_len[bz]+=1
+                    
+        enc_list_=[]
+        for bz in range(b):
+
+            enc_list_+=enc_list[bz]
+           
+        
+        enc_in_tensor=torch.stack(enc_list_,dim=0)
+        
+        # h_enc_tensor=torch.stack(h_enc_list,dim=0) # robot_num 64 16 32 32
+        # x_map_tensor=torch.stack(x_map_list,dim=0)  # robot_num 64 1 32 32
+        # enc_in = torch.cat([h_enc_tensor, x_map_tensor], dim=2)  #robot_num b 17 32 32
+        
+        
+        
+        
+        #enc_in_tensor=enc_in_tensor.permute(1,0,2,3,4).reshape(b*robot_num,17,32,32)
+
+        
+        regroup_feature, mask = regroup(enc_in_tensor,record_len,max_len=3)
+        
+        
+        
+        com_mask = mask.unsqueeze(1).unsqueeze(2).unsqueeze(3)
+        
+        com_mask = com_mask.repeat(1,regroup_feature.shape[3] // com_mask.shape[2], 
+                           regroup_feature.shape[4] // com_mask.shape[3], 1,1)
+        
+        
+        fused_feature = self.fusenet(regroup_feature, com_mask)
+
+        #plot_ogm(fused_feature[0],'fused_feature.png')
+        #print(h_enc.shape)
+
+        z_mu, z_log_sd = self._encoder(fused_feature)
 
         # get the latent vector through reparameterization:
         z, kl_loss = self.vae_reparameterize(z_mu, z_log_sd)
@@ -567,14 +515,62 @@ class RVAEP(nn.Module):
         # decode:
         # reshape:
         z = z.reshape(-1, 2, self.z_w, self.z_w)
-
-        x_d = self._decoder_z_mu(z)
-        #x_d = self.dropout(x_d)
+        #print(distance_check[:,robot_index].shape) #b
         
+        x_d = self._decoder_z_mu(z)
+                
         prediction = self._decoder(x_d)
         
         
         return prediction, kl_loss
+    # def forward(self, x, x_map):
+        
+    #     """
+    #     Forward pass `input_img` through the network
+    #     """
+    #     # reconstruction: 
+    #     # encode:
+    #     # input reshape:
+        
+    #     b,seq_len, h, w = x.size()
+        
+    #     x = x.reshape(b, seq_len, 1, IMG_SIZE, IMG_SIZE)
+        
+    #     x_map = x_map.reshape(b, 1, IMG_SIZE, IMG_SIZE)
+    #     # find size of different input dimensions
+    #     b, seq_len, c, h, w = x.size()
+        
+    #     # encode: 
+    #     # initialize hidden states
+    #     h_enc, enc_state = self._convlstm.init_hidden(batch_size=b, image_size=(h, w))
+    #     for t in range(seq_len): 
+    #         x_in = x[:,t]
+    #         h_enc, enc_state = self._convlstm(input_tensor=x_in,
+    #                                           cur_state=[h_enc, enc_state])
+        
+    #     #print(h_enc)
+    #     enc_in = torch.cat([h_enc, x_map], dim=1)  
+        
+    #     #prediction = self.conv(enc_in)
+    #     #prediction = self.fc(enc_in.reshape(b,-1)).reshape(b,1,IMG_SIZE,IMG_SIZE)
+    
+    #     #return prediction,torch.tensor(0.0).to(device)
+    #     z_mu, z_log_sd = self._encoder(enc_in)
+
+    #     # get the latent vector through reparameterization:
+    #     z, kl_loss = self.vae_reparameterize(z_mu, z_log_sd)
+        
+    #     # decode:
+    #     # reshape:
+    #     z = z.reshape(-1, 2, self.z_w, self.z_w)
+
+    #     x_d = self._decoder_z_mu(z)
+    #     #x_d = self.dropout(x_d)
+        
+    #     prediction = self._decoder(x_d)
+        
+        
+    #     return prediction, kl_loss
 
 #
 # end of class
