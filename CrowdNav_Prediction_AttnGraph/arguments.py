@@ -62,7 +62,7 @@ def get_args():
     parser.add_argument(
         '--num-steps',
         type=int,
-        default=50,
+        default=30,
         help='number of forward steps in A2C (default: 5)')
     parser.add_argument(
         '--recurrent-policy',
@@ -216,7 +216,7 @@ def get_args():
                         help='Attention size')
 
     # Sequence length
-    parser.add_argument('--seq_length', type=int, default=50,
+    parser.add_argument('--seq_length', type=int, default=30,
                         help='Sequence length')
 
     # use self attn in human states or not

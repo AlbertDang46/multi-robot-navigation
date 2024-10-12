@@ -310,7 +310,7 @@ def main():
 		# Convert the padded sequences to a NumPy array
 		cur_future_seq= np.array(cur_future_seq)
 		max_len=algo_args.num_steps-FUTURE_STEP
-		if len(current_episode_lidar)==50:
+		if len(current_episode_lidar)==30:
 			current_episode_lidar=np.array(current_episode_lidar[:len(cur_future_seq)])
 			current_episode_vel_pos=np.array(current_episode_vel_pos[:len(cur_future_seq)])
 			successful_lidar_seq.append(current_episode_lidar)

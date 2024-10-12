@@ -38,7 +38,7 @@ class Config(object):
 
     # config for simulation
     sim = BaseConfig()
-    sim.num_ray = 900
+    sim.num_ray = 90
     sim.circle_radius = 6 * np.sqrt(2)
     sim.arena_size = 6
     sim.human_num = 3
