@@ -74,8 +74,8 @@ class Policy(nn.Module):
 
         return value, action, action_log_probs, rnn_hxs,ogm_for_vis,lidar,vel_pos
 
-    def get_value(self, inputs, rnn_hxs, masks,robot_index):
-
+    def get_value(self, inputs, rnn_hxs, masks,robot_index): 
+        
         value, _, _ ,_,_,_= self.base(inputs, rnn_hxs, masks, robot_index,infer=True)
 
         return value
@@ -90,5 +90,3 @@ class Policy(nn.Module):
         dist_entropy = dist.entropy().mean()
 
         return value, action_log_probs, dist_entropy, rnn_hxs
-
-

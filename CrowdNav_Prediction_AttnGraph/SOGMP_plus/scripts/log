@@ -1,0 +1,13 @@
+mid fusion input_map chocolate river 43
+early fusion input-map stellar morning 38
+no fusion input map serene waterfall 39
+
+
+mid fusion dogm still hill 42
+early fusion dogm stiled firebrand 41
+no fusion dogm quiet bird 40
+
+no fusion dogm conv 32 bz 64 comfy fog 66
+                fc 64  bz 64 misty bee 64
+                fc 32 bz 64
+                conv 64 bz 16 Train Loss: 90.1100, Val Loss: 138.5430, train WMSE: 0.3187, train SSIM: 0.4258, val WMSE: 0.4074, val SSIM: 0.2404

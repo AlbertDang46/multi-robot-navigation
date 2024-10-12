@@ -84,7 +84,7 @@ class PPO():
                                                  value_losses_clipped).mean()
                 else:
                     value_loss = 0.5 * (return_batch - values).pow(2).mean()
-                
+
                 # self.optimizer.zero_grad()
                 # total_loss=value_loss * self.value_loss_coef + action_loss - dist_entropy * self.entropy_coef
                 # total_loss.backward()

@@ -5,6 +5,7 @@ import copy
 import sys
 
 import torch
+from SOGMP_plus.scripts.model import plot_ogm
 from crowd_sim.envs.utils.action import ActionRot, ActionXY
 from crowd_sim.envs import *
 from crowd_sim.envs.utils.info import *
@@ -16,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 from matplotlib import patches
 from skimage.draw import line
-from crowd_sim.envs.utils.lidar2d import Lidar2d,merge_ogm,merge_lidar
+from crowd_sim.envs.utils.lidar2d import Lidar2d,merge_ogm
 
 class CrowdSimVarNum(CrowdSim):
     """
@@ -59,6 +60,7 @@ class CrowdSimVarNum(CrowdSim):
         # occupancy grid map: (2,map_size,map_size), 0: occupancy map, 1: semantic label map
         d['occupancy_map'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(2,self.map_size, self.map_size), dtype=np.float32)
         d['lidar'] = gym.spaces.Box(low=-np.inf, high=np.inf,shape=(self.num_ray,2), dtype=np.float32)
+        d['lidar_fused']=gym.spaces.Box(low=-np.inf, high=np.inf,shape=(self.num_ray,2), dtype=np.float32)
         # detected robots info: relative px, relative py, disp_x, disp_y, sorted by distance
         d['detected_robots_info'] = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(self.robot_num, 4), dtype=np.float32)
 
@@ -313,7 +315,28 @@ class CrowdSimVarNum(CrowdSim):
 
     # reset = True: reset calls this function; reset = False: step calls this function
     # sorted: sort all humans by distance to robot or not
-    def generate_ob(self, robot_index,reset, sort=False):
+    def generate_past_ob(self,past_pos_deque):
+        
+        all_past_lidar=[]
+        for r in range(self.robot_num):
+            past_lidar=[]
+            for ind in range(len(past_pos_deque[r])-1):
+                    
+                    pos=past_pos_deque[r][ind]
+                    pos=pos.cpu()
+                    pos=np.array(pos)
+                    robot_pos_x = int(self.static_map_size / 2 + np.floor(pos[0] / self.cell_length))
+                    robot_pos_y = int(self.static_map_size / 2 + np.floor(pos[1]/ self.cell_length))
+                    past_lidar.append(self.lidar.get_raw_data(robot_pos_x,robot_pos_y,pos[2]))
+                    
+            past_lidar_=np.stack(past_lidar)
+            
+            all_past_lidar.append(past_lidar_)
+        all_past_lidar_=np.stack(all_past_lidar)
+        
+        return all_past_lidar_
+
+    def generate_ob(self, robot_index,reset,sort=False):
         
         """Generate observation for reset and step functions"""    
 
@@ -330,7 +353,7 @@ class CrowdSimVarNum(CrowdSim):
         # print(self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta).shape)#(90,2)
         
         ob['lidar']=self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta)
-        
+        ob['lidar_fused']=self.lidar.get_raw_data(robot_pos_x,robot_pos_y,self.robots[robot_index].theta)
         ob['detected_robots_info'] = np.array([[1e5, 1e5, 0, 0] for _ in range(self.robot_num)], dtype=np.float32)
         
          
@@ -420,6 +443,7 @@ class CrowdSimVarNum(CrowdSim):
         self.static_map_size = int(10 * self.map_size / self.robots[0].sensor_range)
         bitmap_file = os.path.join("bitmaps", f"bitmap_{map_index}", "bitmap.npy")
         self.original_map = np.load(bitmap_file)
+        
 
         self.map_drawed = False
     
@@ -438,19 +462,29 @@ class CrowdSimVarNum(CrowdSim):
             for j in range(self.robot_num):
                 if i == j or not self.robots_connection_graph[i, j]:
                     continue
-                broadcasted_obs[i]['occupancy_map'] = merge_ogm(
-                            broadcasted_obs[i]['occupancy_map'], obs[j]['occupancy_map'],
-                            [self.robots[j].px-self.robots[i].px, self.robots[j].py-self.robots[i].py], 
-                            self.robots[i].theta, self.robots[j].theta,
-                            self.cell_length)
+                
+                # broadcasted_obs[i]['occupancy_map']= merge_ogm(
+                #             broadcasted_obs[i]['occupancy_map'], obs[j]['occupancy_map'],
+                #             [self.robots[j].px-self.robots[i].px, self.robots[j].py-self.robots[i].py], 
+                #             self.robots[i].theta, self.robots[j].theta,
+                #             self.cell_length)
+                
+                
                 broadcasted_obs[i]['detected_robots_info'][j] = np.array([(self.robots[j].px - self.robots[i].px)*np.cos(self.robots[i].theta) + (self.robots[j].py - self.robots[i].py)*np.sin(self.robots[i].theta),
                                                                           (self.robots[j].py - self.robots[i].py)*np.cos(self.robots[i].theta) - (self.robots[j].px - self.robots[i].px)*np.sin(self.robots[i].theta),
                                                                           (self.robots[j].vx - self.robots[i].vx)*np.cos(self.robots[i].theta) + (self.robots[j].vy - self.robots[i].vy)*np.sin(self.robots[i].theta), 
                                                                           (self.robots[j].vy - self.robots[i].vy)*np.cos(self.robots[i].theta) - (self.robots[j].vx - self.robots[i].vx)*np.sin(self.robots[i].theta)
                                                                           ])
-                broadcasted_obs[i]['lidar'] = merge_lidar(broadcasted_obs[i]['lidar'], obs[j]['lidar'],self.robots[i].px,self.robots[j].px, self.robots[i].py,self.robots[j].py, self.robots[i].theta, self.robots[j].theta)
+                #print(i,j,broadcasted_obs[i]['lidar'])
+                #broadcasted_obs[i]['lidar'] = self.lidar.merge_lidar(broadcasted_obs[i]['lidar'], obs[j]['lidar'],(self.robots[i].px,self.robots[i].py), (self.robots[j].px,self.robots[j].py), self.robots[i].theta, self.robots[j].theta)
+
+                broadcasted_obs[i]['occupancy_map']= self.lidar.merge_lidar_data(obs[i]['lidar'], obs[j]['lidar'],(self.robots[i].px,self.robots[i].py,self.robots[i].theta), (self.robots[j].px,self.robots[j].py,self.robots[j].theta))
+                plot_ogm(torch.tensor(broadcasted_obs[i]['occupancy_map'][0]).unsqueeze(0), 'chann0.png')
+                plot_ogm(torch.tensor(broadcasted_obs[i]['occupancy_map'][1]).unsqueeze(0), 'chann1.png')
+                
             # sort the detected robots by distance, the first one is the nearest robot
             broadcasted_obs[i]['detected_robots_info'] = np.array(sorted(broadcasted_obs[i]['detected_robots_info'], key=lambda x: x[0]**2 + x[1]**2))
+            
         return broadcasted_obs
         
 
@@ -554,8 +588,9 @@ class CrowdSimVarNum(CrowdSim):
 
         return obs
 
-
-    def step(self, actions, update=True):
+    
+    def step(self, actions, update=True,collect=False, pos_deque=None):
+        
         """
         Step the environment forward for one timestep
         Compute actions for all agents, detect collision, update environment and return (ob, reward, done, info)
@@ -588,7 +623,8 @@ class CrowdSimVarNum(CrowdSim):
             actions[i] = self.robots[i].policy.clip_action(actions[i], self.robots[i].v_pref * (1-omega))
             
         # get human actions        
-        human_actions = self.get_human_actions()
+        human_actions = self.get_human_actions() #human_num
+        
 
         # need to update self.human_future_traj in testing to calculate number of intrusions
         self.phase = 'train'
@@ -939,238 +975,247 @@ class CrowdSimVarNum(CrowdSim):
 
 
     def render(self, ogm_for_vis,mode='human'):
+        # if len(pos_deque[0])>1:
+        #     past_lidar=self.generate_past_ob(pos_deque)
+            
+            
+        # else:
+        #     past_lidar=None
+
+
         #print('enter crowd_sim_var_num/render')
         
         # change render to 2 robots
         """ Render the current status of the environment using matplotlib """
 
 
-        plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
+        # plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 
-        robot_color = 'gold'
-        goal_color = 'red'
-        arrow_color = 'red'
-        arrow_style = patches.ArrowStyle("->", head_length=4, head_width=2)
+        # robot_color = 'gold'
+        # goal_color = 'red'
+        # arrow_color = 'red'
+        # arrow_style = patches.ArrowStyle("->", head_length=4, head_width=2)
 
-        def calcFOVLineEndPoint(ang, point, extendFactor):
-            # choose the extendFactor big enough
-            # so that the endPoints of the FOVLine is out of xlim and ylim of the figure
-            FOVLineRot = np.array([[np.cos(ang), -np.sin(ang), 0],
-                                   [np.sin(ang), np.cos(ang), 0],
-                                   [0, 0, 1]])
-            point.extend([1])
-            # apply rotation matrix
-            newPoint = np.matmul(FOVLineRot, np.reshape(point, [3, 1]))
-            # increase the distance between the line start point and the end point
-            newPoint = [extendFactor * newPoint[0, 0], extendFactor * newPoint[1, 0], 1]
-            return newPoint
+        # def calcFOVLineEndPoint(ang, point, extendFactor):
+        #     # choose the extendFactor big enough
+        #     # so that the endPoints of the FOVLine is out of xlim and ylim of the figure
+        #     FOVLineRot = np.array([[np.cos(ang), -np.sin(ang), 0],
+        #                            [np.sin(ang), np.cos(ang), 0],
+        #                            [0, 0, 1]])
+        #     point.extend([1])
+        #     # apply rotation matrix
+        #     newPoint = np.matmul(FOVLineRot, np.reshape(point, [3, 1]))
+        #     # increase the distance between the line start point and the end point
+        #     newPoint = [extendFactor * newPoint[0, 0], extendFactor * newPoint[1, 0], 1]
+        #     return newPoint
         
 
-        ax=self.render_axis
-        artists=[]
-        arrowStartEnd=[]
-        texts=[]
-        robot_num = 0
+        # ax=self.render_axis
+        # artists=[]
+        # arrowStartEnd=[]
+        # texts=[]
+        # robot_num = 0
         
        
-        if not self.map_drawed:
-            # clear the previous map
-            for artist in self.map_artists:
-                artist.remove()
-            self.map_artists.clear()
-            self.map_drawed = True
-            for i in range(self.static_map_size):
-                for j in range(self.static_map_size):
-                    if self.original_map[i, j] > 0:
-                        m = plt.Rectangle(((i - self.static_map_size / 2)*self.cell_length  , (j - self.static_map_size / 2)*self.cell_length ), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=0.5* self.original_map[i,j], linewidth=0, edgecolor='none',)
-                        ax.add_artist(m)
-                        self.map_artists.append(m)
+        # if not self.map_drawed:
+        #     # clear the previous map
+        #     for artist in self.map_artists:
+        #         artist.remove()
+        #     self.map_artists.clear()
+        #     self.map_drawed = True
+        #     for i in range(self.static_map_size):
+        #         for j in range(self.static_map_size):
+        #             if self.original_map[i, j] > 0:
+        #                 m = plt.Rectangle(((i - self.static_map_size / 2)*self.cell_length  , (j - self.static_map_size / 2)*self.cell_length ), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=0.5* self.original_map[i,j], linewidth=0, edgecolor='none',)
+        #                 ax.add_artist(m)
+        #                 self.map_artists.append(m)
 
 
 
-        # add goals and robots
-        draw_fov_once=False
-        for robot in self.robots:
-            # write robot
-            robot_num += 1
-            if robot.deactivated :
-                if not np.linalg.norm(np.array([robot.px, robot.py]) - np.array([robot.gx, robot.gy])) <= robot.radius:
-                    texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='grey' ,fontsize=12))
-                    texts.append(plt.text(robot.gx -0.16, robot.gy -0.27, 'X', color='black' ,fontsize=16))
-                    texts.append(plt.text(robot.px -0.19, robot.py -0.27, 'X', color='black' ,fontsize=16))
-                else:
-                    texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='yellow' ,fontsize=12))
-            else:
-                texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='white' ,fontsize=12))
-            # draw link between robot and goal
-            link = mlines.Line2D([robot.px, robot.gx], [robot.py, robot.gy], color='grey', marker = '*', markerfacecolor = 'yellow', linestyle=':', markersize=12, label='Goal')
-            ax.add_artist(link)
-            artists.append(link)
+        # # add goals and robots
+        # draw_fov_once=False
+        # for robot in self.robots:
+        #     # write robot
+        #     robot_num += 1
+        #     if robot.deactivated :
+        #         if not np.linalg.norm(np.array([robot.px, robot.py]) - np.array([robot.gx, robot.gy])) <= robot.radius:
+        #             texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='grey' ,fontsize=12))
+        #             texts.append(plt.text(robot.gx -0.16, robot.gy -0.27, 'X', color='black' ,fontsize=16))
+        #             texts.append(plt.text(robot.px -0.19, robot.py -0.27, 'X', color='black' ,fontsize=16))
+        #         else:
+        #             texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='yellow' ,fontsize=12))
+        #     else:
+        #         texts.append(plt.text(robot.px -0.16, robot.py -0.23, str(robot_num), color='white' ,fontsize=12))
+        #     # draw link between robot and goal
+        #     link = mlines.Line2D([robot.px, robot.gx], [robot.py, robot.gy], color='grey', marker = '*', markerfacecolor = 'yellow', linestyle=':', markersize=12, label='Goal')
+        #     ax.add_artist(link)
+        #     artists.append(link)
 
-            # add an arc of robot's sensor range
-            #sensor_range = plt.Circle(robot.get_position(), robot.sensor_range + robot.radius+self.config.humans.radius, fill=False, linestyle='--')
-            sensor_range = plt.Rectangle(
-                (robot.px - robot.sensor_range * (np.cos(robot.theta)-np.sin(robot.theta)) , 
-                 robot.py - robot.sensor_range* (np.cos(robot.theta)+np.sin(robot.theta))), 
-                2 * robot.sensor_range, 2 * robot.sensor_range, 
-                fill=False, linestyle='--',color = (0,0,0,0.1), angle=np.degrees(robot.theta))
+        #     # add an arc of robot's sensor range
+        #     #sensor_range = plt.Circle(robot.get_position(), robot.sensor_range + robot.radius+self.config.humans.radius, fill=False, linestyle='--')
+        #     sensor_range = plt.Rectangle(
+        #         (robot.px - robot.sensor_range * (np.cos(robot.theta)-np.sin(robot.theta)) , 
+        #          robot.py - robot.sensor_range* (np.cos(robot.theta)+np.sin(robot.theta))), 
+        #         2 * robot.sensor_range, 2 * robot.sensor_range, 
+        #         fill=False, linestyle='--',color = (0,0,0,0.1), angle=np.degrees(robot.theta))
             
-            ax.add_artist(sensor_range)
-            artists.append(sensor_range)
+        #     ax.add_artist(sensor_range)
+        #     artists.append(sensor_range)
 
-            # compute orientation in each step and add arrow to show the direction
-            radius = robot.radius         
-            robot_theta = robot.theta if robot.kinematics == 'unicycle' else np.arctan2(robot.vy, robot.vx)
-            arrowStartEnd.append(((robot.px, robot.py), (robot.px +  3 * robot.vx, robot.py +  3 * robot.vy)))
+        #     # compute orientation in each step and add arrow to show the direction
+        #     radius = robot.radius         
+        #     robot_theta = robot.theta if robot.kinematics == 'unicycle' else np.arctan2(robot.vy, robot.vx)
+        #     arrowStartEnd.append(((robot.px, robot.py), (robot.px +  3 * robot.vx, robot.py +  3 * robot.vy)))
 
-            # draw FOV for the robot
-            # add robot FOV
-            # !!! hanot been tested
-            # robot.FOV = np.pi / 2
-            if robot.FOV < 2 * np.pi:
-                if not draw_fov_once:
-                    draw_fov_once = True
-                    FOVAng = robot.FOV / 2
-                    FOVLine1 = mlines.Line2D([0, 0], [0, 0], linestyle='-.')
-                    FOVLine2 = mlines.Line2D([0, 0], [0, 0], linestyle='-.')
+        #     # draw FOV for the robot
+        #     # add robot FOV
+        #     # !!! hanot been tested
+        #     # robot.FOV = np.pi / 2
+        #     if robot.FOV < 2 * np.pi:
+        #         if not draw_fov_once:
+        #             draw_fov_once = True
+        #             FOVAng = robot.FOV / 2
+        #             FOVLine1 = mlines.Line2D([0, 0], [0, 0], linestyle='-.')
+        #             FOVLine2 = mlines.Line2D([0, 0], [0, 0], linestyle='-.')
 
-                    endPointX = robot.px + radius * np.cos(robot_theta)
-                    endPointY = robot.py + radius * np.sin(robot_theta)
+        #             endPointX = robot.px + radius * np.cos(robot_theta)
+        #             endPointY = robot.py + radius * np.sin(robot_theta)
 
-                    # transform the vector back to world frame origin, apply rotation matrix, and get end point of FOVLine
-                    # the start point of the FOVLine is the center of the robot
-                    FOVEndPoint1 = calcFOVLineEndPoint(FOVAng, [endPointX - robot.px, endPointY - robot.py], 20. / radius)
-                    FOVLine1.set_xdata(np.array([robot.px, robot.px + FOVEndPoint1[0]]))
-                    FOVLine1.set_ydata(np.array([robot.py, robot.py + FOVEndPoint1[1]]))
-                    FOVEndPoint2 = calcFOVLineEndPoint(-FOVAng, [endPointX - robot.px, endPointY - robot.py], 20. / radius)
-                    FOVLine2.set_xdata(np.array([robot.px, robot.px + FOVEndPoint2[0]]))
-                    FOVLine2.set_ydata(np.array([robot.py, robot.py + FOVEndPoint2[1]]))
+        #             # transform the vector back to world frame origin, apply rotation matrix, and get end point of FOVLine
+        #             # the start point of the FOVLine is the center of the robot
+        #             FOVEndPoint1 = calcFOVLineEndPoint(FOVAng, [endPointX - robot.px, endPointY - robot.py], 20. / radius)
+        #             FOVLine1.set_xdata(np.array([robot.px, robot.px + FOVEndPoint1[0]]))
+        #             FOVLine1.set_ydata(np.array([robot.py, robot.py + FOVEndPoint1[1]]))
+        #             FOVEndPoint2 = calcFOVLineEndPoint(-FOVAng, [endPointX - robot.px, endPointY - robot.py], 20. / radius)
+        #             FOVLine2.set_xdata(np.array([robot.px, robot.px + FOVEndPoint2[0]]))
+        #             FOVLine2.set_ydata(np.array([robot.py, robot.py + FOVEndPoint2[1]]))
 
-                    ax.add_artist(FOVLine1)
-                    ax.add_artist(FOVLine2)
-                    artists.append(FOVLine1)
-                    artists.append(FOVLine2)
+        #             ax.add_artist(FOVLine1)
+        #             ax.add_artist(FOVLine2)
+        #             artists.append(FOVLine1)
+        #             artists.append(FOVLine2)
         
-        # draw obst_direction
-        for r in range(self.robot_num):
-            if self.obst_directions[r] is not None and (self.obst_directions[r][0] != 0 or self.obst_directions[r][1] != 0):
-                # draw a arrow to show the direction of the obstacle
-                #arrowStartEnd.append(((self.robots[r].px, self.robots[r].py), (self.robots[r].px + self.obst_directions[r][0]*np.cos(self.robots[r].theta) - self.obst_directions[r][1]*np.sin(self.robots[r].theta), self.robots[r].py + self.obst_directions[r][0]*np.sin(self.robots[r].theta) + self.obst_directions[r][1]*np.cos(self.robots[r].theta))))
+        # # draw obst_direction
+        # for r in range(self.robot_num):
+        #     if self.obst_directions[r] is not None and (self.obst_directions[r][0] != 0 or self.obst_directions[r][1] != 0):
+        #         # draw a arrow to show the direction of the obstacle
+        #         #arrowStartEnd.append(((self.robots[r].px, self.robots[r].py), (self.robots[r].px + self.obst_directions[r][0]*np.cos(self.robots[r].theta) - self.obst_directions[r][1]*np.sin(self.robots[r].theta), self.robots[r].py + self.obst_directions[r][0]*np.sin(self.robots[r].theta) + self.obst_directions[r][1]*np.cos(self.robots[r].theta))))
                 
-                d_t = 0.5 * 3
-                x_dif = self.obst_directions[r][0] - (self.obst_directions[r][0] * np.cos(d_t) + self.obst_directions[r][1] * np.sin(d_t))
+        #         d_t = 0.5 * 3
+        #         x_dif = self.obst_directions[r][0] - (self.obst_directions[r][0] * np.cos(d_t) + self.obst_directions[r][1] * np.sin(d_t))
 
-                # texts.append(plt.text(self.robots[r].px + 0.5, self.robots[r].py + 1,
-                #             str(x_dif), # str( np.clip(np.arctan2(self.obst_directions[r][1], self.obst_directions[r][0])/np.pi,-0.5,0.5)% 2 - 0.5),#0.3* (np.clip(np.dot(np.array([-0.3,0.85]), self.obst_directions[r]),-0.1,1) - 0.6)),
-                #             color='black', fontsize=12))
+        #         # texts.append(plt.text(self.robots[r].px + 0.5, self.robots[r].py + 1,
+        #         #             str(x_dif), # str( np.clip(np.arctan2(self.obst_directions[r][1], self.obst_directions[r][0])/np.pi,-0.5,0.5)% 2 - 0.5),#0.3* (np.clip(np.dot(np.array([-0.3,0.85]), self.obst_directions[r]),-0.1,1) - 0.6)),
+        #         #             color='black', fontsize=12))
             
-        # print(ogm_for_vis)
+        # # print(ogm_for_vis)
         
-        # Convert numpy array to a PyTorch tensor
-        chan_0 = torch.from_numpy(self.ob['occupancy_map'][0])
-        # Convert tensor to float
-        chan_0 = chan_0.float()
-        chan_0=ogm_for_vis[0,0,0,:,:].cpu().float()
-        self.ob['occupancy_map'][1]=ogm_for_vis[0,0,1,:,:].cpu()
+        
+        
+        
+        # chan_0=ogm_for_vis[0,0,0,:,:].cpu().float()
+        
+        # #self.ob['occupancy_map'][0]=ogm_for_vis[0,0,0,:,:].cpu()
         
 
-        # print(self.ob['occupancy_map'][1])
-        # exit()
-        #self.ob['occupancy_map'] = self.convert_to_3_channel_bitmap(self.ob['occupancy_map'])
-        for i in range(self.map_size):
-            c=0
-            for j in range(self.map_size):
-                global_x =  self.robots[0].px + (i - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta) - (j - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta)
-                global_y =  self.robots[0].py + (i - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta) + (j - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta)
-                # no negative? 
-                thes=0.1 * torch.max(chan_0)
+        # #self.ob['occupancy_map'] = self.convert_to_3_channel_bitmap(self.ob['occupancy_map'])
+        # for i in range(self.map_size):
+        #     c=0
+            
+        #     for j in range(self.map_size):
+        #         global_x =  self.robots[0].px + (i - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta) - (j - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta)
+        #         global_y =  self.robots[0].py + (i - self.map_size / 2)*self.cell_length*np.sin(self.robots[0].theta) + (j - self.map_size / 2)*self.cell_length*np.cos(self.robots[0].theta)
+        #         # no negative? 
+        #         #thes=0.5*torch.max(chan_0)
+        #         thes=0
                 
-               
-                if chan_0[i, j]> thes:
-                    alpha_value = chan_0[i, j].item()
-                    ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=alpha_value, linewidth=0, edgecolor='none',)
-                    ax.add_artist(ogm)
-                    artists.append(ogm)
-                    c+=1
-                # if self.ob['occupancy_map'][1][i, j] > 0:
-                    
-                #     ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][1][i, j].clip(0,1)*0.8, linewidth=0, edgecolor='none',)
-                #     ax.add_artist(ogm)
-                #     artists.append(ogm)
-                #print('occ_percentage : {}'.format(c/(self.map_size*self.map_size)))
+        #        # dynamic obdt by merging lidar
+        #         if chan_0[i, j]> thes:
+        #             alpha_value = chan_0[i, j]
+        #             ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='black', alpha=1, linewidth=0, edgecolor='none',)
+        #             ax.add_artist(ogm)
+        #             artists.append(ogm)
+        #         # dynamic obdt by merging ogm
+        #         if self.ob['occupancy_map'][0][i, j] > 0:
+        #             ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=0.8, linewidth=0, edgecolor='none',)
+        #             ax.add_artist(ogm)
+        #             artists.append(ogm)
+                
 
                 
-                # if self.ob['occupancy_map'][2][i, j] > 0:
-                #     ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
-                #     ax.add_artist(ogm)
-                #     artists.append(ogm)
+        #         # if self.ob['occupancy_map'][2][i, j] > 0:
+        #         #     ogm = plt.Rectangle((global_x, global_y), self.cell_length, self.cell_length, fill=True, facecolor='pink', alpha=self.ob['occupancy_map'][2][i, j]*0.8, linewidth=0, edgecolor='none',)
+        #         #     ax.add_artist(ogm)
+        #         #     artists.append(ogm)
 
-        # add arrow of humans to show the direction
-        for i, human in enumerate(self.humans):
-            theta = np.arctan2(human.vy, human.vx)
-            arrowStartEnd.append(((human.px, human.py), (human.px + radius * np.cos(theta), human.py + radius * np.sin(theta))))        
+        # # add arrow of humans to show the direction
+        # for i, human in enumerate(self.humans):
+        #     theta = np.arctan2(human.vy, human.vx)
+        #     arrowStartEnd.append(((human.px, human.py), (human.px + radius * np.cos(theta), human.py + radius * np.sin(theta))))        
         
-        # draw robots on the map
-        robots_mark=mlines.Line2D([robotx.px for robotx in self.robots], [roboty.py for roboty in self.robots], color='red',marker = 'o', linestyle='None', markersize=15, label='Goal')
-        ax.add_artist(robots_mark)
-        artists.append(robots_mark)
+        # # draw robots on the map
+        # robots_mark=mlines.Line2D([robotx.px for robotx in self.robots], [roboty.py for roboty in self.robots], color='red',marker = 'o', linestyle='None', markersize=15, label='Goal')
+        # ax.add_artist(robots_mark)
+        # artists.append(robots_mark)
 
-        # draw arrows on the map
-        arrows = [patches.FancyArrowPatch(*arrow, color=arrow_color, arrowstyle=arrow_style)
-                for arrow in arrowStartEnd]
-        for arrow in arrows:
-            ax.add_artist(arrow)
-            artists.append(arrow)       
+        # # draw arrows on the map
+        # arrows = [patches.FancyArrowPatch(*arrow, color=arrow_color, arrowstyle=arrow_style)
+        #         for arrow in arrowStartEnd]
+        # for arrow in arrows:
+        #     ax.add_artist(arrow)
+        #     artists.append(arrow)       
 
 
-        # add humans and change the color of them based on visibility
-        human_circles = [plt.Circle(human.get_position(), human.radius, fill=False, linewidth=1.5) for human in self.humans]
+        # # add humans and change the color of them based on visibility
+        # human_circles = [plt.Circle(human.get_position(), human.radius, fill=False, linewidth=1.5) for human in self.humans]
         
 
 
 
-        actual_arena_size = self.arena_size + 0.5
-        for i in range(len(self.humans)):
-            ax.add_artist(human_circles[i])
-            artists.append(human_circles[i])
+        # actual_arena_size = self.arena_size + 0.5
+        # for i in range(len(self.humans)):
+        #     ax.add_artist(human_circles[i])
+        #     artists.append(human_circles[i])
 
-            # green: visible; red: invisible
-            # if self.detect_visible(self.robot, self.humans[i], robot1=True):
-            if self.human_visibility[i]:
-                human_circles[i].set_color(c='g')
-            else:
-                human_circles[i].set_color(c='r')
+        #     # green: visible; red: invisible
+        #     # if self.detect_visible(self.robot, self.humans[i], robot1=True):
+        #     if self.human_visibility[i]:
+        #         human_circles[i].set_color(c='g')
+        #     else:
+        #         human_circles[i].set_color(c='r')
 
 
-            # for j in range(len(self.robots)):
-            for j in range(1):
-                if self.humans[i].id in self.observed_human_ids[j]:
-                    human_circles[i].set_color(c='b')
+        #     # for j in range(len(self.robots)):
+        #     for j in range(1):
+        #         if self.humans[i].id in self.observed_human_ids[j]:
+        #             human_circles[i].set_color(c='b')
 
-            texts.append(plt.text(self.humans[i].px - 0.1, self.humans[i].py - 0.1, str(self.humans[i].id), color='black', fontsize=12))
+        #     texts.append(plt.text(self.humans[i].px - 0.1, self.humans[i].py - 0.1, str(self.humans[i].id), color='black', fontsize=12))
 
-        sensor_range = plt.Rectangle(
-            (self.robots[0].px - self.robots[0].sensor_range * (np.cos(self.robots[0].theta)-np.sin(self.robots[0].theta)) , 
-                self.robots[0].py - self.robots[0].sensor_range* (np.cos(self.robots[0].theta)+np.sin(self.robots[0].theta))), 
-            2 * self.robots[0].sensor_range, 2 * self.robots[0].sensor_range, 
-            fill=False, linestyle='--',color = (0,0,0,0.8), angle=np.degrees(self.robots[0].theta))
+        # sensor_range = plt.Rectangle(
+        #     (self.robots[0].px - self.robots[0].sensor_range * (np.cos(self.robots[0].theta)-np.sin(self.robots[0].theta)) , 
+        #         self.robots[0].py - self.robots[0].sensor_range* (np.cos(self.robots[0].theta)+np.sin(self.robots[0].theta))), 
+        #     2 * self.robots[0].sensor_range, 2 * self.robots[0].sensor_range, 
+        #     fill=False, linestyle='--',color = (0,0,0,0.8), angle=np.degrees(self.robots[0].theta))
         
-        ax.add_artist(sensor_range)
-        artists.append(sensor_range)
+        # ax.add_artist(sensor_range)
+        # artists.append(sensor_range)
 
         
-        # 保存当前帧
-        # if self.frame_count<50:
-        #     #print(self.frame_count)
-        #     frame_path = os.path.join('frames', f"frame_{self.frame_count:04d}.png")
-        #     plt.savefig(frame_path)
-        #     self.frame_count += 1
+        # # 保存当前帧
+        # # if self.frame_count<50:
+        # #     #print(self.frame_count)
+        # #     frame_path = os.path.join('frames', f"frame_{self.frame_count:04d}.png")
+        # #     plt.savefig(frame_path)
+        # #     self.frame_count += 1
         
-        plt.pause(0.01)
-        for item in artists:
-            item.remove() # there should be a better way to do this. For example,
-            # initially use add_artist and draw_artist later on
-        for t in texts:
-            t.remove()
+        # plt.pause(0.01)
+        # for item in artists:
+        #     item.remove() # there should be a better way to do this. For example,
+        #     # initially use add_artist and draw_artist later on
+        # for t in texts:
+        #   t.remove()
+        
+        return None
         
 

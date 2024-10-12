@@ -32,17 +32,8 @@ class SRNN(Policy):
 				raw_action[1] = raw_action[1] / act_norm * v_pref
 			return ActionXY(raw_action[0], raw_action[1])
 		else:
-			# for sim2real
-			# old value: -0.1, 0.1
-			#raw_action[0] = np.clip(raw_action[0], -0.1, 0.087) # action[0] is change of v
-			# raw[0, 1] = np.clip(raw[0, 1], -0.25, 0.25) # action[1] is change of w
-			# raw[0, 0] = np.clip(raw[0, 0], -state.self_state.v_pref, state.self_state.v_pref) # action[0] is v
-			# old value: -0.1, 0.1
-			# 0.073
-			#raw_action[1] = np.clip(raw_action[1], -0.06, 0.06) # action[1] is change of theta
-			raw_action[0] = np.arctan(raw_action[0])*1.5 / np.pi# action[0] is v
-			#raw_action[1] = np.arctan(raw_action[1])* 1.5 /  np.pi
-			#print('raw_action[0]:', raw_action[0])
+			raw_action[0] = np.arctan(raw_action[0]) * 2  / np.pi
+
 			return ActionRot(raw_action[0])
 
 

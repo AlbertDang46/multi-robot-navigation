@@ -11,7 +11,7 @@ from rl.evaluation import evaluate
 from rl.networks.model import Policy
 
 from crowd_sim import *
-
+from create_map import create_new_map
 
 def test(is_train_test=False):
 	"""
@@ -20,14 +20,14 @@ def test(is_train_test=False):
 	# the following parameters will be determined for each test run
 	parser = argparse.ArgumentParser('Parse configuration file')
 	# the model directory that we are testing
-	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/ogm_pred/')
+	parser.add_argument('--model_dir', type=str, default='trained_models/my_model/holo_2blocks_0')
 	# render the environment or not
-	parser.add_argument('--visualize', default=False, action='store_true')
+	parser.add_argument('--visualize', default=True, action='store_true')
 	#parser.add_argument('--robot_num', type=int, default=3)
 	# if -1, it will run 500 different cases; if >=0, it will run the specified test case repeatedly
 	parser.add_argument('--test_case', type=int, default=-1)
 	# model weight file you want to test
-	parser.add_argument('--test_model', type=str, default='01200.pt')
+	parser.add_argument('--test_model', type=str, default='22400.pt')
 	# whether to save trajectories of episodes
 	parser.add_argument('--render_traj', default=False, action='store_true')
 	# whether to save slide show of episodes
@@ -112,8 +112,6 @@ def test(is_train_test=False):
 		ax.set_ylim(-10,10)
 		ax.axes.xaxis.set_visible(False)
 		ax.axes.yaxis.set_visible(False)
-		# ax.set_xlabel('x(m)', fontsize=16)
-		# ax.set_ylabel('y(m)', fontsize=16)
 		plt.ion()
 		plt.show()
 	else:
@@ -122,10 +120,12 @@ def test(is_train_test=False):
 
 	load_path=os.path.join(test_args.model_dir,'checkpoints', test_args.test_model)
 	print(load_path)
+	create_new_map()
 
 
 	# create an environment
 	env_name = algo_args.env_name
+	print(env_name)
 
 	eval_dir = os.path.join(test_args.model_dir,'eval')
 	if not os.path.exists(eval_dir):
@@ -141,10 +141,10 @@ def test(is_train_test=False):
 	if config.robot.policy not in ['orca', 'social_force']:
 		# load the policy weights
 		actor_critic = Policy(
-			envs.observation_space.spaces,
-			envs.action_space,
-			base_kwargs=algo_args,
-			base=config.robot.policy)
+		envs.observation_space.spaces, # pass the Dict into policy to parse
+		envs.action_space,
+		base_kwargs=algo_args,
+		kinematics=config.action_space.kinematics)
 		actor_critic.load_state_dict(torch.load(load_path, map_location=device))
 		actor_critic.base.nenv = 1
 
@@ -156,7 +156,7 @@ def test(is_train_test=False):
 	test_size = config.env.test_size
 
 	# call the evaluation function
-	evaluate(actor_critic, envs, 1, device, 5 if is_train_test else test_size , logging, config, algo_args, test_args.visualize, num_robot=3)
+	evaluate(actor_critic, envs, 1, device, 5 if is_train_test else test_size , logging, config, algo_args, test_args.visualize, num_robot=config.sim.robot_num)
 
 
 if __name__ == '__main__':

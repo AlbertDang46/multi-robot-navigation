@@ -1,7 +1,7 @@
 import os
 import shutil
 import time
-from test import test
+#from test import test
 from collections import deque
 import numpy as np
 import torch
@@ -15,16 +15,18 @@ from arguments import get_args
 from rl.networks.envs import make_vec_envs
 from rl.networks.model import Policy
 from rl.networks.storage import RolloutStorage
+from rl.evaluation import reset_folder, create_gif_from_frames
 
 
 from crowd_nav.configs.config import Config
 from crowd_sim import *
 import copy
-import  wandb
+import wandb
 import os
 from crowd_sim.envs.utils.info import *
 from create_map import create_new_map
-from rl.evaluation import create_gif_from_frames,evaluate_training
+
+FUTURE_STEP=4
 
 def main():
 	"""
@@ -40,6 +42,7 @@ def main():
 	# if output_dir exists and overwrite = False
 	elif not algo_args.overwrite:
 		raise ValueError('output_dir already exists!')
+	
 
 	save_config_dir = os.path.join(algo_args.output_dir, 'configs')
 	if not os.path.exists(save_config_dir):
@@ -47,6 +50,8 @@ def main():
 	shutil.copy('crowd_nav/configs/config.py', save_config_dir)
 	shutil.copy('crowd_nav/configs/__init__.py', save_config_dir)
 	shutil.copy('arguments.py', algo_args.output_dir)
+
+	create_new_map()
 
 
 	env_config = config = Config()
@@ -90,21 +95,25 @@ def main():
 		 
 	# wandb_log = not config.sim.render
 	# if wandb_log:
-	# 	wandb.init(project="smooth_action_space ",config={"human_num":config.sim.human_num,"robot_num":2})
+	# 	wandb.init(project="smooth_action_space ", name=algo_args.output_dir.split("/")[-1], config=vars(algo_args))
+
+	# Reset the frames folder if rendering
+	if config.sim.render:
+		reset_folder('frames')
+		reset_folder('train_visualization')
+		gif_num = 0
+
 	# Create a wrapped, monitored VecEnv
 	envs = make_vec_envs(env_name, algo_args.seed, algo_args.num_processes,
 						 algo_args.gamma, None, device, False, config=env_config, ax=ax, pretext_wrapper=config.env.use_wrapper)
 	
-	eval_envs = make_vec_envs(env_name, algo_args.eval_seed, 1,
-									  algo_args.gamma, None, device, False, config=env_config, ax=ax, pretext_wrapper=config.env.use_wrapper)
 
 	# create a policy network
 	actor_critic = Policy(
 		envs.observation_space.spaces, # pass the Dict into policy to parse
 		envs.action_space,
-		base_kwargs=algo_args,
-		base=config.robot.policy)
-	
+		base_kwargs=algo_args)
+
 	# storage buffer to store the agent's experience
 	rollouts = RolloutStorage(algo_args.num_steps,
 							  algo_args.num_processes,
@@ -122,12 +131,13 @@ def main():
 	# continue training from an existing model if resume = True
 	if algo_args.resume:
 		load_path = config.training.load_path
-		actor_critic.load_state_dict(torch.load(load_path),strict=False)
+		actor_critic.load_state_dict(torch.load(load_path))
 		print("Loaded the following checkpoint:", load_path)
 
 
 	# allow the usage of multiple GPUs to increase the number of examples processed simultaneously
 	nn.DataParallel(actor_critic).to(device)
+
 
 	# create the ppo optimizer
 	agent = ppo.PPO(
@@ -188,29 +198,25 @@ def main():
 	for key in all_rollouts[0].recurrent_hidden_states:
 		init_hidden_states[key] = all_rollouts[0].recurrent_hidden_states[key][0]
 	all_hid_states=[init_hidden_states for _ in range(config.sim.robot_num)]
-	eval_all_hid_states = copy.deepcopy(all_hid_states)
 
-	
 	successful_lidar_seq= []
 	successful_vel_pos_seq=[]
+	future_seq=[]
 	# start the training loop
 	for j in range(num_updates):
-		
 		# schedule learning rate if needed
 		if algo_args.use_linear_lr_decay:
 			network_utils.update_linear_schedule(
 				agent.optimizer, j, num_updates,
 				agent.optimizer.lr if algo_args.algo == "acktr" else algo_args.lr)
-
-		generated_gif=False
-		# step the environment for a few times
 		
+		# step the environment for a few times
 		current_episode_lidar=[]
 		current_episode_vel_pos=[]
+		current_episode_future_lidar=[]
 		add=0
+		pos_deque={}
 		for step in range(algo_args.num_steps):
-			
-			
 			# Sample actions
 			all_actions = []
 			all_values = []
@@ -220,37 +226,42 @@ def main():
 			with torch.no_grad():
 				# get the action for each robot				
 				for i in range(config.sim.robot_num):
-					value_i, action_i, log_i, recurrent_hidden_states_i ,ogm_for_vis_i,lidar_i,vel_pos_i= actor_critic.act(
+					value_i, action_i, log_i, recurrent_hidden_states_i,ogm_for_vis_i,lidar_i,vel_pos_i = actor_critic.act(
 						all_obs[i], all_hid_states[i],
 						all_rollouts[i].masks[step],i)
-					
-					if i == 0:
+					if i==0:
 						ogm_for_vis=ogm_for_vis_i
-					
 					all_values.append(value_i)
 					all_log_probs.append(log_i)
 					all_actions.append(action_i)					
-					all_hid_states[i]= copy.deepcopy(recurrent_hidden_states_i)
+					all_hid_states[i]= copy.deepcopy(recurrent_hidden_states_i)	
 					all_lidars.append(lidar_i)
-					all_vel_pos.append(vel_pos_i)			
+					all_vel_pos.append(vel_pos_i)
+					if i not in pos_deque:
+						pos_deque[i]=deque(maxlen=FUTURE_STEP+1)
+						
+					pos_deque[i].append(vel_pos_i[0,0,0,[0,1,8]])# b 1 3			
 				all_actions = torch.stack(all_actions, dim=1)
 				all_lidars=torch.stack(all_lidars, dim=1).squeeze()
 				all_vel_pos=torch.stack(all_vel_pos, dim=1).squeeze()
 			current_episode_lidar.append(all_lidars.cpu().numpy())
 			current_episode_vel_pos.append(all_vel_pos.cpu().numpy())
-				
-				
-			
-			if config.sim.render:
-				envs.render(ogm_for_vis)
-				# if j % algo_args.eval_interval == 0 and not generated_gif and j>0:
-				# 	create_gif_from_frames(frame_dir, "evaluation_{}.gif".format(j))
-				# 	envs.frame_count=0
-				# 	generated_gif=True
-			
+			current_episode_future_lidar.append([])
+
+
+			# if config.sim.render:
+			# 	envs.render(ogm_for_vis)
 			obs, rewards, done, infos= envs.step(all_actions)
+			if config.sim.render:
+				# use render to collect data
+				
+				all_past_lidar=envs.render(pos_deque)
+				
+				if all_past_lidar is not None:
+					for t in range(all_past_lidar.shape[1]):
+						current_episode_future_lidar[-(1+all_past_lidar.shape[1]-t)].append(all_past_lidar[:,t,:,:])
 			
-			
+				
 			for r in range(config.sim.robot_num):
 				single_obs = {}
 				for keyy in obs.keys():	
@@ -260,24 +271,23 @@ def main():
 					single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
 				all_obs[r] = single_obs
 			
-			
-			for info in infos:
-				if 'episode' in info.keys():
-					episode_rewards.append(info['episode']['r'])
-				if 'info' in info.keys():
-					if isinstance(info['info'],ReachGoal):
-						add=1
-						
-						
-						
-
 			# If done then clean the history of observations.
 			masks = torch.FloatTensor(
 				[[0.0] if done_ else [1.0] for done_ in done])
 			bad_masks = torch.FloatTensor(
 				[[0.0] if 'bad_transition' in info.keys() else [1.0]
 				 for info in infos])
-			
+			for info in infos:
+				if 'episode' in info.keys():
+					episode_rewards.append(info['episode']['r'])
+					# if config.sim.render:
+					# 	create_gif_from_frames('frames', os.path.join('train_visualization', 'episode_%d.gif' % gif_num))
+					# 	gif_num += 1
+				if 'info' in info.keys():
+					if isinstance(info['info'],ReachGoal):
+						add=1
+			if not masks:
+				break # if reset then break
 
 			#change to multi-agent rollout insert
 			for robot_index in range(config.sim.robot_num):
@@ -287,15 +297,26 @@ def main():
 					for i in range(obs[keyy].shape[0]):
 						single_obs[keyy].append(obs[keyy][i][robot_index])
 					single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
-				#print(single_obs['robot_node'])#generate robot_node all zeros why?
 				masks = torch.FloatTensor([[0.0] if (done[e] or rewards[e][robot_index] == 0) else [1.0] for e in range(len(done))])
 
 				all_rollouts[robot_index].insert(single_obs, all_hid_states[robot_index], torch.stack([all_action[robot_index] for all_action in all_actions]),
 							all_log_probs[robot_index], all_values[robot_index], torch.tensor(rewards[:,robot_index:robot_index+1]), masks, bad_masks)
-		if add==1:
-			print(len(current_episode_lidar),len(current_episode_vel_pos))
+		cur_future_seq = []
+		for seq in current_episode_future_lidar:
+			# Check if the sequence is shorter than FUTURE_STEP, and pad if necessary	
+			if len(seq) == FUTURE_STEP:
+				cur_future_seq.append(np.array(seq))
+
+		# Convert the padded sequences to a NumPy array
+		cur_future_seq= np.array(cur_future_seq)
+		max_len=algo_args.num_steps-FUTURE_STEP
+		if len(current_episode_lidar)==50:
+			current_episode_lidar=np.array(current_episode_lidar[:len(cur_future_seq)])
+			current_episode_vel_pos=np.array(current_episode_vel_pos[:len(cur_future_seq)])
 			successful_lidar_seq.append(current_episode_lidar)
 			successful_vel_pos_seq.append(current_episode_vel_pos)
+			future_seq.append(cur_future_seq)
+			print(len(current_episode_lidar),len(current_episode_vel_pos),len(cur_future_seq))
 		with torch.no_grad():
 			#change to multi-agent rollout update
 			all_rollouts_obs=[{} for _ in range(config.sim.robot_num)]
@@ -307,15 +328,13 @@ def main():
 					
 				for key in all_rollouts[robot_index].recurrent_hidden_states:
 					all_rollouts_hidden_s[robot_index][key] = all_rollouts[robot_index].recurrent_hidden_states[key][-1]
-					#print(all_rollouts_hidden_s[robot_index][key])
+
 				next_value = actor_critic.get_value(
 					all_rollouts_obs[robot_index], all_rollouts_hidden_s[robot_index],
 					all_rollouts[robot_index].masks[-1],robot_index).detach()
-		
+				
 		mean_action_loss=0	
 		for robot_index in range(config.sim.robot_num):
-			
-			# why input robot_node and spatial_edges all zero
 			# compute advantage and gradient, and update the network parameters
 			all_rollouts[robot_index].compute_returns(next_value, algo_args.use_gae, algo_args.gamma,
 										algo_args.gae_lambda, algo_args.use_proper_time_limits)
@@ -328,9 +347,8 @@ def main():
 			all_rollouts[robot_index].after_update()
 
 		# save the model for every interval-th episode or for the last epoch
-		if (j % algo_args.save_interval == 0 
+		if (j % algo_args.save_interval == 0
 			or j == num_updates - 1) :
-			
 			save_path = os.path.join(algo_args.output_dir, 'checkpoints')
 			if not os.path.exists(save_path):
 				os.mkdir(save_path)   
@@ -341,24 +359,16 @@ def main():
 		if j % algo_args.log_interval == 0 and len(episode_rewards) > 1:
 			total_num_steps = (j + 1) * algo_args.num_processes * algo_args.num_steps
 			end = time.time()
-			# Determine the maximum length of the sequences
-			max_len = max(len(seq) for seq in successful_lidar_seq)
+			lidar_seq = np.array(successful_lidar_seq)
+			np.save('3r3p_successful_lidar_seq_2.npy', lidar_seq)
 
-			# Pad each sequence to the maximum length
-			lidar_seq = np.array([np.pad(seq, (0, max_len - len(seq)), 'constant', constant_values=0) for seq in successful_lidar_seq])
+			vel_pos_seq = np.array(successful_vel_pos_seq)
+			np.save('3r3p_successful_vel_pos_seq_2.npy', vel_pos_seq)
 
-			print(len(lidar_seq))
-			np.save('dataset/successful_lidar_seq3.npy', lidar_seq)
-			
-			max_len = max(len(seq) for seq in successful_vel_pos_seq)
+			future_seq_=np.array(future_seq)
+			np.save('3r3p_future_seq_2.npy', future_seq_)
 
-			# Pad each sequence to the maximum length
-			vel_pos_seq = np.array([np.pad(seq, (0, max_len - len(seq)), 'constant', constant_values=0) for seq in successful_vel_pos_seq])
-
-			print(len(vel_pos_seq))
-			
-			np.save('dataset/successful_vel_pos_seq3.npy', vel_pos_seq)
-			print("Saving successful actions and info mask")
+			print("Saving successful actions and info mask",len(lidar_seq),len(vel_pos_seq),len(future_seq_))
 			
 			print(
 				"Updates {}, num timesteps {}, FPS {} \n Last {} training episodes: mean/median reward "
@@ -370,7 +380,7 @@ def main():
 							np.max(episode_rewards), dist_entropy, value_loss,
 							mean_action_loss))
 			
-			# # log the training progress
+			# log the training progress
 			# if  wandb_log:
 			# 	wandb.log({"median_reward":np.median(episode_rewards),
 			# 			"mean_reward":np.mean(episode_rewards),
@@ -390,23 +400,8 @@ def main():
 				df.to_csv(os.path.join(algo_args.output_dir, 'progress.csv'), mode='w', header=True, index=False)
 
 			# create new map
-			#create_new_map()
+			create_new_map()
 			episode_rewards.clear()
-
-		# if j % algo_args.eval_interval == 0 and j>0:
-			
-		# 	# set an evaluation environment
-		# 	eval_envs_ = copy.deepcopy(eval_envs)
-		# 	mean_reward, success_rate = evaluate_training(eval_envs_, actor_critic, num_episodes=100, num_steps=algo_args.num_steps, robot_num=config.sim.robot_num, eval_all_hid_states=eval_all_hid_states)
-		# 	#print(f"Evaluation: mean reward: {mean_reward}, success rate: {success_rate}")
-		# 	# Save evaluation results
-		# 	df_eval = pd.DataFrame({'misc/nupdates': [j], 'eval/mean_reward': [mean_reward], 'eval/success_rate': [success_rate]})
-		# 	eval_csv_path = os.path.join(algo_args.output_dir, 'eval_progress.csv')
-		# 	if os.path.exists(eval_csv_path) and j > 20:
-		# 		df_eval.to_csv(eval_csv_path, mode='a', header=False, index=False)
-		# 	else:
-		# 		df_eval.to_csv(eval_csv_path, mode='w', header=True, index=False)
-
 	
 	
 	# if wandb_log:

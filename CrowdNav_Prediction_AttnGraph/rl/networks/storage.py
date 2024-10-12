@@ -19,19 +19,14 @@ class RolloutStorage(object):
             self.obs = {}
             for key in obs_shape:
                 self.obs[key] = torch.zeros(num_steps + 1, num_processes, *(obs_shape[key].shape))
-            self.human_num = obs_shape['spatial_edges'].shape[0]
         else:
             self.obs = torch.zeros(num_steps + 1, num_processes, *obs_shape)
 
         self.recurrent_hidden_states = {} # a dict of tuple(hidden state, cell state)
 
-        node_num = 1
-        # todo: uncomment the next line for previous models!
-        edge_num = self.human_num + 1
-        # edge_num = 2
 
-        self.recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_steps + 1, num_processes, node_num, human_node_rnn_size)
-        self.recurrent_hidden_states['human_human_edge_rnn'] = torch.zeros(num_steps + 1, num_processes, edge_num, human_human_edge_rnn_size)
+        self.recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_steps + 1, num_processes, 1, human_node_rnn_size)
+        self.recurrent_hidden_states['human_human_edge_rnn'] = torch.zeros(num_steps + 1, num_processes, 2, human_human_edge_rnn_size)
 
         self.rewards = torch.zeros(num_steps, num_processes, 1)
         self.value_preds = torch.zeros(num_steps + 1, num_processes, 1)

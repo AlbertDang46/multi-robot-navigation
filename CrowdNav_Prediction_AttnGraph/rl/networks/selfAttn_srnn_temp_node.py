@@ -22,7 +22,7 @@ class SpatialEdgeSelfAttn(nn.Module):
         # pred 8 steps + no disp: 18
         if args.env_name in ['CrowdSimPred-v0', 'CrowdSimPredRealGST-v0']:
             self.input_size = 12
-        elif args.env_name == 'CrowdSimVarNum-v0':
+        elif args.env_name == 'CrowdSimOGMCP-v0':
             self.input_size = 2 # 4
         else:
             raise NotImplementedError

@@ -6,78 +6,26 @@ from PIL import Image
 from crowd_sim.envs.utils.info import *
 import copy
 # 
-def create_gif_from_frames(frame_dir, gif_path, duration=100):
+
+def reset_folder(folder):
+    if os.path.exists(folder):
+        file_list = os.listdir(folder)
+        for file_name in file_list:
+            file_path = os.path.join(folder, file_name)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+    else:
+        os.makedirs(folder)
+
+def create_gif_from_frames(frame_dir, gif_path, duration=2):
     
     frames = [Image.open(os.path.join(frame_dir, f)) for f in sorted(os.listdir(frame_dir)) if f.endswith('.png')]
+    print(f"Creating GIF from {len(frames)} frames")
     if frames:
-        frames[0].save(gif_path, save_all=True, append_images=frames[1:], duration=duration, loop=0)
+        frames[0].save(gif_path, save_all=True, append_images=frames[1:], duration=0, loop=0, optimize=True, dpi = (120,120))
         print(f"GIF saved at {gif_path}")
-    
 
-def evaluate_training(eval_envs, actor_critic, num_episodes, num_steps, robot_num, eval_all_hid_states):
-	
-	all_episode_rewards = []
-	success_count = 0
-	all_hid_states=copy.deepcopy(eval_all_hid_states)
-	obs = eval_envs.reset()
-	for _ in range(num_episodes):
-		episode_rewards = 0
-		
-		# for each robot, store the observation
-		all_obs = []
-		for r in range(robot_num):
-			single_obs = {}
-			for keyy in obs.keys():	
-				single_obs[keyy] = []
-				for i in range(obs[keyy].shape[0]):
-					single_obs[keyy].append(obs[keyy][i][r])
-				single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
-			all_obs.append(single_obs)
-
-		for step in range(num_steps):
-			all_actions = []
-			with torch.no_grad():
-				for i in range(robot_num):
-					
-					value_i, action_i, log_i, recurrent_hidden_states_i = actor_critic.act(
-                        all_obs[i], all_hid_states[i], torch.ones(1, 1).cuda())
-					all_actions.append(action_i[0])
-					all_hid_states[i] = recurrent_hidden_states_i
-				all_actions = torch.stack(all_actions, dim=0)
-            
-			
-			obs, reward, done, infos = eval_envs.step(all_actions)
-			if step == num_steps - 1:
-				done=True
-			# for each robot, store the observation
-			all_obs = []
-			for r in range(robot_num):
-				single_obs = {}
-				for keyy in obs.keys():	
-					single_obs[keyy] = []
-					for i in range(obs[keyy].shape[0]):
-						single_obs[keyy].append(obs[keyy][i][r])
-					single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
-				all_obs.append(single_obs)
-			episode_rewards += reward.mean().item()
-			# if done.any():
-			# 	break
-		all_episode_rewards.append(episode_rewards)
-		for info in infos:
-			
-			if isinstance(info['info'], ReachGoal):
-				success_count += 1
-		
-		# for i in infos:
-		# 	infos=i
-		# success_count=(infos == 'Reaching goal')
-		
-
-	mean_reward = np.mean(all_episode_rewards)
-	success_rate = success_count / num_episodes
-	print(f"Evaluation over {num_episodes} episodes: mean reward: {mean_reward}, success rate: {success_rate}")
-	return mean_reward, success_rate
-
+    reset_folder(frame_dir)
 
 def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging, config, args,visualize=False, num_robot = 1):
     """ function to run all testing episodes and log the testing metrics """
@@ -89,12 +37,12 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         eval_recurrent_hidden_states = {}
 
         node_num = 1
-        edge_num = 20 + 1
-        eval_recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_processes, node_num, actor_critic.base.human_node_rnn_size,
+        edge_num = config.sim.robot_num + 1
+        eval_recurrent_hidden_states['human_node_rnn'] = torch.zeros(num_processes, node_num, args.rnn_hidden_size,
                                                                      device=device)
 
         eval_recurrent_hidden_states['human_human_edge_rnn'] = torch.zeros(num_processes, edge_num,
-                                                                           actor_critic.base.human_human_edge_rnn_size,
+                                                                           args.human_human_edge_rnn_size,
                                                                            device=device)
 
     eval_masks = torch.zeros(num_processes, 1, device=device)
@@ -114,12 +62,28 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
 
     all_path_len = []
 
+    all_velocities = []
+    all_acceleration = []
+    all_velocities_in_crowd = []
+    sharp_turns = []
+
+
     # to make it work with the virtualenv in sim2real
     if hasattr(eval_envs.venv, 'envs'):
         baseEnv = eval_envs.venv.envs[0].env
     else:
         baseEnv = eval_envs.venv.unwrapped.envs[0].env
     time_limit = baseEnv.time_limit
+
+    gif_dir = "gifs"
+    if os.path.exists(gif_dir):
+        file_list = os.listdir(gif_dir)
+        for file_name in file_list:
+            file_path = os.path.join(gif_dir, file_name)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+    else:
+        os.makedirs(gif_dir)
 
     # start the testing episodes
     for k in range(test_size):
@@ -140,8 +104,22 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         global_time = 0.0
         path_len = 0.
         too_close = 0.
-        last_pos = [obs['robot_node'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+        last_pos = [obs['robot_info'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+        last_vel = [obs['robot_info'][0, i, 0, 2:4].cpu().numpy() for i in range(num_robot)]
 
+        # Reset the frames folder
+        frame_dir = "frames"
+        if os.path.exists(frame_dir):
+            file_list = os.listdir(frame_dir)
+            for file_name in file_list:
+                file_path = os.path.join(frame_dir, file_name)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+        else:
+            os.makedirs(frame_dir)
+        
+        
+         
 
         while not done:
             stepCounter = stepCounter + 1
@@ -173,31 +151,9 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
                 if not done:
                     global_time = baseEnv.global_time
 
-            # if the vec_pretext_normalize.py wrapper is used, send the predicted traj to env
-            if args.env_name == 'CrowdSimPredRealGST-v0' and config.env.use_wrapper:
-                out_pred = obs['spatial_edges'][:, :, 2:].to('cpu').numpy()
-                # send manager action to all processes
-                ack = eval_envs.talk2Env(out_pred)
-                assert all(ack)
-            # 创建一个目录来存储帧
-            frame_dir = "frames"
-            if not os.path.exists(frame_dir):
-                os.makedirs(frame_dir)
-            
+        
             if visualize:
-                eval_envs.render()
-            if not gif_generated and k==0:
-                create_gif_from_frames(frame_dir, "evaluation0.gif")
-                eval_envs.frame_count=0
-                gif_generated=True
-                
-            
-
-            # Obser reward and next obs
-
-            # actions=torch.stack([action for i in range(num_robot)],dim=1)
-            
- 
+                eval_envs.render(mode = 'record')
             obs, rew, done, infos = eval_envs.step(actions)
             
             rewards.append(rew)
@@ -209,9 +165,23 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
                     single_obs[keyy].append(obs[keyy][i][0])
                 single_obs[keyy] = torch.stack(single_obs[keyy], dim = 0)
             
-        
-            path_len = path_len + np.linalg.norm(single_obs['robot_node'][0, 0, :2].cpu().numpy() - last_pos)
-            last_pos = [obs['robot_node'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+            for i in range(num_robot):
+                dl = np.linalg.norm(obs['robot_info'][0, i, 0, :2].cpu().numpy() - last_pos[i])
+                path_len += dl
+                if dl > 0:
+                    #all_sudden_turns.append(np.arccos(np.dot(last_vel[i], obs['robot_info'][0, i, 0, 2:4].cpu().numpy()) / (np.linalg.norm(last_vel[i]) * np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy()))) * 180 / np.pi)
+                    all_velocities.append(np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy() - last_vel[i]))
+                    all_acceleration.append(np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy() - last_vel[i]))
+                    if sum(sum(obs['occupancy_map'][0, i, 0])) > 25 :
+                        all_velocities_in_crowd.append(np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy()))
+                        if np.linalg.norm(last_vel[i]) > 0 and np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy()) > 0:
+                            velocity_change_angle = np.arccos(np.clip(np.dot(last_vel[i], obs['robot_info'][0, i, 0, 2:4].cpu().numpy()) / (np.linalg.norm(last_vel[i]) * np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy())),-1,1))
+                            velocity_change_angle = np.arccos(np.clip(np.dot(last_vel[i], obs['robot_info'][0, i, 0, 2:4].cpu().numpy()) / (np.linalg.norm(last_vel[i]) * np.linalg.norm(obs['robot_info'][0, i, 0, 2:4].cpu().numpy())),-1,1))
+                            sharp_turns.append(velocity_change_angle)
+
+            last_pos = [obs['robot_info'][0, i, 0, :2].cpu().numpy() for i in range(num_robot)]
+            last_vel = [obs['robot_info'][0, i, 0, 2:4].cpu().numpy() for i in range(num_robot)]
+
 
 
             if isinstance(infos[0]['info'], Danger):
@@ -225,6 +195,7 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
                 [[0.0] if done_ else [1.0] for done_ in done],
                 dtype=torch.float32,
                 device=device)
+            
 
             for info in infos:
                 if 'episode' in info.keys():
@@ -234,9 +205,11 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
         print('')
         print('Reward={}'.format(episode_rew))
         print('Episode', k, 'ends in', stepCounter)
-        all_path_len.append(path_len)
+        all_path_len.append(path_len  / num_robot)
         too_close_ratios.append(too_close/stepCounter*100)
-
+        
+        if visualize:
+            create_gif_from_frames(frame_dir,os.path.join("gifs",f"evaluation{k:04d}.gif"))
         
         if isinstance(infos[0]['info'], ReachGoal):
             success += num_robot
@@ -285,15 +258,25 @@ def evaluate(actor_critic, eval_envs, num_processes, device, test_size, logging,
 
     # logging
     logging.info(
-        'Testing success rate: {:.2f}, collision rate: {:.2f}, timeout rate: {:.2f}, '
+        'Testing success rate: {:.4f}, collision rate: {:.4f}, timeout rate: {:.4f}, '
         'nav time: {:.2f}, path length: {:.2f}, average intrusion ratio: {:.2f}%, '
-        'average minimal distance during intrusions: {:.2f}'.
+        'average minimal distance during intrusions: {:.2f}, average acceleration: {:.2f}, sharp turn rate {:.4f}'.
             format(success_rate, collision_rate, timeout_rate, avg_nav_time, np.mean(all_path_len),
-                   np.mean(too_close_ratios), np.mean(min_dist)))
-
+                   np.mean(too_close_ratios), np.mean(min_dist), np.mean(all_acceleration), np.mean(np.array(sharp_turns)>0.15)))
     logging.info('Collision cases: ' + ' '.join([str(x) for x in collision_cases]))
     logging.info('Timeout cases: ' + ' '.join([str(x) for x in timeout_cases]))
     print(" Evaluation using {} episodes: mean reward {:.5f}\n".format(
         len(eval_episode_rewards), np.mean(eval_episode_rewards)))
+    
+    # Calculate velocity distribution
+    velocity_distribution = np.histogram(sharp_turns, bins=10)
 
+    # Print velocity distribution
+    for i in range(len(velocity_distribution[0])):
+        print(f"AA range: {velocity_distribution[1][i]:.2f} - {velocity_distribution[1][i+1]:.2f}, Frequency: {velocity_distribution[0][i]/len(sharp_turns)*100:.2f}%, Total: {velocity_distribution[0][i]}")
+
+    # Calculate velocity distribution in crowd
+    velocity_distribution_in_crowd = np.histogram(all_velocities_in_crowd, bins=10)
+    for i in range(len(velocity_distribution_in_crowd[0])):
+        print(f"Velocity range in crowd: {velocity_distribution_in_crowd[1][i]:.2f} - {velocity_distribution_in_crowd[1][i+1]:.2f}, Frequency: {velocity_distribution_in_crowd[0][i]/len(all_velocities_in_crowd)*100:.2f}%, Total: {velocity_distribution_in_crowd[0][i]}")
     eval_envs.close()

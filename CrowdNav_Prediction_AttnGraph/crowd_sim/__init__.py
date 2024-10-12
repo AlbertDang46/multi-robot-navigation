@@ -11,13 +11,13 @@ register(
 )
 
 register(
-    id='CrowdSimVarNum-v0',
-    entry_point='crowd_sim.envs:CrowdSimVarNum',
+    id='CrowdSimOGMCP-v0',
+    entry_point='crowd_sim.envs:CrowdSimOGMCP',
 )
 
 register(
-    id='CrowdSimVarNumCollect-v0',
-    entry_point='crowd_sim.envs:CrowdSimVarNumCollect',
+    id='CrowdSimOGMCPCollect-v0',
+    entry_point='crowd_sim.envs:CrowdSimOGMCPCollect',
 )
 
 register(

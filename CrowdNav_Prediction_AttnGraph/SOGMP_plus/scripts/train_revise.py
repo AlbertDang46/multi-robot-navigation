@@ -26,7 +26,7 @@ from torch.optim import Adam
 from tqdm import tqdm
 import sys
 sys.path.append('/home/liyiping/dev/ogm_pred/ogm_sogmp_trans_pos_delay/CrowdNav_Prediction_AttnGraph')
-sys.path.append('/home/yipingli/dev/multi-robot-navigation-ogm/multi-robot-navigation/CrowdNav_Prediction_AttnGraph')
+
 # visualize:
 from tensorboardX import SummaryWriter
 import numpy as np
@@ -129,7 +129,8 @@ def get_transform_coordinate(pos,current_pos):
 
 def convert_lidar_to_ogm(lidar_data,map_size):
     
-    
+    if lidar_data.dim() > 4:
+        lidar_data=lidar_data[:,:,0,:,:]
     batch_size,seq_len,num_ray,_= lidar_data.shape
     
     cell_length=0.3125
@@ -379,7 +380,6 @@ def transform_ogm_early_fusion(lidar_data, pos,x_odom, y_odom, theta_odom, robot
 
 def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epochs,fusion):
     
-    assert fusion in ['no','early','middle','late']
     
     model.train()
     # for each batch in increments of batch size:
@@ -406,23 +406,20 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
         positions = positions.to(device) # b seq_len robot 
         targets = batch['target']
         targets = targets.to(device)  # b seq_len robot_num FUTURE_STEP 90 2
-        
-        lidar_t=targets[:,SEQ_LEN+DELAY-1,:,:,:,:] #b robot_num FUTURE_STEP 90 2
+        lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
+        lidar_t=targets[:,SEQ_LEN-1,:,:,:,:] #b robot_num FUTURE_STEP 90 2
         
         batch_size,_, robot_num,_, _ = scans.shape
         
         
         for r in range(robot_num):
 
-            
-
+            assert fusion in ['no','early','middle','late']
             optimizer.zero_grad()
             prediction_list=[]
             mask_list=[]
-
             if fusion=='no':
                 #no fusion
-                lidar = scans[:,:SEQ_LEN,:,:,:]
                 pos = positions[:,:SEQ_LEN,r,:].unsqueeze(2).repeat(1,1,robot_num,1)
                 current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
                 x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
@@ -451,34 +448,18 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
                     #plot_ogm(prediction[0],f'pred_{r}_{t}.png')
                     prediction_list.append(prediction)
             if fusion=='early':
-                pos_s=torch.zeros_like(positions[:,:SEQ_LEN,:,:])
-                for rv in range(robot_num):
-                    if rv==r:
-                        pos_s[:,:,rv,:]=positions[:,DELAY:SEQ_LEN+DELAY,rv,:]
-                    else:
-                        pos_s[:,:,rv,:]=positions[:,:SEQ_LEN,rv,:]
-                lidar=torch.zeros_like(scans[:,:SEQ_LEN,:,:,:])
-                for rv in range(robot_num):
-                    if rv==r:
-                        lidar[:,:,rv,:,:]=scans[:,DELAY:SEQ_LEN+DELAY,rv,:,:]
-                    else:
-                        lidar[:,:,rv,:,:]=scans[:,:SEQ_LEN,rv,:,:]
-                ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-                x_odom, y_odom, theta_odom =  get_transform_coordinate(pos_s,ego_pos)
-                # for rr in range(robot_num):
-                #     static_obst, dynamic_obst=convert_lidar_to_ogm(lidar[:,:,rr],map_size=32) #visualize ogm before coordinate transform
-                #     for s in range(SEQ_LEN):
-                #             plot_ogm((static_obst+dynamic_obst)[0,s,:,:].clamp(0,1).unsqueeze(0),f'obst_{rr}_{s}.png')
-                static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos_s,x_odom, y_odom, theta_odom, r,map_size=32)
-                # for s in range(SEQ_LEN):
-                #         plot_ogm((static_obst+dynamic_obst)[0,s,:,:].clamp(0,1).unsqueeze(0),f'obst_{r}_{s}.png')
+                pos = positions[:,:SEQ_LEN,:,:]
+                ego_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,ego_pos)
+                static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
                 for t in range(FUTURE_STEP): 
-                    current_pos = pos_s[:,SEQ_LEN-1,:,:]
-                    ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                    
+                    current_pos = positions[:,SEQ_LEN-1,:,:]
+                    ego_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
                     x_odom_t, y_odom_t, theta_odom_t = get_transform_coordinate(current_pos,ego_pos)
                     static_obst_t, dynamic_obst_t=transform_ogm_early_fusion(lidar_t[:,:,t,:,:],current_pos, x_odom_t, y_odom_t, theta_odom_t,r,map_size=32)
                     mask_map=(static_obst_t+dynamic_obst_t).clamp(0,1)
-                    #plot_ogm(mask_map[0],f'mask_{r}_{t}.png')
+                    
                     mask_list.append(mask_map)
                     
                     past_dogm=dynamic_obst[:,len(prediction_list):SEQ_LEN,:,:] # b _ 32 32
@@ -496,22 +477,11 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
             if fusion=='middle':
                 dynamic_obst_list=[]
                 current_static_obst_list=[]
-                pos_s=torch.zeros_like(positions[:,:SEQ_LEN,:,:])
                 for rv in range(robot_num):
-                    if rv==r:
-                        pos_s[:,:,rv,:]=positions[:,DELAY:SEQ_LEN+DELAY,rv,:]
-                    else:
-                        pos_s[:,:,rv,:]=positions[:,:SEQ_LEN,rv,:]
-                lidar=torch.zeros_like(scans[:,:SEQ_LEN,:,:,:])
-                for rv in range(robot_num):
-                    if rv==r:
-                        lidar[:,:,rv,:,:]=scans[:,DELAY:SEQ_LEN+DELAY,rv,:,:]
-                    else:
-                        lidar[:,:,rv,:,:]=scans[:,:SEQ_LEN,rv,:,:]
-                for rv in range(robot_num):
-                    current_pos=pos_s[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
-                    pos=pos_s[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
+                    current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
+                    pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
                     x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
+                    lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
                     static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
                     # if rv==0:
                     #     plot_ogm(static_obst[0,-1,:,:].unsqueeze(0),f'static_obst_{rv}.png')
@@ -521,13 +491,15 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
                 dynamic_obst_tensor=torch.stack(dynamic_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
                 current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
                 for t in range(FUTURE_STEP): 
-                    current_pos = pos_s[:,SEQ_LEN-1,:,:]
-                    ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                   
+                    current_pos = positions[:,SEQ_LEN-1,:,:]
+                    ego_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
                     x_odom_t, y_odom_t, theta_odom_t = get_transform_coordinate(current_pos,ego_pos)
                     static_obst_t, dynamic_obst_t=transform_ogm_early_fusion(lidar_t[:,:,t,:,:],current_pos, x_odom_t, y_odom_t, theta_odom_t,r,map_size=32)
 
                     mask_map=(static_obst_t+dynamic_obst_t).clamp(0,1)
                     mask_list.append(mask_map)
+                    
 
                     #middle fusion 
                     # b seq 32 32
@@ -540,7 +512,8 @@ def train(model, dataloader, dataset, device, optimizer, criterion, epoch, epoch
                         dynamic_obst_tensor[r]=dynamic_obst_ego
                     else:
                         dynamic_obst_tensor[r]=past_dogm
-                    prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos_s[:,SEQ_LEN-1,:,:],r)
+                    pos=positions[:,SEQ_LEN-1,:,:]#b robot_num 3
+                    prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos,r)
                     
                     prediction_list.append(prediction)
                 
@@ -605,7 +578,7 @@ def calculate_occupied_grid_rate(grid_map):
 
 
 def validate(model, dataloader, dataset, device, criterion,fusion): 
-    assert fusion in ['no','early','middle','late']
+    
     model.eval()
     running_loss = 0.0
     kl_avg_loss = 0.0
@@ -632,19 +605,21 @@ def validate(model, dataloader, dataset, device, criterion,fusion):
             
             batch_size, _, robot_num,_, _ = scans.shape
             
-            lidar_t=targets[:,SEQ_LEN+DELAY-1,:,:,:,:] #b robot_num FUTURE_STEP 90 2
+            
+            lidar=scans[:,:SEQ_LEN,:,:,:]
+            lidar_t=targets[:,SEQ_LEN-1,:,:,:,:]
         
         
             for r in range(robot_num):
 
-
+                assert fusion in ['no','early','middle','late']
+                
                 prediction_list=[]
                 mask_list=[]
                 if fusion=='no':
                     #no fusion
                     pos = positions[:,:SEQ_LEN,r,:].unsqueeze(2).repeat(1,1,robot_num,1)
                     current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-                    lidar = scans[:,:SEQ_LEN,:,:,:]
                     x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
                     static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
                     
@@ -671,32 +646,22 @@ def validate(model, dataloader, dataset, device, criterion,fusion):
                         prediction_list.append(prediction)
                 if fusion=='early':
         
-                    pos_s=torch.zeros_like(positions[:,:SEQ_LEN,:,:])
-                    for rv in range(robot_num):
-                        if rv==r:
-                            pos_s[:,:,rv,:]=positions[:,DELAY:SEQ_LEN+DELAY,rv,:]
-                        else:
-                            pos_s[:,:,rv,:]=positions[:,:SEQ_LEN,rv,:]
-                    lidar=torch.zeros_like(scans[:,:SEQ_LEN,:,:,:])
-                    for rv in range(robot_num):
-                        if rv==r:
-                            lidar[:,:,rv,:,:]=scans[:,DELAY:SEQ_LEN+DELAY,rv,:,:]
-                        else:
-                            lidar[:,:,rv,:,:]=scans[:,:SEQ_LEN,rv,:,:]
-                    ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
-                    x_odom, y_odom, theta_odom =  get_transform_coordinate(pos_s,ego_pos)
+                    pos = positions[:,:SEQ_LEN,:,:]
+                    current_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                    x_odom, y_odom, theta_odom =  get_transform_coordinate(pos,current_pos)
+                    #static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
                     #static_obst, dynamic_obst=convert_lidar_to_ogm(lidar,map_size=32) #visualize ogm before coordinate transform
                     # for s in range(SEQ_LEN):
                     #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{r}_{s}.png')
                     #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{r}_{s}.png')
-                    static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos_s,x_odom, y_odom, theta_odom, r,map_size=32)
+                    static_obst, dynamic_obst=transform_ogm_early_fusion(lidar, pos,x_odom, y_odom, theta_odom, r,map_size=32)
                     # for s in range(SEQ_LEN):
                     #     plot_ogm(static_obst[0,s,:,:].unsqueeze(0),f'static_obst_{r}_{s}.png')
                     #     plot_ogm(dynamic_obst[0,s,:,:].unsqueeze(0),f'dynamic_obst_{r}_{s}.png')
                     for t in range(FUTURE_STEP): 
                         
-                        current_pos = pos_s[:,SEQ_LEN-1,:,:]
-                        ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                        current_pos = positions[:,SEQ_LEN-1,:,:]
+                        ego_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
                         x_odom_t, y_odom_t, theta_odom_t = get_transform_coordinate(current_pos,ego_pos)
                         static_obst_t, dynamic_obst_t=transform_ogm_early_fusion(lidar_t[:,:,t,:,:],current_pos, x_odom_t, y_odom_t, theta_odom_t,r,map_size=32)
                         
@@ -718,22 +683,11 @@ def validate(model, dataloader, dataset, device, criterion,fusion):
                 if fusion=='middle':
                     dynamic_obst_list=[]
                     current_static_obst_list=[]
-                    pos_s=torch.zeros_like(positions[:,:SEQ_LEN,:,:])
                     for rv in range(robot_num):
-                        if rv==r:
-                            pos_s[:,:,rv,:]=positions[:,DELAY:SEQ_LEN+DELAY,rv,:]
-                        else:
-                            pos_s[:,:,rv,:]=positions[:,:SEQ_LEN,rv,:]
-                    lidar=torch.zeros_like(scans[:,:SEQ_LEN,:,:,:])
-                    for rv in range(robot_num):
-                        if rv==r:
-                            lidar[:,:,rv,:,:]=scans[:,DELAY:SEQ_LEN+DELAY,rv,:,:]
-                        else:
-                            lidar[:,:,rv,:,:]=scans[:,:SEQ_LEN,rv,:,:]
-                    for rv in range(robot_num):
-                        current_pos=pos_s[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
-                        pos=pos_s[:,:SEQ_LEN,rv,:].unsqueeze(1).repeat(1,robot_num,1)
+                        current_pos=positions[:,SEQ_LEN-1,rv,:].unsqueeze(1).repeat(1,robot_num,1)
+                        pos=positions[:,:SEQ_LEN,rv,:].unsqueeze(2).repeat(1,1,robot_num,1)
                         x_odom, y_odom, theta_odom= get_transform_coordinate(pos,current_pos)
+                        lidar=scans[:,:SEQ_LEN,:,:,:] # b seq_len robot_num 90 2
                         static_obst, dynamic_obst=transform_ogm(lidar, pos,x_odom, y_odom, theta_odom, rv,map_size=32)
                         # if rv==0:
                         #     plot_ogm(static_obst[0,-1,:,:].unsqueeze(0),f'static_obst_{rv}.png')
@@ -744,8 +698,8 @@ def validate(model, dataloader, dataset, device, criterion,fusion):
                     current_static_obst_tensor=torch.stack(current_static_obst_list,dim=0).squeeze(1) #rob_num b seq_l 32 32
                     for t in range(FUTURE_STEP): 
                     
-                        current_pos = pos_s[:,SEQ_LEN-1,:,:]
-                        ego_pos = pos_s[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
+                        current_pos = positions[:,SEQ_LEN-1,:,:]
+                        ego_pos = positions[:,SEQ_LEN-1,r,:].unsqueeze(1).repeat(1,robot_num,1)
                         x_odom_t, y_odom_t, theta_odom_t = get_transform_coordinate(current_pos,ego_pos)
                         static_obst_t, dynamic_obst_t=transform_ogm_early_fusion(lidar_t[:,:,t,:,:],current_pos, x_odom_t, y_odom_t, theta_odom_t,r,map_size=32)
 
@@ -764,8 +718,8 @@ def validate(model, dataloader, dataset, device, criterion,fusion):
                             dynamic_obst_tensor[r]=dynamic_obst_ego
                         else:
                             dynamic_obst_tensor[r]=past_dogm
-                        
-                        prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos_s[:,SEQ_LEN-1,:,:],r)
+                        pos=positions[:,SEQ_LEN-1,:,:]#b robot_num 3
+                        prediction, kl_loss = model(dynamic_obst_tensor,current_static_obst_tensor,pos,r)
                         #plot_ogm(prediction[0],f'pred_{r}_{t}.png')
                         prediction_list.append(prediction)
                     
@@ -935,7 +889,7 @@ def main():
     start_epoch = 0
     print('No trained models, restart training')
 
-    # checkpoint = torch.load('ef_1DELAY_4FUTURE_10.pth')
+    # checkpoint = torch.load('ef_4FUTURE_40.pth')
     # model.load_state_dict(checkpoint['model'])
     # optimizer.load_state_dict(checkpoint['optimizer'])
     # multiple GPUs:
@@ -959,10 +913,10 @@ def main():
         
         
         train_epoch_loss, train_kl_epoch_loss, train_ce_epoch_loss,wmse_train,ssim_train= train(
-            model,train_dataloader, train_dataset, device, optimizer, criterion, epoch, epochs,fusion='middle'
+            model,train_dataloader, train_dataset, device, optimizer, criterion, epoch, epochs,fusion='early'
         )
         valid_epoch_loss, valid_kl_epoch_loss, valid_ce_epoch_loss,wmse,ssim= validate(
-            model, dev_dataloader, dev_dataset, device, criterion, fusion='middle'
+            model, dev_dataloader, dev_dataset, device, criterion, fusion='early'
         )
         
         
@@ -1010,7 +964,7 @@ def main():
         #         state = {'model':model.modules.state_dict(), 'optimizer':optimizer.state_dict(), 'epoch':epoch}
         #     else:
         #         state = {'model':model.state_dict(), 'optimizer':optimizer.state_dict(), 'epoch':epoch}
-        #     path='mf_1DELAY_4FUTURE_' + str(epoch) +'.pth'
+        #     path='ef_4FUTURE_' + str(epoch) +'.pth'
         #     torch.save(state, path)
             
 

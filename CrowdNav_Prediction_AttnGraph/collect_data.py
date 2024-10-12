@@ -14,7 +14,7 @@ def collectData(device, train_data, config):
     # set robot policy to orca
     config.robot.policy = 'orca'
 
-    env_name = 'CrowdSimVarNumCollect-v0'
+    env_name = 'CrowdSimOGMCPCollect-v0'
     # for render
     env_num = 1 if config.data.render else config.data.num_processes
 

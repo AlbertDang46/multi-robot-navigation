@@ -1,22 +1,28 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage.morphology import medial_axis, dilation
+from skimage.draw import line
+import networkx as nx
 import random
 from collections import deque
 import os
 import shutil
+import pickle as pkl
 
 
 def generate_clustered_bitmap_bfs(size=64, proportion=1/6):
     # generate 2 obstacles in map
     bitmap = np.zeros((size, size), dtype=int)
-    num_ones = int(size * size * np.random.uniform(0.04, 0.08))
-    for _ in range(1):
+    for _ in range(3):
         # Initialize a bitmap with zeros
-        
+        num_ones = int(size * size * np.random.uniform(0.001, 0.15))
         
         # Choose a random starting point
-        start_row = random.randint(int(size/5), size - int(size/5))
-        start_col = random.randint(int(size/5), size - int(size/5))
+        start_row = random.choice([random.randint(2, int(size/3)), random.randint(size - int(size/3), size-2)])
+        start_col = random.choice([random.randint(2, int(size/3)), random.randint(size - int(size/3), size-2)])
+        while bitmap[start_row, start_col] == 1:        
+            start_row = random.choice([random.randint(2, int(size/3)), random.randint(size - int(size/3), size-2)])
+            start_col = random.choice([random.randint(2, int(size/3)), random.randint(size - int(size/3), size-2)])
         queue = deque([(start_row, start_col)])
         visited = set(queue)
         ones_added = 0
@@ -26,6 +32,49 @@ def generate_clustered_bitmap_bfs(size=64, proportion=1/6):
         random_int2 = random.randint(0, 6)
         random_int3 = random.randint(0, 5)
         random_int4 = random.randint(1, 4)
+        while ones_added < num_ones and queue:
+            row, col = queue.popleft()
+            bitmap[row, col] = 1
+            ones_added += 1
+            
+            # Get neighboring cells
+            neighbors = [
+                (row - 1, col), (row + 1, col),
+                (row, col - 1), (row, col + 1),
+                (row - 1, col - 1), (row - 1, col + 1),
+                (row + 1, col - 1), (row + 1, col + 1),
+            ]
+            neighbors.pop(random_int)
+            neighbors.pop(random_int2)
+            neighbors.pop(random_int3)
+            #neighbors.pop(random_int4)
+ 
+            
+            for r, c in neighbors:
+                if 0 <= r < size  and 0 <= c < size   and (r, c) not in visited:
+                    if np.random.uniform() < 0.9:
+                        queue.append((r, c))
+                        visited.add((r, c))
+
+    for _ in range(0):
+        # Initialize a bitmap with zeros
+        num_ones = int(size * size * np.random.uniform(0.01, 0.05))
+        
+        # Choose a random starting point
+        start_row = int(size/2) #random.randint(int(size/2.5), size - int(size/2.5))
+        start_col = int(size/2)#random.randint(int(size/2.5), size - int(size/2.5))
+        while bitmap[start_row, start_col] == 1:
+            start_row = random.randint(int(size/3), size - int(size/3))
+            start_col = random.randint(int(size/3), size - int(size/3))
+        queue = deque([(start_row, start_col)])
+        visited = set(queue)
+        ones_added = 0
+
+        #generate the random integers to pop from the neighbors in the BFS
+        random_int = random.randint(0, 7)
+        random_int2 = random.randint(1, 6)
+        random_int3 = random.randint(2, 5)
+        random_int4 = random.randint(3, 4)
         while ones_added < num_ones and queue:
             row, col = queue.popleft()
             bitmap[row, col] = 1
@@ -50,7 +99,7 @@ def generate_clustered_bitmap_bfs(size=64, proportion=1/6):
                         queue.append((r, c))
                         visited.add((r, c))
 
-    
+
     return bitmap
 
 def visualize_bitmap(bitmap, file_name=None):
@@ -63,8 +112,45 @@ def visualize_bitmap(bitmap, file_name=None):
     
     plt.show()
 
+def generate_topology_map(image, generated_points_num = 100 , points_num_around_obstacle=30, dilation_num=2):
+    dilated_image = np.copy(image)
+    for _ in range(dilation_num):
+        dilated_image = dilation(dilated_image)
+    around_points = np.argwhere(dilation(dilated_image) - dilated_image)
+    dilated_image[dilated_image.shape[0]//4:dilated_image.shape[0]//4*3, dilated_image.shape[1]//4:dilated_image.shape[1]//4*3] = 1
 
-def create_new_map():
+    generated_points = []
+    topology_graph = nx.Graph()
+
+    # randomly select points in the free space
+    for _ in range(generated_points_num):
+        point = np.random.randint(0, dilated_image.shape[0]), np.random.randint(0, dilated_image.shape[1])
+        while dilated_image[point] == 1 :
+            point = np.random.randint(0, dilated_image.shape[0]), np.random.randint(0, dilated_image.shape[1])
+        generated_points.append(point)
+        topology_graph.add_node(point)
+    
+    
+    # randomly select points around the obstacle
+    if len(around_points) < points_num_around_obstacle:
+        points_num_around_obstacle = len(around_points)
+    rand_points = around_points[np.random.choice(np.arange(len(around_points)), points_num_around_obstacle, replace=False)]
+    for p in rand_points:
+        topology_graph.add_node(tuple(p))
+        
+    
+    # check the visibility of the points in the graph
+    for p1 in topology_graph.nodes:
+        for p2 in topology_graph.nodes:
+            if p1 == p2:
+                continue
+            rr, cc = line(*p1, *p2)
+            if not np.any(image[rr, cc] == 1):
+                topology_graph.add_edge(p1, p2, weight=np.linalg.norm(np.array(p1) - np.array(p2)))
+                
+    return generated_points, topology_graph
+
+def create_new_map(size=64, proportion=1/6):
     print("The new maps is being created")
     # Create a new folder
     folder_name = "bitmaps"
@@ -80,16 +166,25 @@ def create_new_map():
         os.makedirs(subfolder_name, exist_ok=True)
         
         # Generate the bitmap using BFS
-        random_bitmap_bfs = generate_clustered_bitmap_bfs()
-        
+        random_bitmap_bfs = generate_clustered_bitmap_bfs(size=size, proportion=proportion)
+
         # Save the bitmap as a numpy file
         bitmap_file = os.path.join(subfolder_name, "bitmap.npy")
         np.save(bitmap_file, random_bitmap_bfs)
 
+        rand_points, topo_graph = generate_topology_map(random_bitmap_bfs)
+        # Save the random points as a numpy file
+        np.save(os.path.join(subfolder_name, "rand_points.npy"), rand_points)
+        # Save the topology graph as an pickle file use pickle 
+        pkl.dump(topo_graph, open(os.path.join(subfolder_name, "topology_graph.pkl"), "wb"))
+        
+        
 
     
 if __name__ == "__main__":
+    # create_new_map()
 
+    # exit()
     # Create a new folder
     folder_name = "bitmaps"
     os.makedirs(folder_name, exist_ok=True)

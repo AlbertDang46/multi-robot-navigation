@@ -108,13 +108,21 @@ class Agent(object):
     def get_full_state_list(self):
         return [self.px, self.py, self.vx, self.vy, self.radius, self.gx, self.gy, self.v_pref, self.theta]
 
-    def get_full_state_list_noV(self):
+    def get_full_state_list_local(self):
+        
+        rel_gx = self.gx - self.px
+        rel_gy = self.gy - self.py
+        local_rel_gx = rel_gx * np.cos(-self.theta) - rel_gy * np.sin(-self.theta)
+        local_rel_gy = rel_gx * np.sin(-self.theta) + rel_gy * np.cos(-self.theta)
+        return [self.px, self.py, self.vx, self.vy, self.radius, local_rel_gx, local_rel_gy, self.v_pref, self.theta]
 
+    def get_full_state_list_noV(self):
+        
         omega = (np.arctan2(self.gy - self.py, self.gx - self.px)
                           - self.theta + np.pi) % (2 * np.pi) - np.pi
-        #print('omega:', omega)
-        return [self.px, self.py, self.radius, 
-            np.linalg.norm([self.gy - self.py, self.gx - self.px]), omega, self.v_pref, self.theta, self.vx, self.vy]
+        return [self.px, self.py, self.vx, self.vy, self.radius, 
+            np.linalg.norm([self.gy - self.py, self.gx - self.px]), omega, self.v_pref, self.theta]
+  
         # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref, self.theta, self.vx, self.vy]
         # return [self.px, self.py, self.radius, self.gx, self.gy, self.v_pref]
 
@@ -156,6 +164,7 @@ class Agent(object):
         if self.kinematics == 'holonomic':
             px = self.px + action.vx * delta_t
             py = self.py + action.vy * delta_t
+            
         # unicycle
         else:
             # naive dynamics
@@ -170,7 +179,7 @@ class Agent(object):
                 d_theta = 0
                 d_l = self.v_pref * delta_t
             else:
-                d_theta = action.v / 2 / self.radius * delta_t
+                d_theta = action.v / 1.5 / self.radius * delta_t
                 self.theta = (self.theta + d_theta) % (2 * np.pi)
                 d_l = (1 - np.abs(action.v)) * delta_t *self.v_pref
 
@@ -194,6 +203,7 @@ class Agent(object):
         if self.kinematics == 'holonomic':
             self.vx = action.vx
             self.vy = action.vy
+            self.theta = np.arctan2(self.vy, self.vx) % (2 * np.pi)
         
 
     def one_step_lookahead(self, pos, action):
